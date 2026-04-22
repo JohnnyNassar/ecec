@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECEC - WordPress Admin Guide</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: #333; line-height: 1.7; }
+  .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+  h1 { font-size: 28px; color: #1a1a1a; margin-bottom: 10px; }
+  h1 span { color: #888; font-weight: 400; font-size: 16px; display: block; margin-top: 5px; }
+  h2 { font-size: 20px; color: #1a1a1a; margin: 40px 0 15px; padding-bottom: 8px; border-bottom: 2px solid #1a1a1a; }
+  h3 { font-size: 16px; color: #1a1a1a; margin: 25px 0 10px; }
+  p { margin-bottom: 12px; }
+  .step { background: #fff; border-radius: 8px; padding: 25px 30px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .step-number { display: inline-block; background: #1a1a1a; color: #fff; width: 30px; height: 30px; border-radius: 50%; text-align: center; line-height: 30px; font-weight: 700; font-size: 14px; margin-right: 10px; }
+  .step-title { font-size: 18px; font-weight: 600; color: #1a1a1a; display: inline; }
+  .step p, .step ul { margin-top: 12px; }
+  ul { padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  .field-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+  .field-table th { background: #1a1a1a; color: #fff; padding: 10px 15px; text-align: left; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .field-table td { padding: 10px 15px; border-bottom: 1px solid #eee; font-size: 14px; }
+  .field-table tr:nth-child(even) { background: #fafafa; }
+  .required { color: #c0392b; font-weight: 600; }
+  .optional { color: #888; font-style: italic; }
+  .tag { display: inline-block; background: #f0f0f0; padding: 2px 10px; border-radius: 3px; font-size: 12px; font-family: monospace; }
+  .note { background: #fff8e1; border-left: 4px solid #f9a825; padding: 15px 20px; border-radius: 0 6px 6px 0; margin: 15px 0; font-size: 14px; }
+  .note strong { color: #e65100; }
+  .warning { background: #fce4ec; border-left: 4px solid #c62828; padding: 15px 20px; border-radius: 0 6px 6px 0; margin: 15px 0; font-size: 14px; }
+  .warning strong { color: #c62828; }
+  .categories { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; }
+  .categories span { background: #f5f5f5; border: 1px solid #ddd; padding: 6px 14px; border-radius: 4px; font-size: 13px; }
+  .toc { background: #fff; border-radius: 8px; padding: 25px 30px; margin-bottom: 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .toc h3 { margin-top: 0; }
+  .toc ol { padding-left: 22px; }
+  .toc a { color: #1a1a1a; text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-size: 13px; }
+  .checklist { list-style: none; padding-left: 0; }
+  .checklist li { padding: 6px 0 6px 28px; position: relative; }
+  .checklist li:before { content: "\2610"; position: absolute; left: 0; font-size: 16px; }
+  .header-bar { background: #1a1a1a; color: #fff; padding: 30px 0; margin-bottom: 30px; }
+  .header-bar .container { padding: 0 20px; }
+  .header-bar h1 { color: #fff; }
+  .header-bar h1 span { color: #aaa; }
+</style>
+</head>
+<body>
+
+<div class="header-bar">
+  <div class="container">
+    <h1>WordPress Admin Guide
+      <span>ECEC Engineering Consultants</span>
+    </h1>
+  </div>
+</div>
+
+<div class="container">
+
+<div class="toc">
+  <h3>Contents</h3>
+  <p style="margin: 10px 0 5px; font-weight: 600;">Part A &mdash; Home Page Slider</p>
+  <ol>
+    <li><a href="#slider1">Change a Slide Image</a></li>
+    <li><a href="#slider2">Edit Slide Text</a></li>
+    <li><a href="#slider3">Add or Remove Slides</a></li>
+  </ol>
+  <p style="margin: 15px 0 5px; font-weight: 600;">Part B &mdash; Portfolio Projects</p>
+  <ol start="4">
+    <li><a href="#step1">Create the Portfolio Item</a></li>
+    <li><a href="#step2">Add the Featured Image</a></li>
+    <li><a href="#step3">Write the Project Description</a></li>
+    <li><a href="#step4">Set the Portfolio Category (Sector)</a></li>
+    <li><a href="#step5">Add Project Info Fields (Sidebar)</a></li>
+    <li><a href="#step6">Add Project Media (Gallery Images)</a></li>
+    <li><a href="#step7">Set the Completion Date</a></li>
+    <li><a href="#step8">Publish and Verify</a></li>
+    <li><a href="#step9">Mark a Project as Featured</a></li>
+    <li><a href="#step10">Set the Project Location (Country)</a></li>
+  </ol>
+  <p style="margin: 15px 0 5px; font-weight: 600;">Part C &mdash; Team Members</p>
+  <ol start="14">
+    <li><a href="#team1">Add a New Team Member</a></li>
+    <li><a href="#team2">Edit or Remove a Member</a></li>
+    <li><a href="#team3">Reorder the Team Grid</a></li>
+  </ol>
+  <p style="margin: 15px 0 5px; font-weight: 600;">Part D &mdash; Projects Page Layout</p>
+  <ol start="17">
+    <li><a href="#proj1">Edit the Hero Image, Headline, or Subtitle</a></li>
+    <li><a href="#proj2">How the Featured &amp; Recent Sections Work</a></li>
+    <li><a href="#proj3">How the Filter Bar Works (Search / Type / Location)</a></li>
+    <li><a href="#proj4">Rename the FEATURED / RECENT PROJECTS Tabs</a></li>
+  </ol>
+  <p style="margin: 15px 0 5px; font-weight: 600;">Reference</p>
+  <ol start="21">
+    <li><a href="#reference">Quick Reference &amp; Admin URLs</a></li>
+  </ol>
+</div>
+
+<!-- =============================================
+     PART A: HOME PAGE SLIDER
+     ============================================= -->
+<h2>Part A &mdash; Home Page Slider (RevSlider)</h2>
+
+<p>The home page features a full-width image slider powered by <strong>Slider Revolution</strong>. The slider is named <strong>"Main Home"</strong> (alias: <code>main-home</code>).</p>
+
+<!-- SLIDER STEP 1 -->
+<div class="step" id="slider1">
+  <span class="step-number">1</span>
+  <span class="step-title">Change a Slide Image</span>
+  <ul>
+    <li>Go to <strong>Slider Revolution</strong> in the left admin sidebar</li>
+    <li>Click on the <strong>"Main Home"</strong> slider to open it</li>
+    <li>At the bottom of the editor, you'll see <strong>thumbnails of all slides</strong> &mdash; click the slide you want to edit</li>
+    <li>In the slide editor, look for <strong>"Slide Background"</strong> panel (usually on the right or top)</li>
+    <li>Click the <strong>current background image</strong></li>
+    <li>Click <strong>"Media Library"</strong> to select/upload a new image</li>
+    <li>Recommended size: <strong>1920 x 900 px</strong> or larger (full-width landscape)</li>
+    <li>Click <strong>Save</strong> at the top of the editor</li>
+  </ul>
+  <div class="note">
+    <strong>Tip:</strong> Use high-quality project photos. The slider stretches images to fill the full browser width, so low-resolution images will look blurry.
+  </div>
+</div>
+
+<!-- SLIDER STEP 2 -->
+<div class="step" id="slider2">
+  <span class="step-number">2</span>
+  <span class="step-title">Edit Slide Text</span>
+  <ul>
+    <li>Open the slide in the editor (see Step 1)</li>
+    <li>You'll see the slide canvas with <strong>text layers</strong> overlaid on the image</li>
+    <li><strong>Double-click</strong> on any text layer to edit it inline</li>
+    <li>You can change the text, font size, and color in the <strong>Layer Options</strong> panel on the right</li>
+    <li>To move text, <strong>drag</strong> the layer to a new position on the canvas</li>
+    <li>Click <strong>Save</strong> when done</li>
+  </ul>
+  <div class="note">
+    <strong>Layer types:</strong> Each piece of text (title, subtitle, button) is a separate "layer". Click on each one individually to edit it.
+  </div>
+</div>
+
+<!-- SLIDER STEP 3 -->
+<div class="step" id="slider3">
+  <span class="step-number">3</span>
+  <span class="step-title">Add or Remove Slides</span>
+
+  <h3>To add a new slide:</h3>
+  <ul>
+    <li>In the slider editor, click the <strong>"+"</strong> button next to the slide thumbnails at the bottom</li>
+    <li>Choose <strong>"Blank Slide"</strong> or <strong>"Duplicate"</strong> an existing slide (recommended &mdash; keeps the same text layout)</li>
+    <li>Set the background image and edit the text layers</li>
+    <li>Click <strong>Save</strong></li>
+  </ul>
+
+  <h3>To remove a slide:</h3>
+  <ul>
+    <li>Right-click on the slide thumbnail at the bottom</li>
+    <li>Select <strong>"Delete"</strong></li>
+    <li>Click <strong>Save</strong></li>
+  </ul>
+
+  <h3>To reorder slides:</h3>
+  <ul>
+    <li><strong>Drag and drop</strong> the slide thumbnails at the bottom to reorder</li>
+    <li>Click <strong>Save</strong></li>
+  </ul>
+
+  <div class="warning">
+    <strong>Important:</strong> Always click <strong>Save</strong> after making changes. Changes are not auto-saved. If you navigate away without saving, your edits will be lost.
+  </div>
+</div>
+
+<!-- =============================================
+     PART B: PORTFOLIO PROJECTS
+     ============================================= -->
+<h2>Part B &mdash; Portfolio Projects</h2>
+
+<!-- STEP 1 -->
+<div class="step" id="step1">
+  <span class="step-number">1</span>
+  <span class="step-title">Create the Portfolio Item</span>
+  <p>From the WordPress admin dashboard:</p>
+  <ul>
+    <li>Go to <strong>Portfolio &rarr; Add New</strong> in the left sidebar</li>
+    <li>Enter the <strong>project name</strong> as the title (e.g., "Al Riyadh North Mall")</li>
+  </ul>
+  <div class="note">
+    <strong>Tip:</strong> The title will appear on the Projects page grid and the single project page header.
+  </div>
+</div>
+
+<!-- STEP 2 -->
+<div class="step" id="step2">
+  <span class="step-number">2</span>
+  <span class="step-title">Add the Featured Image</span>
+  <p>The featured image is the <strong>main thumbnail</strong> shown on the Projects listing page.</p>
+  <ul>
+    <li>In the right sidebar, find <strong>Featured Image</strong></li>
+    <li>Click <strong>Set featured image</strong></li>
+    <li>Upload or select an image from the Media Library</li>
+    <li>Recommended size: <strong>1200 x 800 px</strong> minimum (landscape orientation)</li>
+  </ul>
+  <div class="warning">
+    <strong>Required:</strong> Every portfolio item must have a featured image. Without it, the project will appear as a blank card on the listing page.
+  </div>
+</div>
+
+<!-- STEP 3 -->
+<div class="step" id="step3">
+  <span class="step-number">3</span>
+  <span class="step-title">Write the Project Description</span>
+  <p>Use the main <strong>WordPress editor</strong> (content area) to write the project description.</p>
+  <ul>
+    <li>Write a detailed description of the project scope and deliverables</li>
+    <li>This text appears on the single project page below the media section</li>
+    <li>Use paragraphs for readability; avoid excessive formatting</li>
+    <li>The content is displayed with justified text alignment</li>
+  </ul>
+</div>
+
+<!-- STEP 4 -->
+<div class="step" id="step4">
+  <span class="step-number">4</span>
+  <span class="step-title">Set the Portfolio Category (Sector)</span>
+  <p>Categories determine which <strong>sector filter</strong> the project appears under on the Projects page.</p>
+  <ul>
+    <li>In the right sidebar, find <strong>Portfolio Categories</strong></li>
+    <li>Check one or more categories that apply</li>
+  </ul>
+  <p><strong>Available sectors:</strong></p>
+  <div class="categories">
+    <span>Commercial &amp; Retail</span>
+    <span>Data Centers</span>
+    <span>Educational</span>
+    <span>Governmental Sector</span>
+    <span>Healthcare</span>
+    <span>Hospitality</span>
+    <span>Industrial &amp; Distribution</span>
+    <span>Master Planning</span>
+    <span>Residential</span>
+    <span>Sustainability</span>
+  </div>
+  <div class="note">
+    <strong>Tip:</strong> You can assign multiple categories. The project will appear under each selected filter on the Projects page. The category also displays as "Sector:" on the single project page.
+  </div>
+</div>
+
+<!-- STEP 5 -->
+<div class="step" id="step5">
+  <span class="step-number">5</span>
+  <span class="step-title">Add Project Info Fields (Sidebar)</span>
+  <p>Scroll down to the <strong>Portfolio Settings</strong> meta box. Under the <strong>Info</strong> section, you'll find a repeater field for project details. These appear in the sidebar on the single project page.</p>
+
+  <h3>How to add an info item:</h3>
+  <ul>
+    <li>Click <strong>"Add New Item"</strong> to add a row</li>
+    <li>Fill in the <strong>Label</strong> (e.g., "Client") and <strong>Value</strong> (e.g., "Modon Properties")</li>
+    <li>Leave Link blank unless the value should be clickable</li>
+    <li>Repeat for each field</li>
+  </ul>
+
+  <h3>Standard info fields used on ECEC projects:</h3>
+  <table class="field-table">
+    <thead>
+      <tr>
+        <th>Label</th>
+        <th>Example Value</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Client</strong></td>
+        <td>Modon Properties</td>
+        <td><span class="required">Required</span></td>
+      </tr>
+      <tr>
+        <td><strong>Contractor</strong></td>
+        <td>Amana Group</td>
+        <td><span class="required">Required</span></td>
+      </tr>
+      <tr>
+        <td><strong>Engineering</strong></td>
+        <td>MEP and ICT</td>
+        <td><span class="required">Required</span></td>
+      </tr>
+      <tr>
+        <td><strong>Location</strong></td>
+        <td>Riyadh, Saudi Arabia</td>
+        <td><span class="required">Required</span></td>
+      </tr>
+      <tr>
+        <td><strong>Area</strong></td>
+        <td>125,000 sqm</td>
+        <td><span class="optional">Optional</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>Order matters:</strong> The info items display in the same order you add them. Keep the order consistent: Client, Contractor, Engineering, Location, Area.
+  </div>
+
+  <div class="note">
+    <strong>Two different "Location" fields, for two different purposes:</strong>
+    <ul style="margin-top: 8px; margin-bottom: 0;">
+      <li><strong>The "Location" info row above</strong> is free text that shows on the single-project sidebar (e.g. <em>"Riyadh, Saudi Arabia"</em>, <em>"Yas Island, Abu Dhabi"</em>). Use it to describe the project's actual address or area.</li>
+      <li><strong>The "Location" taxonomy</strong> (covered in Step 10 below) is a separate country-level tag used only by the <em>By Location</em> dropdown on the Projects page filter bar. It doesn't display on the single project page.</li>
+    </ul>
+    Fill in both &mdash; they're independent.
+  </div>
+</div>
+
+<!-- STEP 6 -->
+<div class="step" id="step6">
+  <span class="step-number">6</span>
+  <span class="step-title">Add Project Media (Gallery Images)</span>
+  <p>In the <strong>Portfolio Settings</strong> meta box, find the <strong>Media</strong> section. This controls the images shown on the single project page above the description.</p>
+
+  <h3>To add a single image:</h3>
+  <ul>
+    <li>Click <strong>"Add New Item"</strong></li>
+    <li>Set <strong>Media Type</strong> to <strong>"Image"</strong></li>
+    <li>Click the image upload button and select/upload your image</li>
+    <li>Recommended size: <strong>1600 x 1000 px</strong> or larger</li>
+  </ul>
+
+  <h3>To add a gallery (multiple images):</h3>
+  <ul>
+    <li>Click <strong>"Add New Item"</strong></li>
+    <li>Set <strong>Media Type</strong> to <strong>"Gallery"</strong></li>
+    <li>Select multiple images from the Media Library</li>
+  </ul>
+
+  <h3>Other media types available:</h3>
+  <ul>
+    <li><strong>Video</strong> - Paste a YouTube or Vimeo URL</li>
+    <li><strong>Audio</strong> - Paste an audio file URL</li>
+  </ul>
+
+  <div class="note">
+    <strong>Tip:</strong> You can add multiple media items (mix of images, galleries, and videos). They display in the order you add them.
+  </div>
+</div>
+
+<!-- STEP 7 -->
+<div class="step" id="step7">
+  <span class="step-number">7</span>
+  <span class="step-title">Set the Completion Date</span>
+  <p>The <strong>publish date</strong> of the post is used as the completion date. It displays as <strong>"Completion Date:"</strong> with the <strong>year only</strong> on the single project page.</p>
+  <ul>
+    <li>In the right sidebar under <strong>Publish</strong>, click the date</li>
+    <li>Set the <strong>year</strong> to the project completion year</li>
+    <li>The month/day don't matter visually (only the year shows), but they affect the sort order on the listing page</li>
+  </ul>
+</div>
+
+<!-- STEP 8 -->
+<div class="step" id="step8">
+  <span class="step-number">8</span>
+  <span class="step-title">Publish and Verify</span>
+  <ul>
+    <li>Click <strong>Publish</strong> (or <strong>Update</strong> if editing)</li>
+    <li>View the project by clicking <strong>View Portfolio Item</strong></li>
+    <li>Check the <strong>Projects page</strong> to verify it appears in the grid</li>
+    <li>Click the relevant <strong>sector filter</strong> to confirm it shows under the correct category</li>
+  </ul>
+
+  <h3>Checklist before publishing:</h3>
+  <ul class="checklist">
+    <li>Featured image is set (landscape, high resolution)</li>
+    <li>Project title is correct</li>
+    <li>Description is written in the content editor</li>
+    <li>Portfolio Category (sector) is selected</li>
+    <li>Info fields are filled: Client, Contractor, Engineering, Location</li>
+    <li>At least one media item (image/gallery) is added</li>
+    <li>Completion year is set via the publish date</li>
+  </ul>
+</div>
+
+<!-- STEP 9 -->
+<div class="step" id="step9">
+  <span class="step-number">9</span>
+  <span class="step-title">Mark a Project as Featured</span>
+  <p>Featured projects appear in the <strong>Featured Projects</strong> section at the top of the Projects page (above the full grid) and display a <strong>★ FEATURED</strong> badge on the card wherever they appear on the site.</p>
+
+  <h3>To feature a project:</h3>
+  <ul>
+    <li>Open the project for editing (<strong>Portfolio &rarr; All Portfolio Items</strong>, click the project title)</li>
+    <li>On the right sidebar, find the <strong>"Featured project"</strong> box</li>
+    <li>Tick the checkbox: <em>"Show in the Featured Projects section on the Projects page"</em></li>
+    <li>Click <strong>Update</strong></li>
+  </ul>
+
+  <h3>To unfeature a project:</h3>
+  <ul>
+    <li>Open the project and <strong>uncheck</strong> the "Featured project" box</li>
+    <li>Click <strong>Update</strong> &mdash; the project vanishes from the Featured section and its badge disappears</li>
+  </ul>
+
+  <h3>To change the order of featured projects:</h3>
+  <ul>
+    <li>On the project edit screen, find <strong>Page Attributes</strong> in the right sidebar</li>
+    <li>Set the <strong>Order</strong> number &mdash; lower numbers appear first (e.g. <code>1</code> is the very first featured card)</li>
+    <li>Click <strong>Update</strong></li>
+  </ul>
+
+  <div class="note">
+    <strong>Tip:</strong> Leave gaps in the Order numbers (e.g. <code>10</code>, <code>20</code>, <code>30</code>) so you can slot new featured projects between existing ones later without renumbering everything.
+  </div>
+
+  <div class="note">
+    <strong>See all featured at a glance:</strong> Go to <strong>Portfolio &rarr; All Portfolio Items</strong>. The list has a <strong>Featured</strong> column showing a yellow ★ next to each featured project.
+  </div>
+</div>
+
+<!-- STEP 10 -->
+<div class="step" id="step10">
+  <span class="step-number">10</span>
+  <span class="step-title">Set the Project Location (Country)</span>
+  <p>The <strong>Location taxonomy</strong> controls the <strong>By Location</strong> dropdown on the Projects page filter bar. This is a country-level tag and is separate from the free-text "Location" info row (see Step 5).</p>
+
+  <h3>To assign a location:</h3>
+  <ul>
+    <li>On the project edit screen, find the <strong>Locations</strong> box in the right sidebar (below <strong>Portfolio Categories</strong>)</li>
+    <li>Tick <strong>one</strong> location:</li>
+  </ul>
+  <div class="categories">
+    <span>Saudi Arabia</span>
+    <span>UAE</span>
+    <span>Jordan</span>
+    <span>Other</span>
+  </div>
+  <ul>
+    <li>Click <strong>Update</strong></li>
+  </ul>
+
+  <h3>When to use "Other":</h3>
+  <p>Pick <strong>Other</strong> for any project outside Saudi Arabia, UAE, or Jordan (e.g. an Egypt or Iraq project). It keeps the dropdown focused on the firm's three primary markets while still tagging the project.</p>
+
+  <h3>To add a new country term (rare):</h3>
+  <ul>
+    <li>Go to <strong>Portfolio &rarr; Locations</strong></li>
+    <li>Fill in <strong>Name</strong> (e.g. <em>Qatar</em>) and <strong>Slug</strong> (e.g. <code>qatar</code>)</li>
+    <li>Click <strong>Add New Location</strong></li>
+    <li>The new option appears in the <strong>By Location</strong> dropdown on the Projects page automatically, listed after the four built-in options</li>
+  </ul>
+
+  <div class="warning">
+    <strong>Projects with no location:</strong> If a project has no location tag, it will still appear in the grid, but selecting any <strong>By Location</strong> filter will hide it. Always assign a location when you publish a new project.
+  </div>
+</div>
+
+<!-- =============================================
+     PART C: TEAM MEMBERS
+     ============================================= -->
+<h2>Part C &mdash; Team Members (People Page)</h2>
+
+<p>The <strong>People</strong> page shows a grid of team members &mdash; photo, name, role, and office locations. Each member is a separate entry in the <strong>Team Members</strong> section of the admin sidebar. You can add, edit, reorder, or remove members without touching the page itself.</p>
+
+<!-- TEAM STEP 1 -->
+<div class="step" id="team1">
+  <span class="step-number">12</span>
+  <span class="step-title">Add a New Team Member</span>
+  <ul>
+    <li>In the admin sidebar, click <strong>Team Members &rarr; Add New Member</strong></li>
+    <li>Enter the person's full name in the <strong>Title</strong> field (e.g. <em>Jane Smith</em>)</li>
+    <li>In the <strong>Team Member Details</strong> box, fill in:
+      <ul>
+        <li><strong>Role / Title</strong> &mdash; e.g. <em>Senior MEP Engineer</em> or <em>Head of ICT</em></li>
+        <li><strong>Office Locations</strong> &mdash; e.g. <em>Dubai | Riyadh</em> (separate multiple offices with the <code>|</code> character)</li>
+      </ul>
+    </li>
+    <li>On the right sidebar, click <strong>Set featured image</strong> and upload a photo
+      <ul>
+        <li>Recommended: <strong>square photo</strong> at least <strong>500 &times; 500 px</strong></li>
+        <li>Landscape or portrait photos will be cropped to square automatically</li>
+      </ul>
+    </li>
+    <li>Also on the right sidebar, find <strong>Page Attributes &rarr; Order</strong> and enter a number (lower numbers appear first in the grid &mdash; e.g. <code>1</code> for the founder, <code>2</code> for the next senior member, etc.)</li>
+    <li>Click <strong>Publish</strong></li>
+    <li>Visit the <strong>People</strong> page on the website &mdash; the new member appears in the grid immediately</li>
+  </ul>
+  <div class="note">
+    <strong>Tip:</strong> You don't need to touch Elementor or any page builder. The People page automatically pulls in all published team members.
+  </div>
+</div>
+
+<!-- TEAM STEP 2 -->
+<div class="step" id="team2">
+  <span class="step-number">13</span>
+  <span class="step-title">Edit or Remove a Member</span>
+
+  <h3>To edit a member:</h3>
+  <ul>
+    <li>Go to <strong>Team Members &rarr; All Team Members</strong></li>
+    <li>Hover over the member's name and click <strong>Edit</strong></li>
+    <li>Change the name, photo, role, location, or order</li>
+    <li>Click <strong>Update</strong></li>
+  </ul>
+
+  <h3>To remove a member:</h3>
+  <ul>
+    <li>Go to <strong>Team Members &rarr; All Team Members</strong></li>
+    <li>Hover over the member's name and click <strong>Trash</strong></li>
+    <li>The member disappears from the People page immediately</li>
+  </ul>
+  <div class="note">
+    <strong>Note:</strong> You can also <strong>unpublish</strong> a member (set to Draft) to temporarily hide them without deleting. Draft members are not shown on the People page but stay in the admin for later.
+  </div>
+</div>
+
+<!-- TEAM STEP 3 -->
+<div class="step" id="team3">
+  <span class="step-number">14</span>
+  <span class="step-title">Reorder the Team Grid</span>
+  <ul>
+    <li>Go to <strong>Team Members &rarr; All Team Members</strong></li>
+    <li>Open each member in turn and set their <strong>Order</strong> number under <strong>Page Attributes</strong> (right sidebar)</li>
+    <li>Lower numbers appear first (<code>1</code> = first, <code>2</code> = second, etc.)</li>
+    <li>Click <strong>Update</strong></li>
+  </ul>
+  <div class="note">
+    <strong>Tip:</strong> Leave gaps in the numbers (e.g. <code>10</code>, <code>20</code>, <code>30</code>) so you can insert new members between existing ones without renumbering everyone.
+  </div>
+</div>
+
+<!-- =============================================
+     PART D: PROJECTS PAGE LAYOUT
+     ============================================= -->
+<h2>Part D &mdash; Projects Page Layout</h2>
+
+<p>The <strong>Projects</strong> page has four stacked sections, top to bottom:</p>
+<ol style="margin: 10px 0 20px;">
+  <li><strong>Hero</strong> &mdash; full-width image with headline and subtitle</li>
+  <li><strong>Tabs strip</strong> &mdash; FEATURED / RECENT PROJECTS links (click-scroll to each section)</li>
+  <li><strong>Featured Projects</strong> &mdash; 2-column grid of projects marked as featured</li>
+  <li><strong>Our Recent Projects</strong> &mdash; search/filter bar + 3-column grid of all projects</li>
+</ol>
+
+<!-- PROJECTS STEP 1 -->
+<div class="step" id="proj1">
+  <span class="step-number">17</span>
+  <span class="step-title">Edit the Hero Image, Headline, or Subtitle</span>
+  <p>The hero section at the top of the Projects page is a standard Elementor block. You can change the image, text, and styling without touching code.</p>
+
+  <h3>To edit the hero:</h3>
+  <ul>
+    <li>Go to <strong>Pages &rarr; All Pages</strong> and click <strong>Projects</strong></li>
+    <li>Click <strong>Edit with Elementor</strong> at the top of the page</li>
+    <li>The Elementor editor opens. The first section at the top (dark image with the headline) is the hero.</li>
+  </ul>
+
+  <h3>To change the background image:</h3>
+  <ul>
+    <li>Click once on the hero section (not on the text &mdash; on the image area)</li>
+    <li>On the left panel, switch to the <strong>Style</strong> tab</li>
+    <li>Under <strong>Background</strong>, click the current image thumbnail</li>
+    <li>Select a new image from the Media Library (or upload one)</li>
+    <li>Click <strong>Update</strong> at the bottom-left of the Elementor editor</li>
+  </ul>
+
+  <h3>To change the headline or subtitle text:</h3>
+  <ul>
+    <li>Click on the headline or subtitle text directly</li>
+    <li>Edit the text in the left panel's <strong>Content &rarr; Title</strong> field (or type directly in the canvas)</li>
+    <li>Click <strong>Update</strong></li>
+  </ul>
+
+  <div class="note">
+    <strong>Tip:</strong> Use a high-resolution landscape image (at least <strong>1920 x 1080 px</strong>). The hero stretches to full browser width with a dark overlay, so dimly-lit or detailed-dark photos work best.
+  </div>
+</div>
+
+<!-- PROJECTS STEP 2 -->
+<div class="step" id="proj2">
+  <span class="step-number">18</span>
+  <span class="step-title">How the Featured &amp; Recent Sections Work</span>
+
+  <h3>Featured Projects section (top of page)</h3>
+  <ul>
+    <li>Displays <strong>only</strong> projects marked as Featured (see Step 9)</li>
+    <li>Shows them in a 2-column grid with large images, title, country, and "View Project &rarr;" link</li>
+    <li>Order is controlled by each project's <strong>Page Attributes &rarr; Order</strong> field (lower number = earlier)</li>
+    <li>If no projects are marked as featured, this section shows a helper message</li>
+  </ul>
+
+  <h3>Recent Projects section (bottom of page)</h3>
+  <ul>
+    <li>Displays <strong>every published</strong> portfolio item (54 projects currently)</li>
+    <li>Shows them in a 3-column grid with the search/filter bar above and the sector sidebar on the left</li>
+    <li>Order is by publish date (newest first)</li>
+    <li>Featured projects get a <strong>★ FEATURED</strong> badge on their card here, but otherwise appear in the normal order</li>
+  </ul>
+
+  <div class="note">
+    <strong>To remove a project from both sections:</strong> change its status to <strong>Draft</strong> (instead of deleting it). Draft projects disappear from the site but stay in the admin for later.
+  </div>
+</div>
+
+<!-- PROJECTS STEP 3 -->
+<div class="step" id="proj3">
+  <span class="step-number">19</span>
+  <span class="step-title">How the Filter Bar Works</span>
+  <p>The bar above the Recent Projects grid has four controls:</p>
+
+  <table class="field-table">
+    <thead>
+      <tr>
+        <th>Control</th>
+        <th>What it filters by</th>
+        <th>How it matches</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Search here</strong></td>
+        <td>Project title</td>
+        <td>Case-insensitive substring (type "amaa" to find both AMAALA resorts)</td>
+      </tr>
+      <tr>
+        <td><strong>By Type</strong></td>
+        <td>Portfolio Category (Sector)</td>
+        <td>Exact match on the category you pick</td>
+      </tr>
+      <tr>
+        <td><strong>By Location</strong></td>
+        <td>Portfolio Location (Country)</td>
+        <td>Exact match on Saudi Arabia / UAE / Jordan / Other</td>
+      </tr>
+      <tr>
+        <td><strong>SEARCH button</strong></td>
+        <td>Re-applies all filters</td>
+        <td>Not required &mdash; filters apply live as you type / change a dropdown</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>Filters stack.</strong> If you select <em>Hospitality</em> and <em>UAE</em>, you see only UAE hospitality projects. If you also type "royal" in the search field, you narrow further to just Royal Atlantis. Clear a filter by setting the dropdown back to its default (<em>By Type</em> / <em>By Location</em>) or emptying the search text.
+  </div>
+
+  <div class="note">
+    <strong>The left sidebar filter</strong> (Commercial &amp; Retail, Data Centers, etc.) also stacks with the bar. Clicking it narrows the grid the same way.
+  </div>
+</div>
+
+<!-- PROJECTS STEP 4 -->
+<div class="step" id="proj4">
+  <span class="step-number">20</span>
+  <span class="step-title">Rename the FEATURED / RECENT PROJECTS Tabs</span>
+  <p>The two tab labels below the hero ("FEATURED" and "RECENT PROJECTS") are editable through the Elementor editor.</p>
+
+  <ul>
+    <li>Go to <strong>Pages &rarr; Projects &rarr; Edit with Elementor</strong></li>
+    <li>Scroll down past the hero &mdash; find the narrow strip with the two tab links</li>
+    <li>Click the block to select it, then on the left panel find the <strong>HTML</strong> widget</li>
+    <li>The HTML panel shows:
+      <pre style="background:#f5f5f5;padding:12px;border-radius:4px;font-size:12px;overflow-x:auto;">&lt;nav class="ecec-projects-tabs"&gt;
+  &lt;a href="#featured-projects"&gt;Featured&lt;/a&gt;
+  &lt;a href="#recent-projects"&gt;Recent Projects&lt;/a&gt;
+&lt;/nav&gt;</pre>
+    </li>
+    <li>Change the text between the <code>&lt;a&gt;</code> tags (keep everything else unchanged)</li>
+    <li>Click <strong>Update</strong></li>
+  </ul>
+
+  <div class="warning">
+    <strong>Don't change the <code>href</code> values</strong> (<code>#featured-projects</code> and <code>#recent-projects</code>) &mdash; those are the anchor links that make the tabs scroll to the right sections. Changing them breaks the smooth-scroll behavior.
+  </div>
+</div>
+
+<!-- REFERENCE -->
+<h2 id="reference">Quick Reference</h2>
+
+<div class="step">
+  <h3>Admin URLs</h3>
+  <table class="field-table">
+    <tbody>
+      <tr>
+        <td><strong>Home Slider Editor</strong></td>
+        <td><code>/wp-admin/admin.php?page=revslider</code></td>
+      </tr>
+      <tr>
+        <td><strong>Add New Project</strong></td>
+        <td><code>/wp-admin/post-new.php?post_type=portfolio-item</code></td>
+      </tr>
+      <tr>
+        <td><strong>All Projects</strong></td>
+        <td><code>/wp-admin/edit.php?post_type=portfolio-item</code></td>
+      </tr>
+      <tr>
+        <td><strong>Portfolio Categories</strong></td>
+        <td><code>/wp-admin/edit-tags.php?taxonomy=portfolio-category&post_type=portfolio-item</code></td>
+      </tr>
+      <tr>
+        <td><strong>Portfolio Locations (Countries)</strong></td>
+        <td><code>/wp-admin/edit-tags.php?taxonomy=portfolio-location&post_type=portfolio-item</code></td>
+      </tr>
+      <tr>
+        <td><strong>Projects Page (frontend)</strong></td>
+        <td><code>/projects/</code></td>
+      </tr>
+      <tr>
+        <td><strong>All Team Members</strong></td>
+        <td><code>/wp-admin/edit.php?post_type=ecec_team_member</code></td>
+      </tr>
+      <tr>
+        <td><strong>Add New Team Member</strong></td>
+        <td><code>/wp-admin/post-new.php?post_type=ecec_team_member</code></td>
+      </tr>
+      <tr>
+        <td><strong>People Page (frontend)</strong></td>
+        <td><code>/people/</code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="step">
+  <h3>Current Portfolio Statistics</h3>
+  <table class="field-table">
+    <tbody>
+      <tr><td><strong>Total Projects</strong></td><td>54</td></tr>
+      <tr><td><strong>Sectors (Categories)</strong></td><td>10</td></tr>
+      <tr><td><strong>Locations (Countries)</strong></td><td>4 (Saudi Arabia, UAE, Jordan, Other)</td></tr>
+      <tr><td><strong>Projects Page Layout</strong></td><td>Hero + Featured grid (2 col) + Recent grid (3 col)</td></tr>
+      <tr><td><strong>Filter Options</strong></td><td>Horizontal bar (search + type + location) + left sidebar (sector)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="step">
+  <h3>Image Recommendations</h3>
+  <table class="field-table">
+    <thead>
+      <tr><th>Image Type</th><th>Minimum Size</th><th>Orientation</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Featured Image (thumbnail)</td><td>1200 x 800 px</td><td>Landscape</td></tr>
+      <tr><td>Media Image (single project)</td><td>1600 x 1000 px</td><td>Landscape</td></tr>
+      <tr><td>Gallery Images</td><td>1200 x 800 px</td><td>Any</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div style="text-align: center; padding: 40px 0 20px; color: #aaa; font-size: 13px;">
+  ECEC Engineering Consultants &mdash; WordPress Admin Guide
+</div>
+
+</div>
+</body>
+</html>

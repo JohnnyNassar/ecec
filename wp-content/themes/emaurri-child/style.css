@@ -1,0 +1,878 @@
+/*
+Theme Name: Emaurri Child
+Theme URI: https://emaurri.qodeinteractive.com
+Description: A child theme of Emaurri
+Author: Mikado Themes
+Author URI: https://qodeinteractive.com
+Version: 1.0.0
+Text Domain: emaurri
+Template: emaurri
+*/
+
+/* =============================================
+   ECEC BRAND IDENTITY
+   Brand colors, typography, and visual overrides
+   ============================================= */
+
+:root {
+	--ecec-white: #ffffff;
+	--ecec-platinum: #e7e8ea;
+	--ecec-isabelline: #ece6e6;
+	--ecec-silver-sand: #bbcdd1;
+	--ecec-slate-gray: #687a84;
+	--ecec-raisin-black: #231f20;
+}
+
+/* ─── Typography: Body ─── */
+
+body {
+	font-family: 'Argentum Sans', sans-serif !important;
+	color: var(--ecec-raisin-black);
+}
+
+p,
+li,
+td,
+th,
+address,
+.qodef-e-text,
+.qodef-e-excerpt {
+	color: var(--ecec-raisin-black);
+}
+
+/* ─── Typography: Headings ─── */
+
+h1, .qodef-h1,
+h2, .qodef-h2,
+h3, .qodef-h3,
+h4, .qodef-h4,
+h5, .qodef-h5,
+h6, .qodef-h6,
+.wp-block-quote,
+blockquote {
+	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	color: var(--ecec-raisin-black);
+}
+
+/* ─── Typography: UI elements (replaces Montserrat) ─── */
+
+.qodef-theme-button,
+button[type=submit],
+input[type=submit],
+.wp-block-button .wp-block-button__link,
+.qodef-header-navigation > ul > li > a,
+.qodef-mobile-header-navigation > ul > li > a,
+.qodef-m-filter .qodef-m-filter-item,
+.qodef-blog .qodef-blog-item .qodef-e-info.qodef-info--top,
+.qodef-blog .qodef-blog-item.format-quote .qodef-e-quote-author,
+#qodef-page-comments-list .qodef-comment-item .qodef-e-date a,
+#qodef-page-comments-list .qodef-comment-item .qodef-e-links > *,
+.qodef-copy-text {
+	font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+
+/* ─── Typography: Inputs ─── */
+
+input[type=date],
+input[type=email],
+input[type=number],
+input[type=password],
+input[type=search],
+input[type=tel],
+input[type=text],
+input[type=url],
+textarea,
+select {
+	font-family: 'Argentum Sans', sans-serif !important;
+	color: var(--ecec-slate-gray);
+	border-color: var(--ecec-silver-sand);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+	border-color: var(--ecec-slate-gray);
+}
+
+/* ─── Colors: Links ─── */
+
+a {
+	color: var(--ecec-raisin-black);
+}
+
+a:hover {
+	color: var(--ecec-slate-gray);
+}
+
+/* ─── Colors: Buttons ─── */
+
+.qodef-theme-button,
+button[type=submit],
+input[type=submit] {
+	color: var(--ecec-raisin-black);
+	border-color: var(--ecec-slate-gray);
+}
+
+.qodef-theme-button:hover,
+button[type=submit]:hover,
+input[type=submit]:hover {
+	color: var(--ecec-white);
+	background-color: var(--ecec-raisin-black);
+	border-color: var(--ecec-raisin-black);
+}
+
+.wp-block-button .wp-block-button__link {
+	color: var(--ecec-white);
+	background-color: var(--ecec-raisin-black);
+}
+
+.wp-block-button .wp-block-button__link:hover {
+	background-color: var(--ecec-slate-gray);
+}
+
+/* ─── Colors: Navigation ─── */
+
+.qodef-header-navigation > ul > li > a {
+	color: var(--ecec-raisin-black);
+}
+
+.qodef-header-navigation > ul > li > a:hover,
+.qodef-header-navigation > ul > li.current-menu-item > a {
+	color: var(--ecec-slate-gray);
+}
+
+.qodef-mobile-header-navigation > ul > li > a {
+	color: var(--ecec-raisin-black);
+}
+
+/* ─── Colors: Secondary text & meta ─── */
+
+.qodef-blog .qodef-blog-item .qodef-e-info.qodef-info--top,
+.qodef-blog .qodef-blog-item.format-quote .qodef-e-quote-author,
+#qodef-page-comments-list .qodef-comment-item .qodef-e-date a,
+.qodef-copy-text {
+	color: var(--ecec-slate-gray);
+}
+
+/* ─── Colors: Widget titles ─── */
+
+.widget .qodef-widget-title,
+.widget h5 {
+	color: var(--ecec-raisin-black);
+}
+
+/* =============================================
+   FOOTER - Dark brand footer
+   ============================================= */
+
+#qodef-page-footer-top-area {
+	background-color: var(--ecec-raisin-black);
+	padding: 0;
+}
+
+/* Theme's INNER wrapper has the real padding (130px 0 113px) — override */
+#qodef-page-footer-top-area #qodef-page-footer-top-area-inner {
+	padding: 22px 0 18px;
+}
+
+#qodef-page-footer-top-area .qodef-grid-inner {
+	gap: 20px;
+}
+
+/* Zero out theme widget vertical margins in the footer */
+#qodef-page-footer .widget,
+#qodef-page-footer-top-area .widget:last-child {
+	padding: 0 15px;
+	margin: 0 !important;
+}
+#qodef-page-footer-top-area .qodef-grid-item {
+	padding-top: 0;
+	padding-bottom: 0;
+	margin: 0;
+}
+
+/* Brand link hover (inline styles handle base color) */
+#qodef-page-footer-top-area a:hover {
+	color: var(--ecec-white);
+}
+
+#qodef-page-footer-top-area,
+#qodef-page-footer-top-area p,
+#qodef-page-footer-top-area li,
+#qodef-page-footer-top-area address,
+#qodef-page-footer-top-area .qodef-e-text,
+#qodef-page-footer-top-area .widget {
+	color: var(--ecec-platinum);
+}
+
+#qodef-page-footer-top-area .qodef-widget-title,
+#qodef-page-footer-top-area h1,
+#qodef-page-footer-top-area h2,
+#qodef-page-footer-top-area h3,
+#qodef-page-footer-top-area h4,
+#qodef-page-footer-top-area h5,
+#qodef-page-footer-top-area h6 {
+	color: var(--ecec-white);
+}
+
+#qodef-page-footer-top-area a {
+	color: var(--ecec-silver-sand);
+	transition: color 0.2s ease;
+}
+
+#qodef-page-footer-top-area a:hover {
+	color: var(--ecec-white);
+}
+
+/* Invert logo in footer so it appears white on dark */
+#qodef-page-footer-top-area img[class*="logo"],
+#qodef-page-footer-top-area .widget_media_image img,
+#qodef-page-footer-top-area .wp-block-image img {
+	filter: brightness(0) invert(1);
+}
+
+#qodef-page-footer-bottom-area {
+	background-color: #1a1a1b;
+	padding: 25px 0;
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#qodef-page-footer-bottom-area,
+#qodef-page-footer-bottom-area p,
+#qodef-page-footer-bottom-area .qodef-copy-text,
+#qodef-page-footer-bottom-area a {
+	color: var(--ecec-slate-gray);
+}
+
+#qodef-page-footer-bottom-area a:hover {
+	color: var(--ecec-white);
+}
+
+#qodef-page-footer .widget {
+	padding: 0 15px;
+}
+
+/* =============================================
+   PEOPLE PAGE - Team Grid
+   ============================================= */
+
+.ecec-team-grid {
+	display: grid;
+	gap: 40px 30px;
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 20px 0;
+}
+.ecec-team-columns-1 { grid-template-columns: 1fr; }
+.ecec-team-columns-2 { grid-template-columns: repeat(2, 1fr); }
+.ecec-team-columns-3 { grid-template-columns: repeat(3, 1fr); }
+.ecec-team-columns-4 { grid-template-columns: repeat(4, 1fr); }
+
+.ecec-team-card {
+	text-align: center;
+	padding: 0;
+}
+
+.ecec-team-photo {
+	display: block;
+	width: 220px;
+	height: 220px;
+	margin: 0 auto 18px;
+	border-radius: 12px;
+	overflow: hidden;
+	background: var(--ecec-platinum);
+}
+.ecec-team-photo img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+.ecec-team-photo-placeholder {
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(135deg, var(--ecec-platinum), var(--ecec-silver-sand));
+}
+
+.ecec-team-card .ecec-team-name {
+	font-family: 'Plus Jakarta Sans', sans-serif;
+	font-size: 20px;
+	font-weight: 600;
+	color: var(--ecec-raisin-black);
+	margin: 0 0 6px;
+	line-height: 1.3;
+}
+.ecec-team-card .ecec-team-role {
+	font-family: 'Plus Jakarta Sans', sans-serif;
+	font-size: 12px;
+	font-weight: 500;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--ecec-slate-gray);
+	margin: 0 0 4px;
+}
+.ecec-team-card .ecec-team-location {
+	font-size: 13px;
+	color: var(--ecec-slate-gray);
+	margin: 0;
+	line-height: 1.4;
+}
+
+.ecec-team-empty {
+	text-align: center;
+	color: var(--ecec-slate-gray);
+	padding: 40px 0;
+}
+
+/* Responsive */
+@media only screen and (max-width: 1024px) {
+	.ecec-team-columns-3,
+	.ecec-team-columns-4 { grid-template-columns: repeat(2, 1fr); }
+	.ecec-team-photo { width: 180px; height: 180px; }
+}
+@media only screen and (max-width: 600px) {
+	.ecec-team-columns-2,
+	.ecec-team-columns-3,
+	.ecec-team-columns-4 { grid-template-columns: 1fr; }
+	.ecec-team-photo { width: 160px; height: 160px; }
+}
+
+/* =============================================
+   PROJECTS PAGE - Hero / Tabs (anchor scroll)
+   ============================================= */
+
+html { scroll-behavior: smooth; }
+
+/* When an anchor jumps to #featured-projects or #recent-projects, offset under
+   the sticky header. */
+#featured-projects,
+#recent-projects {
+	scroll-margin-top: 120px;
+}
+
+/* Tabs strip (FEATURED | RECENT PROJECTS) */
+.ecec-projects-tabs {
+	display: flex;
+	gap: 40px;
+	justify-content: flex-end;
+	align-items: center;
+	padding: 18px 0;
+	border-bottom: 1px solid var(--ecec-platinum);
+	font-family: 'Plus Jakarta Sans', sans-serif;
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+}
+.ecec-projects-tabs a {
+	color: var(--ecec-slate-gray);
+	text-decoration: none;
+	position: relative;
+	padding-bottom: 4px;
+	transition: color 0.2s ease;
+}
+.ecec-projects-tabs a:hover,
+.ecec-projects-tabs a.is-active {
+	color: var(--ecec-raisin-black);
+}
+.ecec-projects-tabs a.is-active::after {
+	content: "";
+	position: absolute;
+	left: 0; right: 0;
+	bottom: -19px;
+	height: 2px;
+	background: var(--ecec-raisin-black);
+}
+
+/* =============================================
+   PROJECTS PAGE - Featured Projects section
+   ============================================= */
+
+.ecec-featured-grid {
+	display: grid;
+	gap: 40px;
+	margin: 40px 0 80px;
+}
+.ecec-featured-cols-1 { grid-template-columns: 1fr; }
+.ecec-featured-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.ecec-featured-cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+.ecec-featured-card {
+	display: flex;
+	flex-direction: column;
+	background: transparent;
+}
+.ecec-featured-media {
+	display: block;
+	overflow: hidden;
+	border-radius: 4px;
+	background: var(--ecec-platinum);
+	aspect-ratio: 16 / 10;
+}
+.ecec-featured-media img.ecec-featured-img,
+.ecec-featured-media img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	transition: transform 0.6s ease;
+}
+.ecec-featured-media:hover img { transform: scale(1.04); }
+
+.ecec-featured-body {
+	padding: 22px 0 0;
+}
+.ecec-featured-title {
+	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-size: 24px;
+	font-weight: 600;
+	line-height: 1.3;
+	margin: 0 0 6px;
+}
+.ecec-featured-title a {
+	color: var(--ecec-raisin-black);
+	text-decoration: none;
+}
+.ecec-featured-title a:hover { color: var(--ecec-slate-gray); }
+.ecec-featured-meta {
+	font-size: 12px;
+	font-weight: 500;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--ecec-slate-gray);
+	margin: 0 0 12px;
+}
+.ecec-featured-link {
+	display: inline-block;
+	font-family: 'Plus Jakarta Sans', sans-serif;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--ecec-raisin-black);
+	text-decoration: none;
+	padding-bottom: 2px;
+	border-bottom: 1px solid var(--ecec-raisin-black);
+	transition: color 0.2s ease, border-color 0.2s ease;
+}
+.ecec-featured-link:hover {
+	color: var(--ecec-slate-gray);
+	border-bottom-color: var(--ecec-slate-gray);
+}
+
+.ecec-featured-empty {
+	text-align: center;
+	color: var(--ecec-slate-gray);
+	padding: 40px 0;
+}
+
+/* ─── Featured badge — auto-applied to any card with .ecec-featured class ─── */
+/* Works on BOTH the Featured grid AND the Recent grid (theme card).
+   The parent article has position set (or we set it), and the badge is an
+   ::before pseudo on the media container. */
+
+.qodef-portfolio-list .qodef-grid-item.ecec-featured,
+.ecec-featured-card.ecec-featured {
+	position: relative;
+}
+
+/* Star badge on the image */
+.qodef-portfolio-list .qodef-grid-item.ecec-featured .qodef-e-image,
+.ecec-featured-card .ecec-featured-media {
+	position: relative;
+}
+
+.qodef-portfolio-list .qodef-grid-item.ecec-featured .qodef-e-image::before,
+.ecec-featured-card .ecec-featured-media::before {
+	content: "★ FEATURED";
+	position: absolute;
+	top: 14px;
+	left: 14px;
+	z-index: 2;
+	padding: 5px 10px 5px 8px;
+	background: var(--ecec-raisin-black);
+	color: var(--ecec-white);
+	font-family: 'Plus Jakarta Sans', sans-serif;
+	font-size: 10px;
+	font-weight: 600;
+	letter-spacing: 0.15em;
+	border-radius: 3px;
+	pointer-events: none;
+}
+
+/* Don't double up the badge inside the Featured section (all are featured) —
+   hide only inside the featured grid. */
+.ecec-featured-grid .ecec-featured-media::before {
+	display: none;
+}
+
+/* Responsive */
+@media only screen and (max-width: 1024px) {
+	.ecec-featured-cols-2,
+	.ecec-featured-cols-3 { grid-template-columns: 1fr; }
+	.ecec-featured-title { font-size: 20px; }
+	.ecec-projects-tabs { gap: 24px; }
+}
+
+/* =============================================
+   PROJECTS PAGE - Search / Type / Location bar
+   ============================================= */
+
+.ecec-project-search {
+	display: flex;
+	gap: 20px;
+	align-items: stretch;
+	padding: 10px 0 0;
+	font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.ecec-project-search .ecec-ps-field {
+	flex: 1 1 0;
+	min-width: 0;
+}
+.ecec-project-search .ecec-ps-field--search { flex: 2 1 0; }
+
+.ecec-project-search .ecec-ps-input,
+.ecec-project-search .ecec-ps-select {
+	width: 100%;
+	height: 56px;
+	padding: 0 18px;
+	background: var(--ecec-white);
+	border: 1px solid var(--ecec-silver-sand);
+	border-radius: 6px;
+	font-family: 'Argentum Sans', sans-serif !important;
+	font-size: 15px;
+	color: var(--ecec-raisin-black);
+	box-sizing: border-box;
+	appearance: none;
+	-webkit-appearance: none;
+	transition: border-color 0.2s ease;
+}
+.ecec-project-search .ecec-ps-input:focus,
+.ecec-project-search .ecec-ps-select:focus {
+	outline: none;
+	border-color: var(--ecec-slate-gray);
+}
+.ecec-project-search .ecec-ps-input::placeholder {
+	color: var(--ecec-slate-gray);
+	opacity: 0.75;
+}
+
+.ecec-project-search .ecec-ps-select {
+	padding-right: 42px;
+	background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='none' stroke='%23687a84' stroke-width='1.5' d='M1 1l5 5 5-5'/></svg>");
+	background-repeat: no-repeat;
+	background-position: right 16px center;
+	cursor: pointer;
+}
+
+.ecec-project-search .ecec-ps-button {
+	flex: 0 0 auto;
+	min-width: 160px;
+	height: 56px;
+	padding: 0 36px;
+	background: var(--ecec-raisin-black);
+	color: var(--ecec-white) !important;
+	border: 1px solid var(--ecec-raisin-black);
+	border-radius: 6px;
+	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: 0.2em;
+	cursor: pointer;
+	transition: background 0.2s ease, color 0.2s ease;
+}
+.ecec-project-search .ecec-ps-button:hover {
+	background: var(--ecec-slate-gray);
+	border-color: var(--ecec-slate-gray);
+}
+
+/* Responsive */
+@media only screen and (max-width: 1024px) {
+	.ecec-project-search {
+		flex-wrap: wrap;
+		gap: 12px;
+	}
+	.ecec-project-search .ecec-ps-field--search {
+		flex: 1 1 100%;
+	}
+	.ecec-project-search .ecec-ps-field--select {
+		flex: 1 1 calc(50% - 6px);
+	}
+	.ecec-project-search .ecec-ps-button {
+		flex: 1 1 100%;
+	}
+}
+
+/* =============================================
+   PROJECTS PAGE - Year Timeline Filter
+   ============================================= */
+
+.ecec-year-timeline {
+	display: flex;
+	align-items: center;
+	gap: 30px;
+	padding: 30px 0 20px;
+	margin-bottom: 40px;
+	border-bottom: 1px solid var(--ecec-platinum);
+	font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.ecec-year-all {
+	flex-shrink: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 10px 16px;
+	background: transparent;
+	border: 1px solid var(--ecec-silver-sand);
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.25s ease;
+	font-family: inherit;
+}
+.ecec-year-all:hover,
+.ecec-year-all.qodef--active {
+	background: var(--ecec-raisin-black);
+	border-color: var(--ecec-raisin-black);
+}
+.ecec-year-all .ecec-year-all-label {
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--ecec-raisin-black);
+	line-height: 1.2;
+}
+.ecec-year-all .ecec-year-all-count {
+	font-size: 10px;
+	color: var(--ecec-slate-gray);
+	margin-top: 2px;
+}
+.ecec-year-all:hover .ecec-year-all-label,
+.ecec-year-all.qodef--active .ecec-year-all-label,
+.ecec-year-all:hover .ecec-year-all-count,
+.ecec-year-all.qodef--active .ecec-year-all-count {
+	color: var(--ecec-white);
+}
+
+.ecec-year-track {
+	flex: 1;
+	position: relative;
+	min-width: 0;
+}
+.ecec-year-line {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 28px;
+	height: 2px;
+	background: var(--ecec-silver-sand);
+	z-index: 0;
+}
+.ecec-year-nodes {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	position: relative;
+	z-index: 1;
+}
+.ecec-year-nodes li {
+	flex: 0 0 auto;
+}
+
+.ecec-year-node {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	padding: 4px 8px;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	font-family: inherit;
+	transition: transform 0.25s ease;
+}
+.ecec-year-node:hover {
+	transform: translateY(-2px);
+}
+
+.ecec-year-dot {
+	display: block;
+	border-radius: 50%;
+	background: var(--ecec-white);
+	border: 2px solid var(--ecec-slate-gray);
+	transition: all 0.25s ease;
+	box-shadow: 0 0 0 4px var(--ecec-white);
+}
+.ecec-year-node:hover .ecec-year-dot,
+.ecec-year-node.qodef--active .ecec-year-dot {
+	background: var(--ecec-raisin-black);
+	border-color: var(--ecec-raisin-black);
+}
+
+.ecec-year-label {
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	color: var(--ecec-slate-gray);
+	line-height: 1.2;
+	transition: color 0.25s ease;
+}
+.ecec-year-node:hover .ecec-year-label,
+.ecec-year-node.qodef--active .ecec-year-label {
+	color: var(--ecec-raisin-black);
+}
+.ecec-year-count {
+	font-size: 10px;
+	color: var(--ecec-slate-gray);
+	opacity: 0.7;
+}
+
+/* Responsive: tablets and below */
+@media only screen and (max-width: 1024px) {
+	.ecec-year-timeline {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 20px;
+	}
+	.ecec-year-track {
+		overflow-x: auto;
+		padding-bottom: 5px;
+	}
+	.ecec-year-nodes {
+		gap: 20px;
+		justify-content: flex-start;
+		min-width: max-content;
+	}
+}
+
+/* =============================================
+   PROJECTS PAGE - Left sidebar filter
+   ============================================= */
+
+/* Allow sticky positioning on Projects page (override theme overflow:hidden) */
+.elementor-page-122 #qodef-page-wrapper {
+	overflow: visible;
+}
+.elementor-page-122 #qodef-page-outer,
+.elementor-page-122 #qodef-page-inner,
+.elementor-page-122 .elementor,
+.elementor-page-122 .elementor-element {
+	overflow: visible;
+}
+
+/* Main container becomes a flex row */
+.qodef-portfolio-list.qodef-filter--on {
+	display: flex !important;
+	flex-wrap: wrap;
+	gap: 0;
+}
+
+/* Filter becomes a vertical left sidebar */
+.qodef-portfolio-list.qodef-filter--on > .qodef-m-filter {
+	width: 220px;
+	flex-shrink: 0;
+	margin: 0;
+	padding-right: 40px;
+	border-right: 1px solid var(--ecec-platinum);
+	position: sticky;
+	top: 100px;
+	align-self: flex-start;
+}
+
+/* Filter items stack vertically */
+.qodef-portfolio-list.qodef-filter--on .qodef-m-filter-items {
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+}
+
+/* Individual filter item styling */
+.qodef-portfolio-list.qodef-filter--on .qodef-m-filter-item {
+	display: block;
+	width: 100%;
+	margin: 0;
+	padding: 12px 0 12px 18px;
+	font-size: 13px;
+	font-weight: 500;
+	letter-spacing: 0.15em;
+	color: var(--ecec-slate-gray);
+	text-transform: uppercase;
+	border-left: 3px solid transparent;
+	transition: all 0.3s ease;
+}
+
+/* Remove the pipe separator */
+.qodef-portfolio-list.qodef-filter--on .qodef-m-filter-item:after {
+	content: none !important;
+}
+
+/* Active & hover state */
+.qodef-portfolio-list.qodef-filter--on .qodef-m-filter-item:hover,
+.qodef-portfolio-list.qodef-filter--on .qodef-m-filter-item.qodef--active {
+	color: var(--ecec-raisin-black);
+	border-left-color: var(--ecec-raisin-black);
+	background-color: rgba(104, 122, 132, 0.05);
+}
+
+/* Grid takes remaining width AND becomes a flex container so hidden items
+   (display:none) reflow cleanly instead of leaving gaps from theme floats. */
+.qodef-portfolio-list.qodef-filter--on > .qodef-grid-inner {
+	flex: 1;
+	min-width: 0;
+	padding-left: 40px;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+/* Kill the theme's float + clear rules for items inside the filtered grid,
+   so the flex reflow actually works left-to-right. */
+.qodef-portfolio-list.qodef-filter--on > .qodef-grid-inner > .qodef-grid-item {
+	float: none !important;
+	clear: none !important;
+}
+
+/* ---- Responsive: tablet and below ---- */
+@media only screen and (max-width: 1024px) {
+	.qodef-portfolio-list.qodef-filter--on {
+		flex-direction: column;
+	}
+
+	.qodef-portfolio-list.qodef-filter--on > .qodef-m-filter {
+		width: 100%;
+		position: static;
+		border-right: none;
+		border-bottom: 1px solid var(--ecec-platinum);
+		padding-right: 0;
+		padding-bottom: 10px;
+		margin-bottom: 30px;
+	}
+
+	.qodef-portfolio-list.qodef-filter--on .qodef-m-filter-items {
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: 5px;
+	}
+
+	.qodef-portfolio-list.qodef-filter--on .qodef-m-filter-item {
+		width: auto;
+		padding: 8px 16px;
+		border-left: none;
+		border-radius: 4px;
+		font-size: 11px;
+		background-color: var(--ecec-platinum);
+	}
+
+	.qodef-portfolio-list.qodef-filter--on .qodef-m-filter-item:hover,
+	.qodef-portfolio-list.qodef-filter--on .qodef-m-filter-item.qodef--active {
+		background-color: var(--ecec-raisin-black);
+		color: var(--ecec-white);
+		border-left-color: transparent;
+	}
+
+	.qodef-portfolio-list.qodef-filter--on > .qodef-grid-inner {
+		padding-left: 0;
+	}
+}

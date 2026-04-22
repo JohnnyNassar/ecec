@@ -1,0 +1,13 @@
+use strict;
+use warnings;
+my $file = $ARGV[0] or die "usage: $0 file\n";
+open my $h, "<:raw", $file or die "open $file: $!";
+my $s = do { local $/; <$h> };
+close $h;
+my $c1 = 0; $c1++ while $s =~ /localhost\//g;
+my $c2 = 0; $c2++ while $s =~ /localhost\\\//g;
+my $c3 = 0; $c3++ while $s =~ /localhost\\\\\//g;
+print "plain    localhost/    : $c1\n";
+print "1-bs     localhost\\/   : $c2\n";
+print "2-bs     localhost\\\\/ : $c3\n";
+print "total length: ", length($s), "\n";

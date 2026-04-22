@@ -1,0 +1,75 @@
+# ──────────────────────────────────────────────────────────
+# ECEC WordPress — .gitignore
+# Tracks: child theme, deploy PHP scripts, docs, patches.
+# Skips: WP core, plugins, uploads, secrets, backups.
+# ──────────────────────────────────────────────────────────
+
+# === Secrets & credential-bearing files ===
+/wp-config.php
+/wp-config-sample.php
+/ecec.txt
+/PROGRESS.md
+/_deploy/*.ps1
+
+# === Local DB / scrape backups (too big, not source) ===
+/_backups/
+/_theme_backup/
+/_deploy/*.sql
+/_deploy/*.sql.bak
+
+# === WordPress core ===
+/wp-admin/
+/wp-includes/
+/wp-activate.php
+/wp-blog-header.php
+/wp-comments-post.php
+/wp-cron.php
+/wp-links-opml.php
+/wp-load.php
+/wp-login.php
+/wp-mail.php
+/wp-settings.php
+/wp-signup.php
+/wp-trackback.php
+/index.php
+/xmlrpc.php
+/license.txt
+/readme.html
+/wp-cli.phar
+
+# === wp-content: keep ONLY emaurri-child theme ===
+/wp-content/*
+!/wp-content/themes/
+/wp-content/themes/*
+!/wp-content/themes/emaurri-child/
+
+# === Uploads / cache / logs ===
+/wp-content/uploads/
+/wp-content/upgrade/
+/wp-content/cache/
+/wp-content/languages/
+/wp-content/mu-plugins/
+/wp-content/debug.log
+/wp-content/advanced-cache.php
+/wp-content/object-cache.php
+/wp-content/wp-cache-config.php
+
+# === Claude Code per-project settings (per-developer) ===
+/.claude/
+
+# === Editor / OS junk ===
+.DS_Store
+Thumbs.db
+*.log
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+nbproject/
+
+# === Node / build artifacts (if any) ===
+node_modules/
+vendor/
+*.zip
+!/docs/*.zip
