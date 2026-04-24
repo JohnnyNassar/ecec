@@ -100,24 +100,37 @@ $idgen = function ( $label ) {
 
 // Build the Elementor data array.
 $data = [
-	// --- Section 1: Portfolio carousel ---
+	// --- Section 1: Blog carousel (emaurri_core_blog_list widget, slider
+	//     behavior, pagination dots — mirrors the Emaurri demo /blog-home/
+	//     first section). Shows the latest 4 published blog posts; the
+	//     post_ids filter is intentionally absent so new posts auto-appear.
 	[
 		'id' => $idgen( 'sec1' ),
 		'elType' => 'section',
 		'settings' => [
 			'layout' => 'full_width',
-			'padding' => [ 'top' => '60', 'right' => '0', 'bottom' => '40', 'left' => '0', 'unit' => 'px', 'isLinked' => false ],
+			'padding' => [ 'top' => '0', 'right' => '0', 'bottom' => '0', 'left' => '0', 'unit' => 'px', 'isLinked' => true ],
 		],
 		'elements' => [ [
 			'id' => $idgen( 'sec1-col' ),
 			'elType' => 'column',
 			'settings' => [ '_column_size' => 100 ],
 			'elements' => [ [
-				'id' => $idgen( 'sec1-shortcode' ),
+				'id' => $idgen( 'sec1-bloglist' ),
 				'elType' => 'widget',
-				'widgetType' => 'shortcode',
+				'widgetType' => 'emaurri_core_blog_list',
 				'settings' => [
-					'shortcode' => '[ecec_portfolio_carousel posts_per_page="8"]',
+					'behavior'          => 'slider',
+					'columns'           => '1',
+					'space'             => 'no',
+					'slider_navigation' => 'no',
+					'slider_pagination' => 'yes',
+					'posts_per_page'    => '4',
+					'title_tag'         => 'h3',
+					'skin'              => 'light',
+					'orderby'           => 'date',
+					'_margin'           => [ 'unit' => 'px', 'top' => '0', 'right' => '0', 'bottom' => '0', 'left' => '0', 'isLinked' => false ],
+					'_padding'          => [ 'unit' => 'px', 'top' => '0', 'right' => '0', 'bottom' => '0', 'left' => '0', 'isLinked' => true ],
 				],
 			] ],
 		] ],
