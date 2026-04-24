@@ -1404,10 +1404,8 @@ body:not(.qodef-mobile-header--enabled) #qodef-page-wrapper {
 .page-id-328 .elementor-widget-emaurri_core_section_title .qodef-m-text,
 .page-id-168 .elementor-widget-text-editor p,
 .page-id-328 .elementor-widget-text-editor p,
-.page-id-168 .elementor-widget-emaurri_core_accordion .qodef-e-content-inner p,
-.page-id-328 .elementor-widget-emaurri_core_accordion .qodef-e-content-inner p,
-.page-id-168 .elementor-widget-emaurri_core_accordion .elementor-tab-content p,
-.page-id-328 .elementor-widget-emaurri_core_accordion .elementor-tab-content p {
+.page-id-168 .qodef-accordion-content-inner p,
+.page-id-328 .qodef-accordion-content-inner p {
 	text-align: justify;
 	hyphens: auto;
 	-webkit-hyphens: auto;
