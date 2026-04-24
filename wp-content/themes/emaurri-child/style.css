@@ -1396,3 +1396,19 @@ body:not(.qodef-mobile-header--enabled) #qodef-page-wrapper {
 	}
 	.ecec-services-list__arrow { display: none; }
 }
+
+/* /our-services/ — justify the three body-text areas in the Elementor page.
+   Scoped by page ID because the slug is the same across envs but the post
+   IDs differ (168 local, 328 VPS). */
+.page-id-168 .elementor-widget-emaurri_core_section_title .qodef-m-text,
+.page-id-328 .elementor-widget-emaurri_core_section_title .qodef-m-text,
+.page-id-168 .elementor-widget-text-editor p,
+.page-id-328 .elementor-widget-text-editor p,
+.page-id-168 .elementor-widget-emaurri_core_accordion .qodef-e-content-inner p,
+.page-id-328 .elementor-widget-emaurri_core_accordion .qodef-e-content-inner p,
+.page-id-168 .elementor-widget-emaurri_core_accordion .elementor-tab-content p,
+.page-id-328 .elementor-widget-emaurri_core_accordion .elementor-tab-content p {
+	text-align: justify;
+	hyphens: auto;
+	-webkit-hyphens: auto;
+}
