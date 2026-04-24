@@ -865,3 +865,124 @@ function ecec_services_list_shortcode( $atts ) {
 	return ob_get_clean();
 }
 add_shortcode( 'ecec_services_list', 'ecec_services_list_shortcode' );
+
+// ─── Clients Marquee ─────────────────────────────────────────────────────
+// Infinite horizontal scroll of client-brand logos. Logos are imported once
+// via _deploy/import_client_logos.php and their attachment IDs stored in the
+// `ecec_client_logo_ids` option. Displayed greyscale, color on hover, pauses
+// on hover.
+function ecec_clients_marquee_shortcode( $atts ) {
+	$atts = shortcode_atts( [
+		'speed' => '50',  // seconds for one full loop
+		'height' => '60', // logo row height in px
+	], $atts, 'ecec_clients_marquee' );
+
+	$ids = get_option( 'ecec_client_logo_ids', [] );
+	if ( ! is_array( $ids ) || empty( $ids ) ) {
+		return '<p class="ecec-clients-empty">No client logos imported yet. Run <code>_deploy/import_client_logos.php</code> first.</p>';
+	}
+
+	$logos = [];
+	foreach ( $ids as $id ) {
+		$src = wp_get_attachment_image_url( $id, 'medium' );
+		if ( ! $src ) { continue; }
+		$logos[] = [
+			'src' => $src,
+			'alt' => get_the_title( $id ),
+		];
+	}
+	if ( empty( $logos ) ) { return ''; }
+
+	ob_start();
+	$speed  = max( 10, (int) $atts['speed'] );
+	$height = max( 20, (int) $atts['height'] );
+	?>
+	<section class="ecec-clients-marquee" aria-label="<?php esc_attr_e( 'Clients and partners', 'emaurri-child' ); ?>" style="--ecec-clients-speed: <?php echo (int) $speed; ?>s; --ecec-clients-h: <?php echo (int) $height; ?>px;">
+		<div class="ecec-clients-track">
+			<?php // Render the list twice for a seamless infinite loop (CSS shifts 50%). ?>
+			<?php for ( $pass = 0; $pass < 2; $pass++ ) : ?>
+				<ul class="ecec-clients-lane"<?php if ( $pass === 1 ) echo ' aria-hidden="true"'; ?>>
+					<?php foreach ( $logos as $logo ) : ?>
+						<li class="ecec-clients-item">
+							<img src="<?php echo esc_url( $logo['src'] ); ?>" alt="<?php echo esc_attr( $pass === 0 ? $logo['alt'] : '' ); ?>" loading="lazy">
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			<?php endfor; ?>
+		</div>
+	</section>
+	<?php
+	return ob_get_clean();
+}
+add_shortcode( 'ecec_clients_marquee', 'ecec_clients_marquee_shortcode' );
+
+// ─── Portfolio Carousel (home page block 1) ──────────────────────────────
+// Horizontally-scrolling selection of portfolio items, styled like the
+// Emaurri demo blog-list carousel. Uses CSS scroll-snap — no JS library,
+// works on touch + mouse + keyboard (prev/next buttons).
+function ecec_portfolio_carousel_shortcode( $atts ) {
+	$atts = shortcode_atts( [
+		'posts_per_page' => '8',
+		'orderby'        => 'menu_order',
+		'category'       => '',  // portfolio-category slug filter, optional
+	], $atts, 'ecec_portfolio_carousel' );
+
+	$args = [
+		'post_type'      => 'portfolio-item',
+		'post_status'    => 'publish',
+		'posts_per_page' => max( 1, (int) $atts['posts_per_page'] ),
+		'orderby'        => [ 'menu_order' => 'ASC', 'date' => 'DESC' ],
+		'no_found_rows'  => true,
+	];
+	if ( $atts['category'] !== '' ) {
+		$args['tax_query'] = [ [
+			'taxonomy' => 'portfolio-category',
+			'field'    => 'slug',
+			'terms'    => sanitize_title( $atts['category'] ),
+		] ];
+	}
+	$q = new WP_Query( $args );
+	if ( ! $q->have_posts() ) { return '<p class="ecec-pcar-empty">No portfolio items yet.</p>'; }
+
+	ob_start(); ?>
+	<section class="ecec-pcar" aria-roledescription="carousel" aria-label="<?php esc_attr_e( 'Featured projects', 'emaurri-child' ); ?>">
+		<div class="ecec-pcar__track" tabindex="0">
+			<?php while ( $q->have_posts() ) : $q->the_post();
+				$cats = get_the_terms( get_the_ID(), 'portfolio-category' );
+				$cat_name = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
+				?>
+				<article class="ecec-pcar__item">
+					<a class="ecec-pcar__link" href="<?php the_permalink(); ?>">
+						<div class="ecec-pcar__media">
+							<?php if ( has_post_thumbnail() ) {
+								the_post_thumbnail( 'large', [ 'class' => 'ecec-pcar__img', 'loading' => 'lazy' ] );
+							} ?>
+						</div>
+						<div class="ecec-pcar__meta">
+							<?php if ( $cat_name ) : ?>
+								<span class="ecec-pcar__cat"><?php echo esc_html( $cat_name ); ?></span>
+							<?php endif; ?>
+							<h3 class="ecec-pcar__title"><?php the_title(); ?></h3>
+						</div>
+					</a>
+				</article>
+			<?php endwhile; wp_reset_postdata(); ?>
+		</div>
+		<button type="button" class="ecec-pcar__nav ecec-pcar__nav--prev" aria-label="Previous">&larr;</button>
+		<button type="button" class="ecec-pcar__nav ecec-pcar__nav--next" aria-label="Next">&rarr;</button>
+	</section>
+	<script>
+	(function(){
+		var el = document.currentScript.previousElementSibling;
+		var track = el.querySelector('.ecec-pcar__track');
+		var prev  = el.querySelector('.ecec-pcar__nav--prev');
+		var next  = el.querySelector('.ecec-pcar__nav--next');
+		function step() { return (track.querySelector('.ecec-pcar__item') || {}).offsetWidth || 320; }
+		prev && prev.addEventListener('click', function(){ track.scrollBy({ left: -step()*1.05, behavior: 'smooth' }); });
+		next && next.addEventListener('click', function(){ track.scrollBy({ left:  step()*1.05, behavior: 'smooth' }); });
+	})();
+	</script>
+	<?php
+	return ob_get_clean();
+}
+add_shortcode( 'ecec_portfolio_carousel', 'ecec_portfolio_carousel_shortcode' );

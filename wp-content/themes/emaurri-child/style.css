@@ -1410,3 +1410,213 @@ body:not(.qodef-mobile-header--enabled) #qodef-page-wrapper {
 	hyphens: auto;
 	-webkit-hyphens: auto;
 }
+
+/* ──────────────────────────────────────────────────────────────────────
+ * Home page — Clients Marquee ([ecec_clients_marquee])
+ * Infinite horizontal scroll, grayscale -> color on hover, pause on hover.
+ * ────────────────────────────────────────────────────────────────────── */
+
+.ecec-clients-marquee {
+	--ecec-clients-speed: 50s;
+	--ecec-clients-h: 60px;
+	padding: 60px 0;
+	overflow: hidden;
+	background: var(--ecec-white);
+	/* soft edge fade on both sides so logos don't hard-cut */
+	-webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+	        mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.ecec-clients-track {
+	display: flex;
+	width: max-content;
+	animation: ecec-clients-scroll var(--ecec-clients-speed) linear infinite;
+	will-change: transform;
+}
+
+.ecec-clients-marquee:hover .ecec-clients-track { animation-play-state: paused; }
+
+.ecec-clients-lane {
+	display: flex;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	gap: 64px;
+	flex-shrink: 0;
+	padding-right: 64px; /* gap between lane-end and next lane-start */
+}
+
+.ecec-clients-item {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: var(--ecec-clients-h);
+}
+
+.ecec-clients-item img {
+	max-height: 100%;
+	max-width: 180px;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	opacity: 0.75;
+	filter: grayscale(100%);
+	transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+.ecec-clients-item:hover img {
+	filter: grayscale(0%);
+	opacity: 1;
+}
+
+@keyframes ecec-clients-scroll {
+	from { transform: translate3d(0, 0, 0); }
+	to   { transform: translate3d(-50%, 0, 0); }
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+	.ecec-clients-track { animation: none; }
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * Home page — Portfolio Carousel ([ecec_portfolio_carousel])
+ * Horizontal scroll-snap, arrow buttons on sides, card = image + meta.
+ * ────────────────────────────────────────────────────────────────────── */
+
+.ecec-pcar {
+	position: relative;
+	padding: 40px 0;
+	overflow: hidden;
+}
+
+.ecec-pcar__track {
+	display: flex;
+	gap: 24px;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	scroll-behavior: smooth;
+	padding: 0 6vw 20px;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: thin;
+	scrollbar-color: var(--ecec-silver-sand) transparent;
+}
+.ecec-pcar__track::-webkit-scrollbar { height: 6px; }
+.ecec-pcar__track::-webkit-scrollbar-thumb {
+	background: var(--ecec-silver-sand);
+	border-radius: 3px;
+}
+
+.ecec-pcar__item {
+	flex: 0 0 clamp(260px, 28vw, 380px);
+	scroll-snap-align: start;
+}
+
+.ecec-pcar__link {
+	display: block;
+	color: var(--ecec-raisin-black);
+	text-decoration: none;
+}
+
+.ecec-pcar__media {
+	aspect-ratio: 4 / 5;
+	overflow: hidden;
+	background: var(--ecec-platinum);
+	margin-bottom: 18px;
+}
+
+.ecec-pcar__img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	transition: transform 0.6s ease;
+}
+
+.ecec-pcar__link:hover .ecec-pcar__img { transform: scale(1.04); }
+
+.ecec-pcar__meta {
+	padding: 0 4px;
+}
+
+.ecec-pcar__cat {
+	display: inline-block;
+	font-family: 'Plus Jakarta Sans', sans-serif;
+	font-size: 11px;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: var(--ecec-slate-gray);
+	margin-bottom: 10px;
+}
+
+.ecec-pcar__title {
+	font-family: 'Plus Jakarta Sans', sans-serif;
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 1.3;
+	margin: 0;
+	color: var(--ecec-raisin-black);
+}
+
+.ecec-pcar__link:hover .ecec-pcar__title { color: var(--ecec-slate-gray); }
+
+.ecec-pcar__nav {
+	position: absolute;
+	top: 36%;
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	background: var(--ecec-white);
+	border: 1px solid var(--ecec-silver-sand);
+	color: var(--ecec-raisin-black);
+	font-size: 18px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 2;
+	transition: background 0.25s, color 0.25s, border-color 0.25s;
+	box-shadow: 0 6px 18px rgba(35, 31, 32, 0.08);
+}
+.ecec-pcar__nav:hover { background: var(--ecec-raisin-black); color: var(--ecec-white); border-color: var(--ecec-raisin-black); }
+.ecec-pcar__nav--prev { left: 16px; }
+.ecec-pcar__nav--next { right: 16px; }
+
+@media (max-width: 640px) {
+	.ecec-pcar__nav { display: none; }
+	.ecec-pcar__item { flex-basis: 80vw; }
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * Home page — Block 2 "We Design the Future" intro
+ * ────────────────────────────────────────────────────────────────────── */
+
+.ecec-home-intro {
+	padding: 90px 6vw;
+	text-align: center;
+	max-width: 960px;
+	margin: 0 auto;
+}
+
+.ecec-home-intro__heading {
+	font-family: 'Plus Jakarta Sans', sans-serif;
+	font-size: clamp(32px, 4vw, 56px);
+	font-weight: 400;
+	line-height: 1.15;
+	margin: 0 0 28px;
+	color: var(--ecec-raisin-black);
+	letter-spacing: -0.015em;
+}
+
+.ecec-home-intro__body {
+	font-family: 'Argentum Sans', sans-serif;
+	font-size: 17px;
+	line-height: 1.85;
+	color: var(--ecec-slate-gray);
+	text-align: justify;
+	hyphens: auto;
+	-webkit-hyphens: auto;
+	margin: 0 auto;
+	max-width: 780px;
+}

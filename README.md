@@ -41,6 +41,9 @@ Each of these is documented in more detail under `docs/`:
 | Single-project content blocks | `docs/single-project-blocks.md` | Magazine-style per-project layout. 7 block types (text / full-image / image-pair / image-text-split / project-data / pull-quote / gallery) managed via drag-sort admin UI. Shipped 2026-04-24. |
 | Clone as draft | `docs/single-project-blocks.md#clone-a-project` | Copy a whole portfolio project (blocks, images, meta, taxonomies) as a new draft — from the admin list row action or from inside the Publish sidebar |
 | Services page (Elementor) | `portfolio-help.html` Part E | `/our-services/` — real Elementor page built from the Emaurri demo `/our-services/` XML export, with ECEC narrative. Editable inline via Elementor. Previous approved layout preserved at `/our-services-legacy/`. |
+| Home page 5-block layout | `_deploy/apply_home_page_v2.php` | Portfolio carousel → "We Design the Future" intro → RevSlider → clients marquee → featured projects. All Elementor shortcode widgets so each block is editable. |
+| Clients marquee | functions.php `[ecec_clients_marquee]` | Infinite horizontal scroll of client logos, grayscale → color on hover, pause on hover. Logo list stored in `ecec_client_logo_ids` option; import via `_deploy/import_client_logos.php`. |
+| Portfolio carousel | functions.php `[ecec_portfolio_carousel]` | Horizontal scroll-snap carousel of portfolio items with prev/next buttons. Cards match the Emaurri demo blog-list pattern (image + category overline + title). |
 | Year timeline filter | `docs/year-timeline-filter.md` | **REMOVED 2026-04-21.** Kept for reference only |
 
 ## Custom Shortcodes
@@ -50,6 +53,8 @@ Each of these is documented in more detail under `docs/`:
 | `[ecec_project_search]` | Projects page (post 122) | Horizontal Search / By Type / By Location / SEARCH bar |
 | `[ecec_featured_projects columns="2"]` | Projects page Featured section | 2-col grid of projects where `_ecec_featured = 1` |
 | `[ecec_team_grid columns="3"]` | People page (post 123) | Grid of team members from the CPT |
+| `[ecec_portfolio_carousel posts_per_page="8"]` | Home page block 1 | Horizontal scroll-snap carousel of portfolio items |
+| `[ecec_clients_marquee]` | Home page block 4 | Infinite marquee of client logos (grayscale, color on hover) |
 
 ## Contact Forms
 
