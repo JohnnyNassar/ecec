@@ -93,18 +93,17 @@
     <li><a href="#proj3">How the Filter Bar Works (Search / Type / Location)</a></li>
     <li><a href="#proj4">Rename the FEATURED / RECENT PROJECTS Tabs</a></li>
   </ol>
-  <p style="margin: 15px 0 5px; font-weight: 600;">Part E &mdash; Services Page (Preview)</p>
+  <p style="margin: 15px 0 5px; font-weight: 600;">Part E &mdash; Services Page (Elementor)</p>
   <ol start="21">
-    <li><a href="#srv1">Open the Services Preview in Elementor</a></li>
+    <li><a href="#srv1">Open the Services Page in Elementor</a></li>
     <li><a href="#srv2">Edit the Hero Title &amp; Intro Text</a></li>
     <li><a href="#srv3">Change the Three Decorative Images</a></li>
     <li><a href="#srv4">Update the Progress Bars &amp; Counter Numbers</a></li>
     <li><a href="#srv5">Edit, Add, Remove or Reorder Services (Accordion)</a></li>
     <li><a href="#srv6">Change the "Explore" Button Link</a></li>
-    <li><a href="#srv7">Preview vs. Live Page — What&rsquo;s the Difference?</a></li>
   </ol>
   <p style="margin: 15px 0 5px; font-weight: 600;">Reference</p>
-  <ol start="28">
+  <ol start="27">
     <li><a href="#reference">Quick Reference &amp; Admin URLs</a></li>
   </ol>
 </div>
@@ -686,32 +685,25 @@
 <!-- =============================================
      PART E: SERVICES PAGE (PREVIEW)
      ============================================= -->
-<h2>Part E &mdash; Services Page (Preview)</h2>
+<h2>Part E &mdash; Services Page (Elementor)</h2>
 
 <p>
-  We built a <strong>preview</strong> of a new Services page at
-  <code>/our-services-preview/</code>, based on the Emaurri theme's demo layout
-  with ECEC's own narrative. It sits alongside the approved
-  <code>/our-services/</code> page &mdash; both are live, you pick the one to
-  keep.
-</p>
-
-<p>
-  The preview is a <strong>real Elementor page</strong>, so every text box,
-  number, image and accordion item can be edited inline without a developer.
-  This section is a short how-to for the most common edits.
+  The Services page at <code>/our-services/</code> is built in Elementor,
+  based on the Emaurri theme's demo layout with ECEC's own narrative. Every
+  text box, number, image, and accordion item can be edited inline &mdash; no
+  developer required.
 </p>
 
 <div class="note">
-  <strong>Live preview URL:</strong> <code>/our-services-preview/</code>
-  (staging).
-  When the preview is approved, we promote it to <code>/our-services/</code>
-  and retire the current version.
+  <strong>Previous approved layout</strong> (numbered-list style) is archived
+  at <code>/our-services-legacy/</code>. It's still reachable by direct URL
+  but not linked from the main navigation. Remove it when you no longer need
+  the backup.
 </div>
 
 <!-- SRV STEP 1 -->
 <div class="step" id="srv1">
-  <h3><span class="step-number">21</span><span class="step-title">Open the Services Preview in Elementor</span></h3>
+  <h3><span class="step-number">21</span><span class="step-title">Open the Services Page in Elementor</span></h3>
   <ol>
     <li>From the admin sidebar, go to <strong>Pages</strong>.</li>
     <li>Find the row titled <strong>Our Services (Preview)</strong> and click it.</li>
@@ -814,33 +806,6 @@
   <p>Click <strong>UPDATE</strong>.</p>
 </div>
 
-<!-- SRV STEP 7 -->
-<div class="step" id="srv7">
-  <h3><span class="step-number">27</span><span class="step-title">Preview vs. Live Page &mdash; What's the Difference?</span></h3>
-  <p>Both versions of the Services page are currently live:</p>
-  <table class="field-table">
-    <thead>
-      <tr><th>URL</th><th>What it looks like</th><th>Status</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><code>/our-services/</code></td>
-        <td>Clean vertical list: &ldquo;Portfolio of Services&rdquo; + 7 numbered services + &ldquo;Sectors we serve&rdquo;</td>
-        <td>Currently approved</td>
-      </tr>
-      <tr>
-        <td><code>/our-services-preview/</code></td>
-        <td>Magazine layout with hero, progress bars, counters, FAQ-style accordion</td>
-        <td>New option</td>
-      </tr>
-    </tbody>
-  </table>
-  <p>Pick one. When you decide, let a developer know and they'll promote the winner to <code>/our-services/</code> and remove the other.</p>
-  <div class="warning">
-    <strong>Don't edit the live <code>/our-services/</code> through Elementor.</strong> It uses a different layout (classic list) and was approved as-is. Changes happen on <code>/our-services-preview/</code> until a choice is made.
-  </div>
-</div>
-
 <!-- REFERENCE -->
 <h2 id="reference">Quick Reference</h2>
 
@@ -885,16 +850,16 @@
         <td><code>/people/</code></td>
       </tr>
       <tr>
-        <td><strong>Services Page &mdash; live</strong></td>
+        <td><strong>Services Page (live)</strong></td>
         <td><code>/our-services/</code></td>
       </tr>
       <tr>
-        <td><strong>Services Page &mdash; preview (new layout)</strong></td>
-        <td><code>/our-services-preview/</code></td>
+        <td><strong>Services Page &mdash; edit in Elementor</strong></td>
+        <td>Pages &rarr; <em>Our Services</em> &rarr; Edit with Elementor</td>
       </tr>
       <tr>
-        <td><strong>Services Preview &mdash; edit in Elementor</strong></td>
-        <td>Pages &rarr; <em>Our Services (Preview)</em> &rarr; Edit with Elementor</td>
+        <td><strong>Previous layout (archive)</strong></td>
+        <td><code>/our-services-legacy/</code></td>
       </tr>
     </tbody>
   </table>

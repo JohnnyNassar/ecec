@@ -40,7 +40,7 @@ Each of these is documented in more detail under `docs/`:
 | Team Members | `docs/team-members.md` | `ecec_team_member` CPT + `[ecec_team_grid]` shortcode for People page |
 | Single-project content blocks | `docs/single-project-blocks.md` | Magazine-style per-project layout. 7 block types (text / full-image / image-pair / image-text-split / project-data / pull-quote / gallery) managed via drag-sort admin UI. Shipped 2026-04-24. |
 | Clone as draft | `docs/single-project-blocks.md#clone-a-project` | Copy a whole portfolio project (blocks, images, meta, taxonomies) as a new draft — from the admin list row action or from inside the Publish sidebar |
-| Services preview page | `portfolio-help.html` Part E | `/our-services-preview/` — real Elementor page built from the Emaurri demo `/our-services/` XML export, with ECEC narrative swapped in. Editable inline via Elementor. Staging only; sits alongside the approved `/our-services/`. |
+| Services page (Elementor) | `portfolio-help.html` Part E | `/our-services/` — real Elementor page built from the Emaurri demo `/our-services/` XML export, with ECEC narrative. Editable inline via Elementor. Previous approved layout preserved at `/our-services-legacy/`. |
 | Year timeline filter | `docs/year-timeline-filter.md` | **REMOVED 2026-04-21.** Kept for reference only |
 
 ## Custom Shortcodes
