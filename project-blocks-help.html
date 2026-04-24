@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECEC — Project Editor Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+	--white: #ffffff;
+	--platinum: #e7e8ea;
+	--isabelline: #ece6e6;
+	--silver-sand: #bbcdd1;
+	--slate-gray: #687a84;
+	--raisin-black: #231f20;
+	--ink: #1a1818;
+	--bg: #fafafa;
+	--accent: #2271b1;
+	--success: #00a32a;
+	--danger: #b32d2e;
+	--radius: 10px;
+	--shadow-sm: 0 1px 3px rgba(35, 31, 32, 0.06);
+	--shadow-md: 0 6px 20px rgba(35, 31, 32, 0.08);
+	--shadow-lg: 0 20px 50px rgba(35, 31, 32, 0.14);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+body {
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+	background: var(--bg);
+	color: var(--ink);
+	line-height: 1.65;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* ── Hero ──────────────────────────────────────────────────────── */
+
+.hero {
+	position: relative;
+	background: linear-gradient(135deg, var(--raisin-black) 0%, #3a2f30 50%, var(--slate-gray) 100%);
+	background-size: 200% 200%;
+	animation: heroGradient 18s ease-in-out infinite;
+	color: var(--white);
+	padding: 70px 24px 90px;
+	overflow: hidden;
+}
+
+@keyframes heroGradient {
+	0%, 100% { background-position: 0% 50%; }
+	50% { background-position: 100% 50%; }
+}
+
+.hero::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background-image:
+		radial-gradient(circle at 20% 30%, rgba(187, 205, 209, 0.15) 0%, transparent 50%),
+		radial-gradient(circle at 80% 70%, rgba(231, 232, 234, 0.08) 0%, transparent 45%);
+	pointer-events: none;
+}
+
+.hero-inner {
+	position: relative;
+	max-width: 980px;
+	margin: 0 auto;
+}
+
+.hero-overline {
+	letter-spacing: 0.18em;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--silver-sand);
+	text-transform: uppercase;
+	opacity: 0;
+	transform: translateY(12px);
+	animation: fadeInUp 0.7s 0.1s ease forwards;
+}
+
+.hero h1 {
+	font-size: clamp(32px, 5vw, 54px);
+	font-weight: 800;
+	line-height: 1.1;
+	margin: 14px 0 16px;
+	letter-spacing: -0.02em;
+	opacity: 0;
+	transform: translateY(12px);
+	animation: fadeInUp 0.8s 0.25s ease forwards;
+}
+
+.hero p.lede {
+	font-size: 18px;
+	color: var(--platinum);
+	max-width: 680px;
+	opacity: 0;
+	transform: translateY(12px);
+	animation: fadeInUp 0.8s 0.45s ease forwards;
+}
+
+.hero-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 28px;
+	opacity: 0;
+	transform: translateY(12px);
+	animation: fadeInUp 0.8s 0.65s ease forwards;
+}
+
+.hero-chips span {
+	background: rgba(231, 232, 234, 0.12);
+	border: 1px solid rgba(231, 232, 234, 0.22);
+	padding: 6px 12px;
+	border-radius: 999px;
+	font-size: 12px;
+	color: var(--platinum);
+	backdrop-filter: blur(4px);
+}
+
+/* ── Layout ────────────────────────────────────────────────────── */
+
+.shell {
+	max-width: 1180px;
+	margin: -50px auto 0;
+	padding: 0 24px 80px;
+	display: grid;
+	grid-template-columns: 240px 1fr;
+	gap: 40px;
+	position: relative;
+	z-index: 2;
+}
+
+@media (max-width: 900px) {
+	.shell { grid-template-columns: 1fr; }
+	.toc { position: static !important; }
+}
+
+.toc {
+	position: sticky;
+	top: 24px;
+	align-self: start;
+	background: var(--white);
+	border-radius: var(--radius);
+	padding: 22px 20px;
+	box-shadow: var(--shadow-md);
+	border: 1px solid var(--platinum);
+}
+
+.toc-title {
+	font-size: 11px;
+	letter-spacing: 0.15em;
+	font-weight: 700;
+	color: var(--slate-gray);
+	text-transform: uppercase;
+	margin-bottom: 12px;
+}
+
+.toc ol {
+	list-style: none;
+	counter-reset: toc-counter;
+}
+
+.toc li {
+	counter-increment: toc-counter;
+	margin-bottom: 6px;
+}
+
+.toc a {
+	position: relative;
+	display: block;
+	padding: 7px 10px 7px 32px;
+	color: var(--slate-gray);
+	text-decoration: none;
+	font-size: 13px;
+	line-height: 1.4;
+	border-radius: 6px;
+	transition: background 0.2s, color 0.2s;
+}
+
+.toc a::before {
+	content: counter(toc-counter, decimal-leading-zero);
+	position: absolute;
+	left: 10px;
+	top: 7px;
+	font-size: 10px;
+	font-weight: 600;
+	color: var(--silver-sand);
+	letter-spacing: 0.05em;
+}
+
+.toc a:hover {
+	background: var(--isabelline);
+	color: var(--raisin-black);
+}
+
+.toc a.active {
+	background: var(--raisin-black);
+	color: var(--white);
+}
+
+.toc a.active::before { color: var(--silver-sand); }
+
+main { min-width: 0; }
+
+.section {
+	background: var(--white);
+	border-radius: var(--radius);
+	padding: 40px 44px;
+	margin-bottom: 28px;
+	box-shadow: var(--shadow-sm);
+	border: 1px solid var(--platinum);
+	opacity: 0;
+	transform: translateY(24px);
+	transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.section.in-view {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+	.section { padding: 26px 22px; }
+}
+
+.section h2 {
+	font-size: 26px;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	margin-bottom: 6px;
+	color: var(--raisin-black);
+}
+
+.section h2 .num {
+	color: var(--silver-sand);
+	font-weight: 600;
+	margin-right: 12px;
+	font-variant-numeric: tabular-nums;
+}
+
+.section h3 {
+	font-size: 18px;
+	font-weight: 700;
+	margin: 28px 0 8px;
+	color: var(--raisin-black);
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.section h3::before {
+	content: "";
+	width: 3px;
+	height: 18px;
+	background: var(--raisin-black);
+	border-radius: 1px;
+}
+
+.section .kicker {
+	font-size: 12px;
+	letter-spacing: 0.14em;
+	font-weight: 600;
+	text-transform: uppercase;
+	color: var(--slate-gray);
+	margin-bottom: 4px;
+}
+
+.section p { margin: 12px 0; color: #2e2a2b; }
+
+.section ul, .section ol { margin: 12px 0 12px 22px; color: #2e2a2b; }
+
+.section li { margin-bottom: 6px; }
+
+.section code {
+	background: var(--isabelline);
+	padding: 2px 7px;
+	border-radius: 4px;
+	font-family: 'SF Mono', Menlo, Consolas, monospace;
+	font-size: 13px;
+	color: var(--raisin-black);
+}
+
+/* ── Reusable blocks ───────────────────────────────────────────── */
+
+.note, .tip, .warn {
+	border-left: 4px solid;
+	padding: 14px 18px;
+	margin: 16px 0;
+	border-radius: 0 8px 8px 0;
+	font-size: 14px;
+}
+
+.note {
+	background: #eef6fc;
+	border-color: var(--accent);
+	color: #12436f;
+}
+
+.tip {
+	background: #f1f8ec;
+	border-color: #4a7c2a;
+	color: #2f4e1a;
+}
+
+.warn {
+	background: #fdeced;
+	border-color: var(--danger);
+	color: #6d1b1c;
+}
+
+.kbd {
+	display: inline-block;
+	font-family: 'SF Mono', Menlo, Consolas, monospace;
+	font-size: 12px;
+	background: var(--white);
+	border: 1px solid var(--silver-sand);
+	border-bottom-width: 2px;
+	padding: 2px 7px;
+	border-radius: 4px;
+	color: var(--raisin-black);
+}
+
+.pill {
+	display: inline-block;
+	background: var(--isabelline);
+	color: var(--raisin-black);
+	padding: 3px 10px;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+}
+
+/* ── Block-type grid (Section 3) ───────────────────────────────── */
+
+.type-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 14px;
+	margin-top: 20px;
+}
+
+.type-card {
+	background: var(--white);
+	border: 1px solid var(--platinum);
+	border-radius: 10px;
+	padding: 18px 18px 16px;
+	cursor: default;
+	transition: transform 0.4s cubic-bezier(.2,.8,.2,1), box-shadow 0.4s, border-color 0.3s;
+	position: relative;
+	overflow: hidden;
+}
+
+.type-card::after {
+	content: "";
+	position: absolute;
+	inset: auto 0 0 0;
+	height: 3px;
+	background: linear-gradient(90deg, var(--raisin-black), var(--slate-gray));
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform 0.4s ease;
+}
+
+.type-card:hover {
+	transform: translateY(-4px);
+	box-shadow: var(--shadow-md);
+	border-color: var(--slate-gray);
+}
+
+.type-card:hover::after { transform: scaleX(1); }
+
+.type-card .ic {
+	width: 36px;
+	height: 36px;
+	border-radius: 8px;
+	background: var(--raisin-black);
+	color: var(--white);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 18px;
+	font-weight: 700;
+	margin-bottom: 10px;
+}
+
+.type-card h4 {
+	font-size: 15px;
+	font-weight: 700;
+	margin-bottom: 4px;
+	color: var(--raisin-black);
+}
+
+.type-card p {
+	font-size: 13px;
+	color: var(--slate-gray);
+	line-height: 1.5;
+	margin: 0;
+}
+
+/* ── Animated demo (admin mock) ─────────────────────────────────── */
+
+.demo {
+	background: #f4f5f5;
+	border: 1px solid var(--platinum);
+	border-radius: 10px;
+	padding: 22px;
+	margin: 20px 0;
+	position: relative;
+}
+
+.demo-label {
+	position: absolute;
+	top: 10px;
+	right: 14px;
+	font-size: 10px;
+	letter-spacing: 0.15em;
+	font-weight: 700;
+	color: var(--silver-sand);
+	text-transform: uppercase;
+}
+
+/* Mock WP admin card */
+.mock-card {
+	background: var(--white);
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	margin-bottom: 8px;
+	box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+	transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.mock-card.active {
+	border-color: var(--accent);
+	box-shadow: 0 0 0 1px var(--accent);
+}
+
+.mock-head {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 12px;
+	font-size: 13px;
+}
+
+.mock-handle {
+	width: 14px;
+	height: 14px;
+	color: var(--silver-sand);
+	flex-shrink: 0;
+}
+
+.mock-handle svg { width: 14px; height: 14px; fill: currentColor; }
+
+.mock-label {
+	font-weight: 600;
+	color: var(--raisin-black);
+	min-width: 140px;
+	flex-shrink: 0;
+}
+
+.mock-summary {
+	flex: 1;
+	font-size: 12px;
+	color: var(--slate-gray);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.mock-actions {
+	display: flex;
+	gap: 10px;
+	font-size: 12px;
+}
+
+.mock-actions .link { color: var(--accent); cursor: pointer; }
+.mock-actions .link.dup { color: var(--slate-gray); }
+.mock-actions .link.del { color: var(--danger); font-size: 16px; line-height: 1; }
+
+.mock-body {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.5s ease;
+	border-top: 1px solid #f0f0f1;
+}
+
+.mock-body.open { max-height: 260px; }
+
+.mock-body-inner {
+	padding: 14px 16px 16px;
+	display: grid;
+	gap: 10px;
+}
+
+.mock-field-label {
+	font-size: 11px;
+	font-weight: 700;
+	color: var(--raisin-black);
+}
+
+.mock-field-input {
+	background: var(--white);
+	border: 1px solid #dcdcde;
+	border-radius: 3px;
+	padding: 6px 8px;
+	font-size: 12px;
+	color: var(--slate-gray);
+	font-family: inherit;
+}
+
+.mock-toolbar {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 12px;
+	background: #f6f7f7;
+	border: 1px solid #dcdcde;
+	border-radius: 3px;
+	margin-bottom: 10px;
+	font-size: 13px;
+}
+
+.mock-toolbar .sel {
+	background: var(--white);
+	border: 1px solid #dcdcde;
+	padding: 4px 8px;
+	border-radius: 3px;
+	min-width: 180px;
+	color: var(--raisin-black);
+}
+
+.mock-btn {
+	background: var(--accent);
+	color: var(--white);
+	border: 0;
+	padding: 5px 12px;
+	border-radius: 3px;
+	font-size: 12px;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.mock-btn.ghost { background: var(--white); color: var(--accent); border: 1px solid var(--accent); }
+
+/* ── Reorder demo (auto-loop) ──────────────────────────────────── */
+
+.reorder-demo .mock-card:nth-child(1) { animation: cardCycle1 5s ease-in-out infinite; }
+.reorder-demo .mock-card:nth-child(2) { animation: cardCycle2 5s ease-in-out infinite; }
+.reorder-demo .mock-card:nth-child(3) { animation: cardCycle3 5s ease-in-out infinite; }
+
+@keyframes cardCycle1 {
+	0%, 20%  { transform: translateY(0); }
+	30%, 60% { transform: translateY(calc(100% + 8px)) scale(1.01); box-shadow: 0 8px 20px rgba(35,31,32,0.15); z-index: 2; }
+	70%, 100% { transform: translateY(0); }
+}
+@keyframes cardCycle2 {
+	0%, 20%  { transform: translateY(0); }
+	30%, 60% { transform: translateY(calc(-100% - 8px)); }
+	70%, 100% { transform: translateY(0); }
+}
+@keyframes cardCycle3 {
+	0%, 100% { transform: translateY(0); }
+}
+
+/* ── Expand demo (auto-loop) ───────────────────────────────────── */
+
+.expand-demo .mock-body { animation: expandCycle 5s ease-in-out infinite; }
+.expand-demo .mock-card { animation: highlightCycle 5s ease-in-out infinite; }
+
+@keyframes expandCycle {
+	0%, 30%    { max-height: 0; }
+	45%, 80%   { max-height: 260px; }
+	95%, 100%  { max-height: 0; }
+}
+@keyframes highlightCycle {
+	0%, 30%    { border-color: #dcdcde; box-shadow: 0 1px 0 rgba(0,0,0,0.02); }
+	45%, 80%   { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+	95%, 100%  { border-color: #dcdcde; box-shadow: 0 1px 0 rgba(0,0,0,0.02); }
+}
+
+/* ── Add-block demo (auto-loop) ────────────────────────────────── */
+
+.add-demo .mock-card.ghost {
+	opacity: 0;
+	transform: translateY(-8px);
+	animation: addCycle 5s ease-in-out infinite;
+}
+
+@keyframes addCycle {
+	0%, 40%    { opacity: 0; transform: translateY(-8px); max-height: 0; margin: 0; border-width: 0; }
+	55%, 90%   { opacity: 1; transform: translateY(0); max-height: 60px; margin-bottom: 8px; border-width: 1px; }
+	95%, 100%  { opacity: 0; transform: translateY(-8px); max-height: 0; margin: 0; border-width: 0; }
+}
+
+/* ── Duplicate demo (auto-loop) ────────────────────────────────── */
+
+.dup-demo .mock-card.dup-clone {
+	opacity: 0;
+	transform: scale(0.95);
+	animation: dupCycle 5s ease-in-out infinite;
+}
+
+@keyframes dupCycle {
+	0%, 35%    { opacity: 0; transform: scale(0.95) translateY(-4px); max-height: 0; margin: 0; border-width: 0; }
+	50%, 90%   { opacity: 1; transform: scale(1) translateY(0); max-height: 60px; margin-bottom: 8px; border-width: 1px; }
+	95%, 100%  { opacity: 0; transform: scale(0.95) translateY(-4px); max-height: 0; margin: 0; border-width: 0; }
+}
+
+.dup-demo .dup-arrow {
+	position: absolute;
+	left: -26px;
+	top: 50%;
+	transform: translateY(-50%);
+	color: var(--slate-gray);
+	opacity: 0;
+	animation: dupArrow 5s ease-in-out infinite;
+}
+
+@keyframes dupArrow {
+	0%, 40%, 95%, 100% { opacity: 0; }
+	55%, 80% { opacity: 1; }
+}
+
+/* ── Gallery thumbs demo ───────────────────────────────────────── */
+
+.thumbs-demo {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 8px;
+	margin: 14px 0 8px;
+}
+
+.thumb {
+	aspect-ratio: 1 / 1;
+	border-radius: 4px;
+	border: 1px solid #dcdcde;
+	background: linear-gradient(135deg, var(--silver-sand), var(--platinum));
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 11px;
+	font-weight: 700;
+	color: var(--white);
+	text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+}
+
+.thumb.t1 { background: linear-gradient(135deg, #687a84, #a9b6bb); }
+.thumb.t2 { background: linear-gradient(135deg, #4a5c66, #8a979c); }
+.thumb.t3 { background: linear-gradient(135deg, #3a3536, #6a7175); }
+.thumb.t4 { background: linear-gradient(135deg, #231f20, #4d4748); }
+
+.thumb-demo-row .thumb:nth-child(1) { animation: thumbSwap 4s ease-in-out infinite; }
+.thumb-demo-row .thumb:nth-child(3) { animation: thumbSwapReverse 4s ease-in-out infinite; }
+
+@keyframes thumbSwap {
+	0%, 25%    { transform: translate(0, 0); }
+	50%, 75%   { transform: translate(calc(200% + 16px), 0); z-index: 2; box-shadow: var(--shadow-md); }
+	100%       { transform: translate(0, 0); }
+}
+@keyframes thumbSwapReverse {
+	0%, 25%    { transform: translate(0, 0); }
+	50%, 75%   { transform: translate(calc(-200% - 16px), 0); }
+	100%       { transform: translate(0, 0); }
+}
+
+/* ── WP sidebar (Publish box) mock ─────────────────────────────── */
+
+.pub-mock {
+	max-width: 300px;
+	background: var(--white);
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	margin: 20px 0;
+	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+}
+
+.pub-mock-head {
+	background: #f6f7f7;
+	padding: 8px 12px;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--raisin-black);
+	border-bottom: 1px solid #dcdcde;
+}
+
+.pub-mock-section {
+	padding: 10px 12px;
+	font-size: 12px;
+	color: var(--slate-gray);
+	border-bottom: 1px solid #dcdcde;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.pub-mock-section:last-child { border-bottom: 0; }
+
+.pub-mock-section.highlight {
+	background: #fff8e1;
+	animation: pulseBg 2.5s ease-in-out infinite;
+}
+
+@keyframes pulseBg {
+	0%, 100% { background: #fff8e1; }
+	50% { background: #fff1c4; }
+}
+
+.pub-mock-section .dash {
+	color: var(--silver-sand);
+	font-size: 14px;
+}
+
+.pub-mock-section a {
+	color: var(--accent);
+	text-decoration: none;
+	font-weight: 500;
+}
+
+/* ── Row actions mock ──────────────────────────────────────────── */
+
+.row-mock {
+	background: var(--white);
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	padding: 14px 16px;
+	margin: 16px 0;
+	font-size: 13px;
+}
+
+.row-mock .title {
+	font-weight: 600;
+	color: var(--accent);
+	margin-bottom: 4px;
+}
+
+.row-mock .actions {
+	font-size: 12px;
+	color: var(--slate-gray);
+}
+
+.row-mock .actions a {
+	color: var(--accent);
+	text-decoration: none;
+	margin-right: 4px;
+}
+
+.row-mock .actions .sep { margin: 0 4px; color: var(--silver-sand); }
+
+.row-mock .actions .highlight {
+	background: #fff8e1;
+	padding: 2px 4px;
+	border-radius: 2px;
+	animation: pulseBg 2.5s ease-in-out infinite;
+}
+
+/* ── Steps list ────────────────────────────────────────────────── */
+
+.steps {
+	counter-reset: step;
+	list-style: none;
+	margin: 20px 0 !important;
+	padding: 0 !important;
+}
+
+.steps li {
+	counter-increment: step;
+	position: relative;
+	padding: 14px 16px 14px 54px;
+	background: var(--isabelline);
+	border-radius: 8px;
+	margin-bottom: 8px;
+	font-size: 14px;
+}
+
+.steps li::before {
+	content: counter(step);
+	position: absolute;
+	left: 14px;
+	top: 14px;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	background: var(--raisin-black);
+	color: var(--white);
+	font-weight: 700;
+	font-size: 13px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* ── Animations ────────────────────────────────────────────────── */
+
+@keyframes fadeInUp {
+	to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Footer ────────────────────────────────────────────────────── */
+
+.footer {
+	background: var(--raisin-black);
+	color: var(--platinum);
+	padding: 40px 24px;
+	text-align: center;
+	font-size: 13px;
+	letter-spacing: 0.02em;
+}
+
+.footer strong { color: var(--white); }
+
+/* ── Reduce motion for users who prefer it ─────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+	.hero, .hero * { animation: none; opacity: 1; transform: none; }
+	.section { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+	<div class="hero-inner">
+		<div class="hero-overline">ECEC · WordPress Admin Guide</div>
+		<h1>Project Editor &amp; Content Blocks</h1>
+		<p class="lede">Everything you need to create, edit, duplicate and organize portfolio projects using the new block-based editor — no Elementor or coding required.</p>
+		<div class="hero-chips">
+			<span>7 block types</span>
+			<span>Drag-to-reorder</span>
+			<span>Duplicate block</span>
+			<span>Clone project</span>
+			<span>Image gallery</span>
+			<span>Mark as featured</span>
+		</div>
+	</div>
+</section>
+
+<div class="shell">
+
+	<aside class="toc">
+		<div class="toc-title">On this page</div>
+		<ol>
+			<li><a href="#s1">What's new</a></li>
+			<li><a href="#s2">The project edit screen</a></li>
+			<li><a href="#s3">ECEC Content Blocks</a></li>
+			<li><a href="#s4">The 7 block types</a></li>
+			<li><a href="#s5">Adding a block</a></li>
+			<li><a href="#s6">Editing a block</a></li>
+			<li><a href="#s7">Reordering blocks</a></li>
+			<li><a href="#s8">Duplicating a block</a></li>
+			<li><a href="#s9">Removing a block</a></li>
+			<li><a href="#s10">Image picker &amp; gallery</a></li>
+			<li><a href="#s11">Project data rows</a></li>
+			<li><a href="#s12">Mark as Featured</a></li>
+			<li><a href="#s13">Clone a project</a></li>
+			<li><a href="#s14">Create a new project</a></li>
+			<li><a href="#s15">Tips &amp; troubleshooting</a></li>
+		</ol>
+	</aside>
+
+	<main>
+
+	<!-- ── 1. What's new ─────────────────────────────────────── -->
+	<section class="section" id="s1">
+		<div class="kicker">Overview</div>
+		<h2><span class="num">01</span>What's new</h2>
+		<p>The project editor has been redesigned so you can build rich, magazine-style project pages without touching Elementor. Each project is now assembled from stackable <strong>content blocks</strong> — seven reusable templates for text, images, quotes, galleries and data. You pick the blocks, drag them into the order you want, and fill in each one.</p>
+		<ul>
+			<li><strong>Content Blocks editor</strong> — a drag-and-drop card stack below the title</li>
+			<li><strong>Duplicate block</strong> — one-click copy of any block, right below the original</li>
+			<li><strong>Clone project</strong> — copy an entire project (all blocks, images, info) as a new draft, either from the list or from inside an open project</li>
+			<li><strong>Featured checkbox</strong> — promote any project to the home-page highlight grid</li>
+			<li><strong>Location taxonomy</strong> — every project is tagged with a region for the Projects-page filter</li>
+		</ul>
+		<div class="note"><strong>Heads-up:</strong> the legacy project description &amp; media boxes still exist. If the block editor is empty, the old description + media grid renders as a fallback — so no project ever breaks.</div>
+	</section>
+
+	<!-- ── 2. Project edit screen ────────────────────────────── -->
+	<section class="section" id="s2">
+		<div class="kicker">Where everything lives</div>
+		<h2><span class="num">02</span>The project edit screen</h2>
+		<p>When you open or create a project, you'll see three key areas:</p>
+		<ol>
+			<li><strong>Title + permalink</strong> — project name at the top.</li>
+			<li><strong>ECEC Content Blocks</strong> — the new block editor (the star of this guide).</li>
+			<li><strong>Sidebar</strong> — on the right: Publish status, Featured checkbox, Categories (Sector), Location, Featured Image, and the legacy Project Info boxes used by the sidebar on the live project page.</li>
+		</ol>
+		<div class="tip"><strong>Tip:</strong> you can collapse/drag any metabox to suit how you work. WordPress remembers your layout per user.</div>
+	</section>
+
+	<!-- ── 3. ECEC Content Blocks ────────────────────────────── -->
+	<section class="section" id="s3">
+		<div class="kicker">The block editor</div>
+		<h2><span class="num">03</span>ECEC Content Blocks</h2>
+		<p>This is the metabox labelled <strong>ECEC Content Blocks</strong>. It's a stack of cards — one card per section of the project page. Each card knows its own type (Text, Image, Gallery, etc.) and its own fields.</p>
+		<p>The editor mirrors the order of sections on the live project page, top to bottom. Reordering cards here reorders the sections on the site.</p>
+		<div class="demo">
+			<div class="demo-label">Anatomy</div>
+			<div class="mock-toolbar">
+				<span style="font-weight:600;">Add block:</span>
+				<span class="sel">Text Paragraph ▾</span>
+				<button class="mock-btn">Add</button>
+			</div>
+			<div class="mock-card">
+				<div class="mock-head">
+					<span class="mock-handle"><svg viewBox="0 0 20 20"><path d="M6 4h2v2H6V4zm6 0h2v2h-2V4zM6 9h2v2H6V9zm6 0h2v2h-2V9zm-6 5h2v2H6v-2zm6 0h2v2h-2v-2z"/></svg></span>
+					<span class="mock-label">Image + Text Split</span>
+					<span class="mock-summary">Redefining the desert experience</span>
+					<div class="mock-actions">
+						<span class="link">Edit</span>
+						<span class="link dup">Duplicate</span>
+						<span class="link del">×</span>
+					</div>
+				</div>
+			</div>
+			<div class="mock-card">
+				<div class="mock-head">
+					<span class="mock-handle"><svg viewBox="0 0 20 20"><path d="M6 4h2v2H6V4zm6 0h2v2h-2V4zM6 9h2v2H6V9zm6 0h2v2h-2V9zm-6 5h2v2H6v-2zm6 0h2v2h-2v-2z"/></svg></span>
+					<span class="mock-label">Pull Quote</span>
+					<span class="mock-summary">"A paragraph-length quote from the client…"</span>
+					<div class="mock-actions">
+						<span class="link">Edit</span>
+						<span class="link dup">Duplicate</span>
+						<span class="link del">×</span>
+					</div>
+				</div>
+			</div>
+			<div class="mock-card">
+				<div class="mock-head">
+					<span class="mock-handle"><svg viewBox="0 0 20 20"><path d="M6 4h2v2H6V4zm6 0h2v2h-2V4zM6 9h2v2H6V9zm6 0h2v2h-2V9zm-6 5h2v2H6v-2zm6 0h2v2h-2v-2z"/></svg></span>
+					<span class="mock-label">Gallery</span>
+					<span class="mock-summary">9 images</span>
+					<div class="mock-actions">
+						<span class="link">Edit</span>
+						<span class="link dup">Duplicate</span>
+						<span class="link del">×</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<p>Each card shows four things at a glance:</p>
+		<ul>
+			<li><strong>Drag handle</strong> (the grid icon on the left) — grab this to reorder</li>
+			<li><strong>Type label</strong> — what kind of block this is</li>
+			<li><strong>Summary</strong> — a short preview of the block's content</li>
+			<li><strong>Actions</strong> — <span class="pill">Edit</span> <span class="pill">Duplicate</span> <span class="pill">×</span></li>
+		</ul>
+	</section>
+
+	<!-- ── 4. Block types ────────────────────────────────────── -->
+	<section class="section" id="s4">
+		<div class="kicker">Your toolkit</div>
+		<h2><span class="num">04</span>The 7 block types</h2>
+		<p>Pick the right block for each section of the story you want to tell. You can use each type as many times as you need, in any order.</p>
+		<div class="type-grid">
+			<div class="type-card">
+				<div class="ic">¶</div>
+				<h4>Text Paragraph</h4>
+				<p>Body copy. Blank lines between paragraphs. Basic HTML (<code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code>, <code>&lt;a&gt;</code>) is allowed.</p>
+			</div>
+			<div class="type-card">
+				<div class="ic">▭</div>
+				<h4>Full-width Image</h4>
+				<p>One image spanning the full content width, with an optional caption below it.</p>
+			</div>
+			<div class="type-card">
+				<div class="ic">▭▭</div>
+				<h4>Image Pair</h4>
+				<p>Two images side by side, each with an optional caption. Great for before/after or detail shots.</p>
+			</div>
+			<div class="type-card">
+				<div class="ic">▭T</div>
+				<h4>Image + Text Split</h4>
+				<p>50/50 image + copy. Overline, heading and body; image on the left or right.</p>
+			</div>
+			<div class="type-card">
+				<div class="ic">☰</div>
+				<h4>Project Data</h4>
+				<p>Key facts as a label/value table (GFA, Client, Completion, etc.). Drag rows to reorder.</p>
+			</div>
+			<div class="type-card">
+				<div class="ic">❞</div>
+				<h4>Pull Quote</h4>
+				<p>A large italic quote with an optional attribution. Use sparingly for emphasis.</p>
+			</div>
+			<div class="type-card">
+				<div class="ic">▦</div>
+				<h4>Gallery</h4>
+				<p>Image grid, 2 or 3 columns. Drag thumbs to reorder, × to remove, "Add images" to append more.</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- ── 5. Adding a block ─────────────────────────────────── -->
+	<section class="section" id="s5">
+		<div class="kicker">Step-by-step</div>
+		<h2><span class="num">05</span>Adding a block</h2>
+		<ol class="steps">
+			<li>Open the <strong>Add block:</strong> dropdown at the top of the ECEC Content Blocks editor.</li>
+			<li>Pick the type you want — for example, <em>Image + Text Split</em>.</li>
+			<li>Click the blue <strong>Add</strong> button.</li>
+			<li>The new card appears at the bottom of the list, already expanded, ready for you to fill in.</li>
+		</ol>
+		<div class="demo add-demo">
+			<div class="demo-label">Animated demo</div>
+			<div class="mock-toolbar">
+				<span style="font-weight:600;">Add block:</span>
+				<span class="sel">Pull Quote ▾</span>
+				<button class="mock-btn">Add</button>
+			</div>
+			<div class="mock-card">
+				<div class="mock-head">
+					<span class="mock-handle"><svg viewBox="0 0 20 20"><path d="M6 4h2v2H6V4zm6 0h2v2h-2V4zM6 9h2v2H6V9zm6 0h2v2h-2V9zm-6 5h2v2H6v-2zm6 0h2v2h-2v-2z"/></svg></span>
+					<span class="mock-label">Text Paragraph</span>
+					<span class="mock-summary">The project sits at the edge of…</span>
+					<div class="mock-actions"><span class="link">Edit</span><span class="link dup">Duplicate</span><span class="link del">×</span></div>
+				</div>
+			</div>
+			<div class="mock-card ghost">
+				<div class="mock-head">
+					<span class="mock-handle"><svg viewBox="0 0 20 20"><path d="M6 4h2v2H6V4zm6 0h2v2h-2V4zM6 9h2v2H6V9zm6 0h2v2h-2V9zm-6 5h2v2H6v-2zm6 0h2v2h-2v-2z"/></svg></span>
+					<span class="mock-label">Pull Quote</span>
+					<span class="mock-summary">(new block, ready to edit)</span>
+					<div class="mock-actions"><span class="link">Close</span><span class="link dup">Duplicate</span><span class="link del">×</span></div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- ── 6. Editing a block ────────────────────────────────── -->
+	<section class="section" id="s6">
+		<div class="kicker">Fill in the fields</div>
+		<h2><span class="num">06</span>Editing a block</h2>
+		<p>Click the <strong>Edit</strong> link on a card to open it. The card expands to show the fields for its type. Click <strong>Close</strong> (same position) to collapse again.</p>
+		<p>Fields save as you type — the JSON behind the scenes updates on every keystroke. You only need to click the WordPress <strong>Update</strong> button in the sidebar to commit the changes to the database.</p>
+		<div class="demo expand-demo">
+			<div class="demo-label">Animated demo</div>
+			<div class="mock-card">
+				<div class="mock-head">
+					<span class="mock-handle"><svg viewBox="0 0 20 20"><path d="M6 4h2v2H6V4zm6 0h2v2h-2V4zM6 9h2v2H6V9zm6 0h2v2h-2V9zm-6 5h2v2H6v-2zm6 0h2v2h-2v-2z"/></svg></span>
+					<span class="mock-label">Image + Text Split</span>
+					<span class="mock-summary">Redefining the desert experience</span>
+					<div class="mock-actions"><span class="link">Edit</span><span class="link dup">Duplicate</span><span class="link del">×</span></div>
+				</div>
+				<div class="mock-body">
+					<div class="mock-body-inner">
+						<div><div class="mock-field-label">Image position</div><div class="mock-field-input">Image on left ▾</div></div>
+						<div><div class="mock-field-label">Overline</div><div class="mock-field-input">VISION &amp; CONTEXT</div></div>
+						<div><div class="mock-field-label">Heading</div><div class="mock-field-input">Redefining the desert experience</div></div>
+						<div><div class="mock-field-label">Body</div><div class="mock-field-input" style="min-height:40px;">The resort was conceived as a quiet counterpoint to…</div></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="tip"><strong>Tip:</strong> the summary line at the top of each card updates as you type, so you can always see what a block contains without opening it.</div>
+	</section>
+
+	<!-- ── 7. Reordering ─────────────────────────────────────── -->
+	<section class="section" id="s7">
+		<div class="kicker">Drag to rearrange</div>
+		<h2><span class="num">07</span>Reordering blocks</h2>
+		<p>Grab the <strong>drag handle</strong> (the small grid icon on the far left of any card) and drag the card up or down. When you release, the other cards shift around it. The order in the editor is the order on the live project page.</p>
+		<div class="demo reorder-demo">
+			<div class="demo-label">Animated demo</div>
+			<div class="mock-card">
+				<div class="mock-head">
+					<span class="mock-handle"><svg viewBox="0 0 20 20"><path d="M6 4h2v2H6V4zm6 0h2v2h-2V4zM6 9h2v2H6V9zm6 0h2v2h-2V9zm-6 5h2v2H6v-2zm6 0h2v2h-2v-2z"/></svg></span>
+					<span class="mock-label">Text Paragraph</span>
+					<span class="mock-summary">Intro copy…</span>
+					<div class="mock-actions"><span class="link">Edit</span><span class="link dup">Duplicate</span><span class="link del">×</span></div>
+				</div>
+			</div>
+			<div class="mock-card">
+				<div class="mock-head">
+					<span class="mock-handle"><svg viewBox="0 0 20 20"><path d="M6 4h2v2H6V4zm6 0h2v2h-2V4zM6 9h2v2H6V9zm6 0h2v2h-2V9zm-6 5h2v2H6v-2zm6 0h2v2h-2v-2z"/></svg></span>
+					<span class="mock-label">Full-width Image</span>
+					<span class="mock-summary">Hero shot of the lobby</span>
+					<div class="mock-actions"><span class="link">Edit</span><span class="link dup">Duplicate</span><span class="link del">×</span></div>
+				</div>
+			</div>
+			<div class="mock-card">
+				<div class="mock-head">
+					<span class="mock-handle"><svg viewBox="0 0 20 20"><path d="M6 4h2v2H6V4zm6 0h2v2h-2V4zM6 9h2v2H6V9zm6 0h2v2h-2V9zm-6 5h2v2H6v-2zm6 0h2v2h-2v-2z"/></svg></span>
+					<span class="mock-label">Gallery</span>
+					<span class="mock-summary">9 images</span>
+					<div class="mock-actions"><span class="link">Edit</span><span class="link dup">Duplicate</span><span class="link del">×</span></div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- ── 8. Duplicating ────────────────────────────────────── -->
+	<section class="section" id="s8">
+		<div class="kicker">One-click copy</div>
+		<h2><span class="num">08</span>Duplicating a block</h2>
+		<p>Click <strong>Duplicate</strong> in any card's header. An exact copy appears immediately below the original, already open for editing. All fields — including images and captions — are copied.</p>
+		<p>This is perfect when the next section of your project follows the same layout but with different content (e.g. two Image + Text Splits in a row, or several Full-width Images in sequence).</p>
+		<div class="demo dup-demo">
+			<div class="demo-label">Animated demo</div>
+			<div class="mock-card" style="position:relative;">
+				<span class="dup-arrow">↘</span>
+				<div class="mock-head">
+					<span class="mock-handle"><svg viewBox="0 0 20 20"><path d="M6 4h2v2H6V4zm6 0h2v2h-2V4zM6 9h2v2H6V9zm6 0h2v2h-2V9zm-6 5h2v2H6v-2zm6 0h2v2h-2v-2z"/></svg></span>
+					<span class="mock-label">Image + Text Split</span>
+					<span class="mock-summary">Vision &amp; context</span>
+					<div class="mock-actions"><span class="link">Edit</span><span class="link dup">Duplicate</span><span class="link del">×</span></div>
+				</div>
+			</div>
+			<div class="mock-card dup-clone">
+				<div class="mock-head">
+					<span class="mock-handle"><svg viewBox="0 0 20 20"><path d="M6 4h2v2H6V4zm6 0h2v2h-2V4zM6 9h2v2H6V9zm6 0h2v2h-2V9zm-6 5h2v2H6v-2zm6 0h2v2h-2v-2z"/></svg></span>
+					<span class="mock-label">Image + Text Split</span>
+					<span class="mock-summary">Vision &amp; context <em>(copy)</em></span>
+					<div class="mock-actions"><span class="link">Close</span><span class="link dup">Duplicate</span><span class="link del">×</span></div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- ── 9. Removing ───────────────────────────────────────── -->
+	<section class="section" id="s9">
+		<div class="kicker">Careful — it's permanent on save</div>
+		<h2><span class="num">09</span>Removing a block</h2>
+		<p>Click the red <strong>×</strong> at the end of a card's header. WordPress will ask you to confirm before the block disappears. The change only becomes permanent when you click the <strong>Update</strong> button in the sidebar.</p>
+		<div class="warn"><strong>Undo:</strong> if you removed a block and haven't saved yet, just refresh the page — the database still has the old version. If you've already saved, you can restore from the project's <em>Revisions</em> history (WordPress automatically keeps snapshots).</div>
+	</section>
+
+	<!-- ── 10. Image picker ──────────────────────────────────── -->
+	<section class="section" id="s10">
+		<div class="kicker">Working with images</div>
+		<h2><span class="num">10</span>Image picker &amp; gallery</h2>
+		<h3>Single images</h3>
+		<p>In blocks with a single image (Full-width Image, Image Pair, Image + Text Split):</p>
+		<ul>
+			<li>Click <strong>Select image</strong> to open the WordPress Media Library.</li>
+			<li>Pick an existing image or upload a new one.</li>
+			<li>After selection, the thumbnail appears in the card with <strong>Change image</strong> and <strong>Remove</strong> buttons.</li>
+		</ul>
+
+		<h3>Galleries</h3>
+		<p>In a Gallery block:</p>
+		<ul>
+			<li>Click <strong>Add images</strong> to open the Media Library in multi-select mode — pick as many as you need, they get appended to the end.</li>
+			<li><strong>Drag thumbnails</strong> to reorder them inside the gallery.</li>
+			<li>Click the <strong>×</strong> in the corner of any thumb to remove that image from the gallery (the image stays in your Media Library; it's just not used in this block anymore).</li>
+			<li>Toggle between <strong>2 columns</strong> and <strong>3 columns</strong> with the columns dropdown.</li>
+		</ul>
+		<div class="demo">
+			<div class="demo-label">Animated demo</div>
+			<div class="thumbs-demo thumb-demo-row">
+				<div class="thumb t1">01</div>
+				<div class="thumb t2">02</div>
+				<div class="thumb t3">03</div>
+				<div class="thumb t4">04</div>
+			</div>
+			<p style="font-size: 13px; color: var(--slate-gray); margin: 0;">Drag any thumbnail left or right; neighbours shift to make room.</p>
+		</div>
+		<div class="tip"><strong>Tip:</strong> upload high-resolution images. The theme resizes them automatically for different screens — smaller-than-needed images will look soft on big monitors.</div>
+	</section>
+
+	<!-- ── 11. Project data rows ─────────────────────────────── -->
+	<section class="section" id="s11">
+		<div class="kicker">Facts &amp; figures</div>
+		<h2><span class="num">11</span>Project data rows</h2>
+		<p>The <strong>Project Data</strong> block is a table of label + value pairs — perfect for the "at a glance" strip with GFA, client, completion date, certifications, etc.</p>
+		<ul>
+			<li>Each row has a <strong>Label</strong> (e.g. "GFA") and a <strong>Value</strong> (e.g. "56,000 sqm").</li>
+			<li>Click <strong>Add row</strong> under the list to create another pair.</li>
+			<li>Drag the row handle on the left to reorder rows.</li>
+			<li>Click the <strong>×</strong> on a row to remove just that row.</li>
+		</ul>
+		<p>The block also has an <strong>Overline</strong> (small caps above the heading, usually "PROJECT DATA") and a <strong>Heading</strong> (e.g. "At a glance") — both are optional.</p>
+	</section>
+
+	<!-- ── 12. Featured ──────────────────────────────────────── -->
+	<section class="section" id="s12">
+		<div class="kicker">Home-page promotion</div>
+		<h2><span class="num">12</span>Mark as Featured</h2>
+		<p>In the right-hand sidebar on the project edit screen, find the <strong>Featured project</strong> checkbox. Tick it, then click <strong>Update</strong>. The project now shows up in the Featured section at the top of the Projects page, and a small ★ FEATURED badge appears on its card wherever it's rendered.</p>
+		<div class="tip"><strong>Order of featured projects</strong> follows the project's <em>menu order</em> number (WordPress's built-in sort field, in the Page Attributes box). Lower numbers show first. Set menu order 1 on your flagship, 2 on the next, and so on.</div>
+		<div class="warn"><strong>Keep it curated:</strong> 4 to 8 featured projects works best visually. More than that and the Featured section loses its emphasis.</div>
+	</section>
+
+	<!-- ── 13. Clone a project ───────────────────────────────── -->
+	<section class="section" id="s13">
+		<div class="kicker">Copy a whole project</div>
+		<h2><span class="num">13</span>Clone a project</h2>
+		<p>Cloning creates a new project as a <strong>draft</strong> with everything copied over: blocks, featured image, categories, location, sidebar info, project data rows — the lot. Useful when a new project is similar in structure to an existing one (e.g. two hospitality projects with the same data fields).</p>
+		<p>There are two places to start a clone:</p>
+
+		<h3>From the Projects admin list</h3>
+		<p>Go to <strong>Portfolio</strong> in the left admin menu. Hover over any row — a set of small action links appears under the title: Edit, Quick Edit, Trash, View, and the new <strong>Clone as draft</strong>.</p>
+		<div class="row-mock">
+			<div class="title">Desert Rock Resort</div>
+			<div class="actions">
+				<a>Edit</a><span class="sep">|</span>
+				<a>Quick Edit</a><span class="sep">|</span>
+				<a>Trash</a><span class="sep">|</span>
+				<a>View</a><span class="sep">|</span>
+				<a class="highlight">Clone as draft</a>
+			</div>
+		</div>
+
+		<h3>From inside the project edit screen</h3>
+		<p>Open any saved project. Look at the <strong>Publish</strong> box in the top-right sidebar — there's a <strong>Clone as draft</strong> link with a small "📄" icon next to it.</p>
+		<div class="pub-mock">
+			<div class="pub-mock-head">Publish</div>
+			<div class="pub-mock-section"><span class="dash">●</span> Status: <strong>Published</strong></div>
+			<div class="pub-mock-section"><span class="dash">👁</span> Visibility: <strong>Public</strong></div>
+			<div class="pub-mock-section"><span class="dash">🗓</span> Published on Apr 23, 2026</div>
+			<div class="pub-mock-section highlight"><span class="dash">📄</span> <a href="#">Clone as draft</a></div>
+		</div>
+		<p>Either route drops you straight into the new draft's edit page, titled <em>"(Copy)"</em> of the original. Rename it, tweak the fields, and hit <strong>Publish</strong> when ready.</p>
+		<div class="warn"><strong>Unsaved changes don't clone:</strong> if you start a clone from the edit screen while you have unsaved changes, those changes won't be copied — the clone reads from the last saved version. Save first if your edits matter.</div>
+	</section>
+
+	<!-- ── 14. New project ───────────────────────────────────── -->
+	<section class="section" id="s14">
+		<div class="kicker">From scratch</div>
+		<h2><span class="num">14</span>Create a new project</h2>
+		<p>If you're starting fresh (rather than cloning):</p>
+		<ol class="steps">
+			<li>From the admin menu, click <strong>Portfolio → Add New</strong>.</li>
+			<li>Type the project title at the top.</li>
+			<li>Assign the right <strong>Category</strong> (Sector) and <strong>Location</strong> in the right-hand sidebar.</li>
+			<li>Upload a <strong>Featured Image</strong> — this becomes the hero of the single project page and the thumbnail everywhere else.</li>
+			<li>Fill in the <strong>Project Info</strong> metabox (Client, Contractor, Engineering, Completion Date, etc.) — these drive the sidebar on the live page.</li>
+			<li>Scroll to <strong>ECEC Content Blocks</strong>. Pick a block type from the dropdown and click <strong>Add</strong> to create your first section. Repeat until the page tells the right story.</li>
+			<li>Click <strong>Publish</strong>.</li>
+		</ol>
+		<div class="tip"><strong>Recommended first blocks for any project:</strong> a short Text Paragraph to introduce the project, then a Full-width Image or Image + Text Split for context, then a Project Data block for key stats, then a Gallery at the end.</div>
+	</section>
+
+	<!-- ── 15. Tips & troubleshooting ────────────────────────── -->
+	<section class="section" id="s15">
+		<div class="kicker">Good to know</div>
+		<h2><span class="num">15</span>Tips &amp; troubleshooting</h2>
+
+		<h3>The block editor looks empty / nothing happens when I click</h3>
+		<p>The block UI depends on JavaScript. Try a hard refresh (<span class="kbd">Ctrl</span>+<span class="kbd">Shift</span>+<span class="kbd">R</span> on Windows, <span class="kbd">⌘</span>+<span class="kbd">Shift</span>+<span class="kbd">R</span> on Mac). If it still doesn't appear, check that you're logged in with an account that can edit posts.</p>
+
+		<h3>I deleted a block by mistake</h3>
+		<p>If you <strong>haven't clicked Update yet</strong>, just refresh the page. Your last saved version still has the block. If you've already saved, go to the project edit page and look at the <strong>Revisions</strong> link in the Publish box — pick a previous version to restore.</p>
+
+		<h3>Image caption doesn't show on the live site</h3>
+		<p>Captions only render when they're not empty. Double-check the Caption field in the block. Keep captions short — a photographer credit or location line works best.</p>
+
+		<h3>The Featured section looks too busy</h3>
+		<p>Unfeature some projects (uncheck the Featured box) or tighten the menu-order numbers to decide which appear first. Aim for 4-8 at a time.</p>
+
+		<h3>I cloned a project and both show up on the Projects page</h3>
+		<p>They won't — clones are created as <strong>drafts</strong>. Only <em>published</em> projects appear on the site. The clone stays invisible until you publish it.</p>
+
+		<h3>I don't see the Location dropdown in the sidebar</h3>
+		<p>Scroll further down the right-hand column, or click <strong>Screen Options</strong> at the top-right of the WordPress admin and tick the <strong>Location</strong> checkbox.</p>
+
+		<h3>The block summary doesn't match what I typed</h3>
+		<p>Summaries update on every keystroke. If they look stale, try clicking into another field and back — that forces a refresh. Also, the summary only reads plain text (no HTML) for readability.</p>
+
+		<h3>How do I preview before publishing?</h3>
+		<p>Use the <strong>Preview Changes</strong> button in the Publish box. It opens the draft project in a new tab as it would appear on the live site, without actually publishing.</p>
+	</section>
+
+	</main>
+</div>
+
+<div class="footer">
+	<p><strong>ECEC Engineering Consultants</strong> · Project Editor Guide</p>
+	<p style="margin-top:4px; font-size: 12px; color: var(--silver-sand);">Questions? Contact your site administrator.</p>
+</div>
+
+<script>
+(function () {
+	'use strict';
+
+	// 1. Scroll-triggered fade-in for .section
+	var sections = document.querySelectorAll('.section');
+	if ('IntersectionObserver' in window) {
+		var sectionObserver = new IntersectionObserver(function (entries) {
+			entries.forEach(function (e) {
+				if (e.isIntersecting) {
+					e.target.classList.add('in-view');
+					sectionObserver.unobserve(e.target);
+				}
+			});
+		}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+		sections.forEach(function (s) { sectionObserver.observe(s); });
+	} else {
+		sections.forEach(function (s) { s.classList.add('in-view'); });
+	}
+
+	// 2. TOC active-link highlighting based on scroll position
+	var tocLinks = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+	var tocMap = {};
+	tocLinks.forEach(function (a) {
+		var id = a.getAttribute('href').slice(1);
+		tocMap[id] = a;
+	});
+
+	if ('IntersectionObserver' in window) {
+		var tocObserver = new IntersectionObserver(function (entries) {
+			entries.forEach(function (e) {
+				var link = tocMap[e.target.id];
+				if (!link) return;
+				if (e.isIntersecting) {
+					tocLinks.forEach(function (a) { a.classList.remove('active'); });
+					link.classList.add('active');
+				}
+			});
+		}, { rootMargin: '-30% 0px -60% 0px' });
+		sections.forEach(function (s) { if (s.id) tocObserver.observe(s); });
+	}
+
+	// 3. Mock "Edit/Close" toggle inside the Anatomy demo — clickable so
+	//    readers can poke around instead of just watching the auto-demos.
+	document.querySelectorAll('#s3 .mock-actions .link').forEach(function (el) {
+		if (el.textContent.trim() !== 'Edit' && el.textContent.trim() !== 'Close') return;
+		el.style.cursor = 'pointer';
+		el.addEventListener('click', function () {
+			var card = el.closest('.mock-card');
+			if (!card) return;
+			card.classList.toggle('active');
+			var body = card.querySelector('.mock-body');
+			if (body) body.classList.toggle('open');
+			el.textContent = el.textContent.trim() === 'Edit' ? 'Close' : 'Edit';
+		});
+	});
+})();
+</script>
+
+</body>
+</html>

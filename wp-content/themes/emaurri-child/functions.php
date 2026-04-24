@@ -528,3 +528,340 @@ function ecec_team_grid_shortcode( $atts ) {
 	return ob_get_clean();
 }
 add_shortcode( 'ecec_team_grid', 'ecec_team_grid_shortcode' );
+
+// ─── Single-Project Content Blocks: admin metabox (drag-sort repeater UI) ─
+// Stores a JSON array of block objects in `_ecec_blocks` meta on portfolio-item.
+// Block schemas (v1):
+//   { "type": "text-paragraph",    "body": "..." }
+//   { "type": "full-image",        "image_id": 123, "caption": "..." }
+//   { "type": "image-pair",        "image_id_left": 12, "image_id_right": 34, "caption_left": "...", "caption_right": "..." }
+//   { "type": "image-text-split",  "image_id": 123, "overline": "...", "heading": "...", "body": "...", "image_side": "left"|"right" }
+//   { "type": "project-data",      "overline": "PROJECT DATA", "heading": "...", "rows": [ { "label": "GFA", "value": "56,000 sqm" } ] }
+//   { "type": "pull-quote",        "quote": "...", "attribution": "..." }
+//   { "type": "gallery",           "image_ids": [12, 34, 56], "columns": 3 }
+//
+// The UI is rendered by assets/admin-blocks-repeater.js — it reads and writes a
+// hidden textarea (`ecec_blocks_json`) which the save handler below sanitizes.
+function ecec_blocks_add_metabox() {
+	add_meta_box(
+		'ecec-blocks-metabox',
+		'ECEC Content Blocks',
+		'ecec_blocks_render_metabox',
+		'portfolio-item',
+		'normal',
+		'high'
+	);
+}
+add_action( 'add_meta_boxes', 'ecec_blocks_add_metabox' );
+
+function ecec_blocks_get_saved_json( $post_id ) {
+	$raw = get_post_meta( $post_id, '_ecec_blocks', true );
+	if ( is_array( $raw ) ) {
+		return wp_json_encode( $raw, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+	}
+	if ( is_string( $raw ) && $raw !== '' ) {
+		$decoded = json_decode( $raw, true );
+		if ( is_array( $decoded ) ) {
+			return wp_json_encode( $decoded, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+		}
+		return $raw;
+	}
+	return '[]';
+}
+
+function ecec_blocks_render_metabox( $post ) {
+	$value = ecec_blocks_get_saved_json( $post->ID );
+	wp_nonce_field( 'ecec_blocks_save', 'ecec_blocks_nonce' );
+	$block_types = [
+		'text-paragraph'   => 'Text Paragraph',
+		'full-image'       => 'Full-width Image',
+		'image-pair'       => 'Image Pair (side by side)',
+		'image-text-split' => 'Image + Text (split)',
+		'project-data'     => 'Project Data Table',
+		'pull-quote'       => 'Pull Quote',
+		'gallery'          => 'Gallery',
+	];
+	?>
+	<p style="margin: 0 0 10px;">Build the project page by stacking blocks. Drag the <span class="dashicons dashicons-menu" style="color:#8c8f94"></span> handle to reorder. Leave empty to fall back to the legacy description + media grid.</p>
+	<div id="ecec-blocks-repeater">
+		<div class="ecec-blocks-toolbar">
+			<label class="ecec-blocks-toolbar-label" for="ecec_add_block_type">Add block:</label>
+			<select id="ecec_add_block_type" class="ecec-add-block-type">
+				<?php foreach ( $block_types as $key => $label ) : ?>
+					<option value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $label ); ?></option>
+				<?php endforeach; ?>
+			</select>
+			<button type="button" class="button button-primary ecec-add-block-btn">Add</button>
+		</div>
+		<div class="ecec-blocks-empty" style="display:none">
+			<p>No blocks yet — pick a type above and click <strong>Add</strong>.</p>
+		</div>
+		<div class="ecec-blocks-list"></div>
+	</div>
+	<textarea name="ecec_blocks_json" id="ecec_blocks_json" aria-hidden="true" tabindex="-1"><?php echo esc_textarea( $value ); ?></textarea>
+	<?php
+}
+
+function ecec_blocks_admin_enqueue( $hook ) {
+	if ( $hook !== 'post.php' && $hook !== 'post-new.php' ) { return; }
+	$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+	if ( ! $screen || $screen->post_type !== 'portfolio-item' ) { return; }
+
+	wp_enqueue_media();
+
+	$theme_dir = get_stylesheet_directory();
+	$theme_uri = get_stylesheet_directory_uri();
+	$js_path   = $theme_dir . '/assets/admin-blocks-repeater.js';
+	$css_path  = $theme_dir . '/assets/admin-blocks-repeater.css';
+
+	wp_enqueue_style(
+		'ecec-blocks-repeater',
+		$theme_uri . '/assets/admin-blocks-repeater.css',
+		[],
+		file_exists( $css_path ) ? filemtime( $css_path ) : null
+	);
+
+	wp_enqueue_script(
+		'ecec-blocks-repeater',
+		$theme_uri . '/assets/admin-blocks-repeater.js',
+		[ 'jquery', 'jquery-ui-sortable', 'wp-util' ],
+		file_exists( $js_path ) ? filemtime( $js_path ) : null,
+		true
+	);
+
+	// Pre-resolve attachment thumbnails for all image IDs referenced in the
+	// current block state, so the UI can show thumbs on first render without
+	// an AJAX round-trip.
+	$post_id   = get_the_ID();
+	$image_ids = [];
+	if ( $post_id ) {
+		$raw     = get_post_meta( $post_id, '_ecec_blocks', true );
+		$decoded = is_array( $raw ) ? $raw : ( is_string( $raw ) ? json_decode( $raw, true ) : [] );
+		if ( is_array( $decoded ) ) {
+			foreach ( $decoded as $block ) {
+				if ( ! is_array( $block ) ) { continue; }
+				foreach ( [ 'image_id', 'image_id_left', 'image_id_right' ] as $k ) {
+					if ( ! empty( $block[ $k ] ) ) { $image_ids[] = (int) $block[ $k ]; }
+				}
+				if ( ! empty( $block['image_ids'] ) && is_array( $block['image_ids'] ) ) {
+					foreach ( $block['image_ids'] as $id ) { $image_ids[] = (int) $id; }
+				}
+			}
+		}
+	}
+	$image_ids   = array_values( array_unique( array_filter( $image_ids ) ) );
+	$attachments = [];
+	foreach ( $image_ids as $id ) {
+		$thumb = wp_get_attachment_image_url( $id, 'thumbnail' );
+		if ( $thumb ) {
+			$attachments[ $id ] = [
+				'thumb' => $thumb,
+				'title' => get_the_title( $id ),
+			];
+		}
+	}
+	wp_localize_script( 'ecec-blocks-repeater', 'ECEC_BLOCKS_BOOT', [
+		'attachments' => (object) $attachments,
+	] );
+}
+add_action( 'admin_enqueue_scripts', 'ecec_blocks_admin_enqueue' );
+
+function ecec_blocks_save( $post_id ) {
+	if ( ! isset( $_POST['ecec_blocks_nonce'] ) || ! wp_verify_nonce( $_POST['ecec_blocks_nonce'], 'ecec_blocks_save' ) ) { return; }
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) { return; }
+	if ( ! current_user_can( 'edit_post', $post_id ) ) { return; }
+	if ( get_post_type( $post_id ) !== 'portfolio-item' ) { return; }
+
+	$raw = isset( $_POST['ecec_blocks_json'] ) ? wp_unslash( $_POST['ecec_blocks_json'] ) : '';
+	$raw = trim( $raw );
+
+	if ( $raw === '' || $raw === '[]' ) {
+		delete_post_meta( $post_id, '_ecec_blocks' );
+		return;
+	}
+	$decoded = json_decode( $raw, true );
+	if ( ! is_array( $decoded ) ) { return; } // Keep previous value; the frontend has a status indicator warning the editor.
+
+	// Sanitize each block minimally (type is required; strings get wp_kses_post on rich fields).
+	$clean = [];
+	foreach ( $decoded as $block ) {
+		if ( ! is_array( $block ) || empty( $block['type'] ) ) { continue; }
+		$type = sanitize_key( $block['type'] );
+		$b = [ 'type' => $type ];
+		// Common sanitizers
+		if ( isset( $block['body'] ) )        { $b['body']       = wp_kses_post( $block['body'] ); }
+		if ( isset( $block['caption'] ) )     { $b['caption']    = sanitize_text_field( $block['caption'] ); }
+		if ( isset( $block['overline'] ) )    { $b['overline']   = sanitize_text_field( $block['overline'] ); }
+		if ( isset( $block['heading'] ) )     { $b['heading']    = sanitize_text_field( $block['heading'] ); }
+		if ( isset( $block['image_id'] ) )    { $b['image_id']   = (int) $block['image_id']; }
+		if ( isset( $block['image_id_left'] ) )  { $b['image_id_left']  = (int) $block['image_id_left']; }
+		if ( isset( $block['image_id_right'] ) ) { $b['image_id_right'] = (int) $block['image_id_right']; }
+		if ( isset( $block['caption_left'] ) )   { $b['caption_left']   = sanitize_text_field( $block['caption_left'] ); }
+		if ( isset( $block['caption_right'] ) )  { $b['caption_right']  = sanitize_text_field( $block['caption_right'] ); }
+		if ( isset( $block['image_side'] ) )  { $b['image_side'] = $block['image_side'] === 'right' ? 'right' : 'left'; }
+		if ( isset( $block['quote'] ) )       { $b['quote']      = wp_kses_post( $block['quote'] ); }
+		if ( isset( $block['attribution'] ) ) { $b['attribution'] = sanitize_text_field( $block['attribution'] ); }
+		if ( isset( $block['columns'] ) )     { $b['columns']    = (int) $block['columns'] === 2 ? 2 : 3; }
+		if ( isset( $block['image_ids'] ) && is_array( $block['image_ids'] ) ) {
+			$b['image_ids'] = array_values( array_filter( array_map( 'intval', $block['image_ids'] ) ) );
+		}
+		if ( isset( $block['rows'] ) && is_array( $block['rows'] ) ) {
+			$rows = [];
+			foreach ( $block['rows'] as $row ) {
+				if ( ! is_array( $row ) ) { continue; }
+				$rows[] = [
+					'label' => isset( $row['label'] ) ? sanitize_text_field( $row['label'] ) : '',
+					'value' => isset( $row['value'] ) ? sanitize_text_field( $row['value'] ) : '',
+				];
+			}
+			$b['rows'] = $rows;
+		}
+		$clean[] = $b;
+	}
+	update_post_meta( $post_id, '_ecec_blocks', wp_slash( wp_json_encode( $clean, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) ) );
+}
+add_action( 'save_post_portfolio-item', 'ecec_blocks_save' );
+
+// ─── Portfolio: "Clone as draft" row action ──────────────────────────────
+// Adds a Clone link under each portfolio-item in the admin list. Copies the
+// post content, taxonomies, and all meta (including `_ecec_blocks`,
+// `qodef_portfolio_info_items`, thumbnail) into a new draft, then redirects
+// to the edit screen. Internal edit locks are skipped.
+function ecec_portfolio_row_actions( $actions, $post ) {
+	if ( ! isset( $post->post_type ) || $post->post_type !== 'portfolio-item' ) { return $actions; }
+	if ( ! current_user_can( 'edit_post', $post->ID ) ) { return $actions; }
+	$url = wp_nonce_url(
+		admin_url( 'admin-post.php?action=ecec_duplicate_portfolio&post=' . $post->ID ),
+		'ecec_duplicate_portfolio_' . $post->ID
+	);
+	$actions['ecec_duplicate'] = '<a href="' . esc_url( $url ) . '" aria-label="Clone this project as a draft">Clone as draft</a>';
+	return $actions;
+}
+add_filter( 'post_row_actions', 'ecec_portfolio_row_actions', 10, 2 );
+
+function ecec_duplicate_portfolio_handler() {
+	if ( empty( $_GET['post'] ) ) { wp_die( 'No source project specified.' ); }
+	$src_id = (int) $_GET['post'];
+	check_admin_referer( 'ecec_duplicate_portfolio_' . $src_id );
+	if ( ! current_user_can( 'edit_post', $src_id ) ) { wp_die( 'You are not allowed to clone this project.' ); }
+
+	$src = get_post( $src_id );
+	if ( ! $src || $src->post_type !== 'portfolio-item' ) { wp_die( 'Source is not a portfolio project.' ); }
+
+	$new_id = wp_insert_post( [
+		'post_type'    => 'portfolio-item',
+		'post_status'  => 'draft',
+		'post_title'   => $src->post_title . ' (Copy)',
+		'post_content' => $src->post_content,
+		'post_excerpt' => $src->post_excerpt,
+		'post_author'  => get_current_user_id(),
+		'menu_order'   => $src->menu_order,
+		'comment_status' => $src->comment_status,
+		'ping_status'    => $src->ping_status,
+	], true );
+	if ( is_wp_error( $new_id ) ) { wp_die( 'Clone failed: ' . esc_html( $new_id->get_error_message() ) ); }
+
+	// Copy taxonomies (categories, locations, tags, …).
+	$taxonomies = get_object_taxonomies( 'portfolio-item' );
+	foreach ( $taxonomies as $tax ) {
+		$terms = wp_get_object_terms( $src_id, $tax, [ 'fields' => 'ids' ] );
+		if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
+			wp_set_object_terms( $new_id, array_map( 'intval', $terms ), $tax );
+		}
+	}
+
+	// Copy post meta (skip WP-internal edit locks). `maybe_unserialize` avoids
+	// double-serialization on array/object values.
+	$skip_meta = [ '_edit_lock', '_edit_last' ];
+	$meta = get_post_meta( $src_id );
+	if ( is_array( $meta ) ) {
+		foreach ( $meta as $key => $values ) {
+			if ( in_array( $key, $skip_meta, true ) ) { continue; }
+			foreach ( (array) $values as $v ) {
+				add_post_meta( $new_id, $key, maybe_unserialize( $v ) );
+			}
+		}
+	}
+
+	wp_safe_redirect( admin_url( 'post.php?action=edit&post=' . $new_id ) );
+	exit;
+}
+add_action( 'admin_post_ecec_duplicate_portfolio', 'ecec_duplicate_portfolio_handler' );
+
+// Clone button inside the Publish sidebar on the portfolio-item edit screen.
+// Hidden on auto-drafts so users don't try to clone a post before it has any
+// saved content.
+function ecec_portfolio_submitbox_clone_button( $post ) {
+	if ( ! isset( $post->post_type ) || $post->post_type !== 'portfolio-item' ) { return; }
+	if ( ! current_user_can( 'edit_post', $post->ID ) ) { return; }
+	if ( $post->post_status === 'auto-draft' ) { return; }
+	$url = wp_nonce_url(
+		admin_url( 'admin-post.php?action=ecec_duplicate_portfolio&post=' . $post->ID ),
+		'ecec_duplicate_portfolio_' . $post->ID
+	);
+	?>
+	<div class="misc-pub-section ecec-clone-section">
+		<span class="dashicons dashicons-admin-page" style="color:#8c8f94; vertical-align:middle; margin-right:2px;"></span>
+		<a href="<?php echo esc_url( $url ); ?>" class="ecec-clone-link" onclick="return confirm('Clone the last saved version of this project as a new draft?\n\nUnsaved changes on this screen will NOT be copied — save first if you want to include them.');">Clone as draft</a>
+		<p class="description" style="margin: 6px 0 0 0; font-size: 11px; color: #646970;">Creates a new project with all blocks, info, images, and categories copied over.</p>
+	</div>
+	<?php
+}
+add_action( 'post_submitbox_misc_actions', 'ecec_portfolio_submitbox_clone_button' );
+
+// ─── Services: Vertical Divided List shortcode ──────────────────────────
+// Renders ECEC's 7 service offerings as a vertical list with thin dividers
+// between items. Service copy matches ecec.co verbatim. Content is
+// hard-coded here for PoC; move to CPT when/if client wants self-edit.
+function ecec_services_list_shortcode( $atts ) {
+	$services = [
+		[
+			'name' => 'Structural Engineering',
+			'body' => 'Our team of experienced structural engineers provides innovative and cost-effective solutions for a wide range of structural projects. We specialize in the design and analysis of buildings, bridges, towers, and other structures.',
+		],
+		[
+			'name' => 'MEP Engineering',
+			'body' => 'We offer MEP design and engineering services that cover all aspects of building services, including HVAC systems, electrical systems, plumbing systems, fire protection systems, and more.',
+		],
+		[
+			'name' => 'Acoustic Engineering',
+			'body' => 'Our acoustic engineers provide expert advice on noise and vibration control, acoustic design, and environmental acoustics. We offer comprehensive solutions that optimize acoustical performance in buildings, transportation systems, and other structures.',
+		],
+		[
+			'name' => 'Building Information Modeling',
+			'body' => 'Our BIM services cover the entire project lifecycle, from concept design to construction and maintenance. We use the latest BIM software to create 3D models that allow for accurate visualization, clash detection, and coordination.',
+		],
+		[
+			'name' => 'ICT Solutions & Services',
+			'body' => 'We offer a wide range of ICT solutions and services, including network design and implementation, software development, cybersecurity, and IT consulting. Our team is committed to providing cutting-edge technology solutions that enhance productivity and efficiency.',
+		],
+		[
+			'name' => 'Security Consulting & Engineering',
+			'body' => 'Our security experts provide comprehensive security consulting and engineering services, including risk assessments, security system design, and physical security solutions. We work with clients to develop customized security solutions that meet their unique needs and mitigate potential threats.',
+		],
+		[
+			'name' => 'Supplementary Engineering Services',
+			'body' => 'We work closely with our network of associates to provide supplementary engineering services, including fire and life safety consultancy, specialist lighting consultancy, vertical transportation, and waste management. Our team ensures that all aspects of the project are completed to the highest standards of quality and efficiency.',
+		],
+	];
+
+	ob_start();
+	?>
+	<section class="ecec-services-list" aria-label="ECEC engineering services">
+		<ol class="ecec-services-list__items">
+			<?php foreach ( $services as $i => $svc ) :
+				$index = sprintf( '%02d', $i + 1 );
+				?>
+				<li class="ecec-services-list__item">
+					<div class="ecec-services-list__index" aria-hidden="true"><?php echo esc_html( $index ); ?></div>
+					<div class="ecec-services-list__name"><?php echo esc_html( $svc['name'] ); ?></div>
+					<div class="ecec-services-list__body"><?php echo esc_html( $svc['body'] ); ?></div>
+					<div class="ecec-services-list__arrow" aria-hidden="true">&rarr;</div>
+				</li>
+			<?php endforeach; ?>
+		</ol>
+	</section>
+	<?php
+	return ob_get_clean();
+}
+add_shortcode( 'ecec_services_list', 'ecec_services_list_shortcode' );

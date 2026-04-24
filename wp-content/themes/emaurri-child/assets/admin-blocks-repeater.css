@@ -1,0 +1,303 @@
+/*
+ * ECEC single-project blocks — admin repeater UI.
+ * Styles scoped under #ecec-blocks-repeater.
+ */
+
+#ecec_blocks_json { display: none !important; }
+
+#ecec-blocks-repeater {
+	margin-top: 4px;
+}
+
+#ecec-blocks-repeater .ecec-blocks-toolbar {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 12px;
+	background: #f6f7f7;
+	border: 1px solid #dcdcde;
+	border-radius: 3px;
+	margin-bottom: 12px;
+}
+
+#ecec-blocks-repeater .ecec-blocks-toolbar-label {
+	font-weight: 600;
+	color: #1d2327;
+}
+
+#ecec-blocks-repeater .ecec-add-block-type {
+	min-width: 220px;
+}
+
+#ecec-blocks-repeater .ecec-blocks-empty {
+	padding: 16px 18px;
+	background: #fff;
+	border: 1px dashed #c3c4c7;
+	border-radius: 3px;
+	color: #50575e;
+	font-size: 13px;
+}
+
+#ecec-blocks-repeater .ecec-blocks-empty p { margin: 0; }
+
+/* --- Block cards --- */
+
+#ecec-blocks-repeater .ecec-blocks-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+#ecec-blocks-repeater .ecec-block-card {
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 3px;
+	box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+}
+
+#ecec-blocks-repeater .ecec-block-card.is-expanded {
+	border-color: #2271b1;
+	box-shadow: 0 0 0 1px #2271b1;
+}
+
+#ecec-blocks-repeater .ecec-block-placeholder {
+	border: 2px dashed #2271b1;
+	background: #f0f6fc;
+	border-radius: 3px;
+	height: 48px;
+	margin: 0;
+	list-style: none;
+}
+
+#ecec-blocks-repeater .ecec-block-head {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 12px;
+}
+
+#ecec-blocks-repeater .ecec-block-handle {
+	cursor: grab;
+	color: #8c8f94;
+}
+
+#ecec-blocks-repeater .ecec-block-handle:active { cursor: grabbing; }
+
+#ecec-blocks-repeater .ecec-block-label {
+	font-weight: 600;
+	color: #1d2327;
+	min-width: 180px;
+}
+
+#ecec-blocks-repeater .ecec-block-summary {
+	flex: 1;
+	color: #50575e;
+	font-size: 12px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#ecec-blocks-repeater .ecec-block-toggle,
+#ecec-blocks-repeater .ecec-block-duplicate {
+	color: #2271b1;
+	font-weight: 500;
+}
+
+#ecec-blocks-repeater .ecec-block-duplicate { color: #646970; }
+#ecec-blocks-repeater .ecec-block-duplicate:hover { color: #2271b1; }
+
+#ecec-blocks-repeater .ecec-block-delete {
+	color: #b32d2e;
+	font-size: 18px;
+	line-height: 1;
+	padding: 0 4px;
+	text-decoration: none;
+}
+
+#ecec-blocks-repeater .ecec-block-delete:hover { color: #d63638; }
+
+#ecec-blocks-repeater .ecec-block-body {
+	display: none;
+	padding: 14px 16px 16px;
+	border-top: 1px solid #f0f0f1;
+}
+
+#ecec-blocks-repeater .ecec-block-card.is-expanded .ecec-block-body {
+	display: block;
+}
+
+/* --- Fields --- */
+
+#ecec-blocks-repeater .ecec-field {
+	margin-bottom: 14px;
+}
+
+#ecec-blocks-repeater .ecec-field:last-child { margin-bottom: 0; }
+
+#ecec-blocks-repeater .ecec-field-label {
+	display: block;
+	font-weight: 600;
+	font-size: 12px;
+	color: #1d2327;
+	margin-bottom: 5px;
+}
+
+#ecec-blocks-repeater input[type="text"].ecec-field-input,
+#ecec-blocks-repeater textarea.ecec-field-input,
+#ecec-blocks-repeater select.ecec-field-input {
+	width: 100%;
+	max-width: 680px;
+}
+
+#ecec-blocks-repeater textarea.ecec-field-input {
+	font-family: inherit;
+	line-height: 1.5;
+}
+
+/* --- Image picker (single) --- */
+
+#ecec-blocks-repeater .ecec-image-picker {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+#ecec-blocks-repeater .ecec-image-picker__preview {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+#ecec-blocks-repeater .ecec-image-picker__thumb {
+	width: 120px;
+	height: 120px;
+	object-fit: cover;
+	border: 1px solid #dcdcde;
+	border-radius: 3px;
+	background: #f6f7f7;
+	display: block;
+}
+
+#ecec-blocks-repeater .ecec-image-picker__meta {
+	font-size: 11px;
+	color: #646970;
+	max-width: 120px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#ecec-blocks-repeater .ecec-image-picker__actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding-top: 4px;
+}
+
+#ecec-blocks-repeater .ecec-image-missing {
+	color: #b32d2e;
+	font-size: 12px;
+	margin-left: 6px;
+}
+
+/* --- Gallery editor --- */
+
+#ecec-blocks-repeater .ecec-gallery-editor { }
+
+#ecec-blocks-repeater .ecec-gallery-thumbs {
+	list-style: none;
+	padding: 0;
+	margin: 0 0 10px 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+	gap: 8px;
+}
+
+#ecec-blocks-repeater .ecec-gallery-thumb {
+	position: relative;
+	aspect-ratio: 1 / 1;
+	border: 1px solid #dcdcde;
+	border-radius: 3px;
+	overflow: hidden;
+	background: #f6f7f7;
+	cursor: grab;
+}
+
+#ecec-blocks-repeater .ecec-gallery-thumb:active { cursor: grabbing; }
+
+#ecec-blocks-repeater .ecec-gallery-thumb img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+#ecec-blocks-repeater .ecec-gallery-thumb__placeholder {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	color: #646970;
+	font-size: 12px;
+}
+
+#ecec-blocks-repeater .ecec-gallery-remove {
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	background: rgba(0,0,0,0.6);
+	color: #fff;
+	border: 0;
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	font-size: 16px;
+	line-height: 1;
+	cursor: pointer;
+	padding: 0;
+}
+
+#ecec-blocks-repeater .ecec-gallery-remove:hover { background: #d63638; }
+
+/* --- Project-data rows --- */
+
+#ecec-blocks-repeater .ecec-rows {
+	list-style: none;
+	padding: 0;
+	margin: 0 0 10px 0;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+#ecec-blocks-repeater .ecec-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 8px;
+	background: #f6f7f7;
+	border: 1px solid #dcdcde;
+	border-radius: 3px;
+}
+
+#ecec-blocks-repeater .ecec-row-handle {
+	cursor: grab;
+	color: #8c8f94;
+}
+
+#ecec-blocks-repeater .ecec-row-handle:active { cursor: grabbing; }
+
+#ecec-blocks-repeater .ecec-row-label { flex: 0 0 200px; }
+#ecec-blocks-repeater .ecec-row-value { flex: 1; }
+
+#ecec-blocks-repeater .ecec-row-remove {
+	color: #b32d2e;
+	font-size: 18px;
+	line-height: 1;
+	padding: 0 4px;
+	text-decoration: none;
+}
+
+#ecec-blocks-repeater .ecec-row-remove:hover { color: #d63638; }

@@ -93,8 +93,18 @@
     <li><a href="#proj3">How the Filter Bar Works (Search / Type / Location)</a></li>
     <li><a href="#proj4">Rename the FEATURED / RECENT PROJECTS Tabs</a></li>
   </ol>
-  <p style="margin: 15px 0 5px; font-weight: 600;">Reference</p>
+  <p style="margin: 15px 0 5px; font-weight: 600;">Part E &mdash; Services Page (Preview)</p>
   <ol start="21">
+    <li><a href="#srv1">Open the Services Preview in Elementor</a></li>
+    <li><a href="#srv2">Edit the Hero Title &amp; Intro Text</a></li>
+    <li><a href="#srv3">Change the Three Decorative Images</a></li>
+    <li><a href="#srv4">Update the Progress Bars &amp; Counter Numbers</a></li>
+    <li><a href="#srv5">Edit, Add, Remove or Reorder Services (Accordion)</a></li>
+    <li><a href="#srv6">Change the "Explore" Button Link</a></li>
+    <li><a href="#srv7">Preview vs. Live Page — What&rsquo;s the Difference?</a></li>
+  </ol>
+  <p style="margin: 15px 0 5px; font-weight: 600;">Reference</p>
+  <ol start="28">
     <li><a href="#reference">Quick Reference &amp; Admin URLs</a></li>
   </ol>
 </div>
@@ -673,6 +683,164 @@
   </div>
 </div>
 
+<!-- =============================================
+     PART E: SERVICES PAGE (PREVIEW)
+     ============================================= -->
+<h2>Part E &mdash; Services Page (Preview)</h2>
+
+<p>
+  We built a <strong>preview</strong> of a new Services page at
+  <code>/our-services-preview/</code>, based on the Emaurri theme's demo layout
+  with ECEC's own narrative. It sits alongside the approved
+  <code>/our-services/</code> page &mdash; both are live, you pick the one to
+  keep.
+</p>
+
+<p>
+  The preview is a <strong>real Elementor page</strong>, so every text box,
+  number, image and accordion item can be edited inline without a developer.
+  This section is a short how-to for the most common edits.
+</p>
+
+<div class="note">
+  <strong>Live preview URL:</strong> <code>/our-services-preview/</code>
+  (staging).
+  When the preview is approved, we promote it to <code>/our-services/</code>
+  and retire the current version.
+</div>
+
+<!-- SRV STEP 1 -->
+<div class="step" id="srv1">
+  <h3><span class="step-number">21</span><span class="step-title">Open the Services Preview in Elementor</span></h3>
+  <ol>
+    <li>From the admin sidebar, go to <strong>Pages</strong>.</li>
+    <li>Find the row titled <strong>Our Services (Preview)</strong> and click it.</li>
+    <li>At the top, click the blue <strong>Edit with Elementor</strong> button.</li>
+    <li>The page opens in the Elementor editor. Widgets are shown on the left; the live canvas is on the right. Click any widget on the canvas to edit its settings on the left.</li>
+    <li>Always click the green <strong>UPDATE</strong> button at the bottom-left when you're done.</li>
+  </ol>
+  <div class="tip">
+    <strong>Tip:</strong> to see the page as visitors see it (without editor chrome), click the eye icon next to UPDATE to preview.
+  </div>
+</div>
+
+<!-- SRV STEP 2 -->
+<div class="step" id="srv2">
+  <h3><span class="step-number">22</span><span class="step-title">Edit the Hero Title &amp; Intro Text</span></h3>
+  <p>The first section is the hero: a large decorative image on the left, a headline plus intro paragraph plus an <strong>explore</strong> button on the right.</p>
+  <ol>
+    <li>Click the <strong>headline text</strong> in the canvas. The left panel now shows a &ldquo;Section Title&rdquo; widget.</li>
+    <li>Edit the <strong>Title</strong> field &mdash; that's the big line (&ldquo;At ECEC, we recognize&hellip;&rdquo;).</li>
+    <li>Edit the <strong>Text</strong> field right below &mdash; that's the paragraph under the title.</li>
+    <li>Changes show live on the canvas as you type.</li>
+    <li>Click <strong>UPDATE</strong>.</li>
+  </ol>
+</div>
+
+<!-- SRV STEP 3 -->
+<div class="step" id="srv3">
+  <h3><span class="step-number">23</span><span class="step-title">Change the Three Decorative Images</span></h3>
+  <p>The page has three big photos: one in the hero, one beside the Progress bars, and one beside the services accordion. They're all showing the Desert Rock Resort image by default.</p>
+  <ol>
+    <li>Click the image you want to replace on the canvas.</li>
+    <li>In the left panel, click the <strong>thumbnail preview</strong> under the &ldquo;Image&rdquo; field.</li>
+    <li>The WordPress Media Library opens. Upload a new image or pick an existing one.</li>
+    <li>Click <strong>Insert Media</strong>.</li>
+    <li>Repeat for the other two images. Click <strong>UPDATE</strong>.</li>
+  </ol>
+  <div class="tip">
+    <strong>Suggested images:</strong> architectural / interior shots that feel premium. Landscape orientation works best; minimum 1600&times;1000&nbsp;px for sharpness on large screens.
+  </div>
+</div>
+
+<!-- SRV STEP 4 -->
+<div class="step" id="srv4">
+  <h3><span class="step-number">24</span><span class="step-title">Update the Progress Bars &amp; Counter Numbers</span></h3>
+  <p>The page displays <strong>three progress bars</strong> (80&nbsp;projects, 60&nbsp;clients, 10&nbsp;sectors) and <strong>four counters</strong> (25 years, 60 partners, 50 clients, 12 active projects). All are placeholders &mdash; please replace with the real figures.</p>
+  <p><strong>To edit a progress bar:</strong></p>
+  <ol>
+    <li>Click the progress bar on the canvas.</li>
+    <li>Change the <strong>Number</strong> field (e.g. <code>80</code>).</li>
+    <li>Change the <strong>Title</strong> field (e.g. <code>projects</code>).</li>
+  </ol>
+  <p><strong>To edit a counter:</strong></p>
+  <ol>
+    <li>Click the counter number on the canvas.</li>
+    <li>Change the <strong>End Digit</strong> (that's the final number the counter animates to).</li>
+    <li>Change the <strong>Text</strong> field (the label underneath).</li>
+  </ol>
+  <p>Click <strong>UPDATE</strong> when done.</p>
+</div>
+
+<!-- SRV STEP 5 -->
+<div class="step" id="srv5">
+  <h3><span class="step-number">25</span><span class="step-title">Edit, Add, Remove or Reorder Services (Accordion)</span></h3>
+  <p>The accordion at the bottom holds all <strong>7 services</strong>: Structural, MEP, Acoustic, BIM, ICT, Security, Supplementary. Each row has a title (ALL CAPS) and a body description.</p>
+  <p><strong>To edit an existing service:</strong></p>
+  <ol>
+    <li>Click any accordion row on the canvas.</li>
+    <li>In the left panel, under the <strong>Accordion Items</strong> repeater, click the item you want to edit.</li>
+    <li>Change the <strong>Title</strong> and the <strong>Content</strong> (rich-text).</li>
+  </ol>
+  <p><strong>To add a new service:</strong></p>
+  <ol>
+    <li>Click the accordion on the canvas.</li>
+    <li>At the bottom of the Accordion Items list, click <strong>+ ADD ITEM</strong>.</li>
+    <li>Fill in the Title and Content.</li>
+  </ol>
+  <p><strong>To remove a service:</strong></p>
+  <ol>
+    <li>Click the accordion on the canvas.</li>
+    <li>In the Accordion Items list, open the item and click the small <strong>&times;</strong> in its header.</li>
+  </ol>
+  <p><strong>To reorder services:</strong></p>
+  <ol>
+    <li>Click the accordion on the canvas.</li>
+    <li>In the Accordion Items list, drag items up or down using the handle at the left of each row.</li>
+  </ol>
+  <p>Click <strong>UPDATE</strong> when done.</p>
+</div>
+
+<!-- SRV STEP 6 -->
+<div class="step" id="srv6">
+  <h3><span class="step-number">26</span><span class="step-title">Change the "Explore" Button Link</span></h3>
+  <p>The button at the end of the hero currently links to <code>/projects/</code>. To retarget it:</p>
+  <ol>
+    <li>Click the <strong>explore</strong> button on the canvas.</li>
+    <li>In the left panel, scroll to the <strong>Link</strong> field.</li>
+    <li>Type or paste a new URL. Full URLs (<code>https://&hellip;</code>) and site-relative ones (<code>/about-us/</code>) both work.</li>
+    <li>If you want the button to scroll to a section on the same page, enter <code>#section-id</code> (ask a developer for the section ID first).</li>
+  </ol>
+  <p>Click <strong>UPDATE</strong>.</p>
+</div>
+
+<!-- SRV STEP 7 -->
+<div class="step" id="srv7">
+  <h3><span class="step-number">27</span><span class="step-title">Preview vs. Live Page &mdash; What's the Difference?</span></h3>
+  <p>Both versions of the Services page are currently live:</p>
+  <table class="field-table">
+    <thead>
+      <tr><th>URL</th><th>What it looks like</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>/our-services/</code></td>
+        <td>Clean vertical list: &ldquo;Portfolio of Services&rdquo; + 7 numbered services + &ldquo;Sectors we serve&rdquo;</td>
+        <td>Currently approved</td>
+      </tr>
+      <tr>
+        <td><code>/our-services-preview/</code></td>
+        <td>Magazine layout with hero, progress bars, counters, FAQ-style accordion</td>
+        <td>New option</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Pick one. When you decide, let a developer know and they'll promote the winner to <code>/our-services/</code> and remove the other.</p>
+  <div class="warning">
+    <strong>Don't edit the live <code>/our-services/</code> through Elementor.</strong> It uses a different layout (classic list) and was approved as-is. Changes happen on <code>/our-services-preview/</code> until a choice is made.
+  </div>
+</div>
+
 <!-- REFERENCE -->
 <h2 id="reference">Quick Reference</h2>
 
@@ -715,6 +883,18 @@
       <tr>
         <td><strong>People Page (frontend)</strong></td>
         <td><code>/people/</code></td>
+      </tr>
+      <tr>
+        <td><strong>Services Page &mdash; live</strong></td>
+        <td><code>/our-services/</code></td>
+      </tr>
+      <tr>
+        <td><strong>Services Page &mdash; preview (new layout)</strong></td>
+        <td><code>/our-services-preview/</code></td>
+      </tr>
+      <tr>
+        <td><strong>Services Preview &mdash; edit in Elementor</strong></td>
+        <td>Pages &rarr; <em>Our Services (Preview)</em> &rarr; Edit with Elementor</td>
       </tr>
     </tbody>
   </table>

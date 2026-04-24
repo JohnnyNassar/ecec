@@ -38,7 +38,9 @@ Each of these is documented in more detail under `docs/`:
 | Horizontal filter bar | `docs/projects-filter.md` | Search + By Type + By Location on the Projects page. Stacks with left category sidebar. |
 | Featured Projects + hero | `docs/featured-projects.md` | lwkp.com-style Projects page: hero, tabs, Featured section, badge overlay |
 | Team Members | `docs/team-members.md` | `ecec_team_member` CPT + `[ecec_team_grid]` shortcode for People page |
-| Single-project blocks | `docs/single-project-blocks.md` | **PLANNED, not yet built.** Magazine-style per-project layout with structured content blocks |
+| Single-project content blocks | `docs/single-project-blocks.md` | Magazine-style per-project layout. 7 block types (text / full-image / image-pair / image-text-split / project-data / pull-quote / gallery) managed via drag-sort admin UI. Shipped 2026-04-24. |
+| Clone as draft | `docs/single-project-blocks.md#clone-a-project` | Copy a whole portfolio project (blocks, images, meta, taxonomies) as a new draft — from the admin list row action or from inside the Publish sidebar |
+| Services preview page | `portfolio-help.html` Part E | `/our-services-preview/` — real Elementor page built from the Emaurri demo `/our-services/` XML export, with ECEC narrative swapped in. Editable inline via Elementor. Staging only; sits alongside the approved `/our-services/`. |
 | Year timeline filter | `docs/year-timeline-filter.md` | **REMOVED 2026-04-21.** Kept for reference only |
 
 ## Custom Shortcodes
@@ -65,12 +67,17 @@ Each of these is documented in more detail under `docs/`:
 
 | File | Purpose |
 |------|---------|
-| `wp-content/themes/emaurri-child/functions.php` | Footer layout, brand fonts, taxonomies, metaboxes, shortcodes, enqueue |
-| `wp-content/themes/emaurri-child/style.css` | ECEC brand identity CSS (colors, fonts, Projects page styling, featured cards, badges) |
-| `wp-content/themes/emaurri-child/assets/project-filter.js` | Unified filter coordinator (search / type / location / year / sidebar) |
-| `wp-content/themes/emaurri-child/assets/timeline.js` | Year-timeline toggle handler (delegates to coordinator; timeline shortcode itself is not placed on any page) |
+| `wp-content/themes/emaurri-child/functions.php` | Footer layout, brand fonts, taxonomies, metaboxes, shortcodes, enqueue, block repeater metabox, clone-project handler |
+| `wp-content/themes/emaurri-child/style.css` | ECEC brand identity CSS (colors, fonts, Projects page styling, featured cards, badges, single-project block system) |
+| `wp-content/themes/emaurri-child/single-portfolio-item.php` | Child theme override — magazine-style single-project template rendering `_ecec_blocks` |
+| `wp-content/themes/emaurri-child/template-parts/blocks/*.php` | 7 block partials (text, full-image, image-pair, image-text-split, project-data, pull-quote, gallery) |
+| `wp-content/themes/emaurri-child/assets/admin-blocks-repeater.js` | Drag-sort content blocks UI on the portfolio-item edit screen (jQuery UI + wp.media) |
+| `wp-content/themes/emaurri-child/assets/admin-blocks-repeater.css` | Styles for the block repeater metabox |
+| `wp-content/themes/emaurri-child/assets/project-filter.js` | Unified Projects-page filter coordinator (search / type / location / sidebar) |
+| `wp-content/themes/emaurri-child/assets/timeline.js` | Retired year-timeline toggle handler (no page uses the shortcode anymore) |
 | `wp-content/plugins/emaurri-core/inc/core-dashboard/class-emaurricore-dashboard.php` | Patched license bypass |
 | `portfolio-help.html` | Admin guide: Part A (slider) + B (portfolio projects) + C (team) + D (Projects page layout) |
+| `project-blocks-help.html` | Animated admin guide for the block editor + clone feature (15 sections, CSS-animated demos) |
 | `_deploy/` | Idempotent PHP deploy scripts + PowerShell Posh-SSH drivers |
 | `_theme_backup/` | Scraped content backups from ecec.co |
 | `docs/` | Feature design docs (see table above) |
@@ -80,5 +87,5 @@ Each of these is documented in more detail under `docs/`:
 | Environment | URL | Status |
 |-------------|-----|--------|
 | Local | http://localhost/ecec/ | Fully working, feature work happens here first |
-| VPS Staging | http://207.180.196.39/ecec/ | Synced through 2026-04-21 (hero + featured + filter bar) |
+| VPS Staging | http://207.180.196.39/ecec/ | Synced through 2026-04-24 (single-project blocks + drag-sort UI + clone + help page) |
 | Production | https://ecec.co | Not yet migrated (old theme) |
