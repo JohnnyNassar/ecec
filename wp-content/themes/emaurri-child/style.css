@@ -1620,3 +1620,41 @@ body:not(.qodef-mobile-header--enabled) #qodef-page-wrapper {
 	margin: 0 auto;
 	max-width: 780px;
 }
+
+/* Home page Block 1 blog-list slider — match the height of the
+   main-home RevSlider (gh:[958,645,600,690]) below it. */
+body.page-id-119 .elementor-widget-emaurri_core_blog_list .qodef-swiper-container,
+body.page-id-119 .elementor-widget-emaurri_core_blog_list .swiper-wrapper,
+body.page-id-119 .elementor-widget-emaurri_core_blog_list .swiper-slide,
+body.page-id-119 .elementor-widget-emaurri_core_blog_list .qodef-blog-item .qodef-e-inner,
+body.page-id-119 .elementor-widget-emaurri_core_blog_list .qodef-e-media-image {
+	height: 958px !important;
+}
+
+@media (max-width: 1024px) {
+	body.page-id-119 .elementor-widget-emaurri_core_blog_list .qodef-swiper-container,
+	body.page-id-119 .elementor-widget-emaurri_core_blog_list .swiper-wrapper,
+	body.page-id-119 .elementor-widget-emaurri_core_blog_list .swiper-slide,
+	body.page-id-119 .elementor-widget-emaurri_core_blog_list .qodef-blog-item .qodef-e-inner,
+	body.page-id-119 .elementor-widget-emaurri_core_blog_list .qodef-e-media-image {
+		height: 645px !important;
+	}
+}
+@media (max-width: 767px) {
+	body.page-id-119 .elementor-widget-emaurri_core_blog_list .qodef-swiper-container,
+	body.page-id-119 .elementor-widget-emaurri_core_blog_list .swiper-wrapper,
+	body.page-id-119 .elementor-widget-emaurri_core_blog_list .swiper-slide,
+	body.page-id-119 .elementor-widget-emaurri_core_blog_list .qodef-blog-item .qodef-e-inner,
+	body.page-id-119 .elementor-widget-emaurri_core_blog_list .qodef-e-media-image {
+		height: 600px !important;
+	}
+}
+@media (max-width: 480px) {
+	body.page-id-119 .elementor-widget-emaurri_core_blog_list .qodef-swiper-container,
+	body.page-id-119 .elementor-widget-emaurri_core_blog_list .swiper-wrapper,
+	body.page-id-119 .elementor-widget-emaurri_core_blog_list .swiper-slide,
+	body.page-id-119 .elementor-widget-emaurri_core_blog_list .qodef-blog-item .qodef-e-inner,
+	body.page-id-119 .elementor-widget-emaurri_core_blog_list .qodef-e-media-image {
+		height: 690px !important;
+	}
+}
