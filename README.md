@@ -41,9 +41,9 @@ Each of these is documented in more detail under `docs/`:
 | Single-project content blocks | `docs/single-project-blocks.md` | Magazine-style per-project layout. 7 block types (text / full-image / image-pair / image-text-split / project-data / pull-quote / gallery) managed via drag-sort admin UI. Shipped 2026-04-24. |
 | Clone as draft | `docs/single-project-blocks.md#clone-a-project` | Copy a whole portfolio project (blocks, images, meta, taxonomies) as a new draft — from the admin list row action or from inside the Publish sidebar |
 | Services page (Elementor) | `portfolio-help.html` Part E | `/our-services/` — real Elementor page built from the Emaurri demo `/our-services/` XML export, with ECEC narrative. Editable inline via Elementor. Previous approved layout preserved at `/our-services-legacy/`. |
-| Home page 5-block layout | `_deploy/apply_home_page_v2.php` | Portfolio carousel → "We Design the Future" intro → RevSlider → clients marquee → featured projects. All Elementor shortcode widgets so each block is editable. |
+| Home page 5-block layout | `_deploy/apply_home_page_v2.php` | Blog-list slider (Emaurri demo widget) → "We Design the Future" intro → main-home RevSlider → clients marquee → 3 featured projects. Each block is a separate Elementor widget so the client can reorder/edit/remove any of them inline. |
 | Clients marquee | functions.php `[ecec_clients_marquee]` | Infinite horizontal scroll of client logos, grayscale → color on hover, pause on hover. Logo list stored in `ecec_client_logo_ids` option; import via `_deploy/import_client_logos.php`. |
-| Portfolio carousel | functions.php `[ecec_portfolio_carousel]` | Horizontal scroll-snap carousel of portfolio items with prev/next buttons. Cards match the Emaurri demo blog-list pattern (image + category overline + title). |
+| Portfolio carousel | functions.php `[ecec_portfolio_carousel]` | Horizontal scroll-snap carousel of portfolio items with prev/next buttons. Shortcode stays registered (no longer on the home page after Block 1 switched to the blog slider — available for reuse elsewhere). |
 | Year timeline filter | `docs/year-timeline-filter.md` | **REMOVED 2026-04-21.** Kept for reference only |
 
 ## Custom Shortcodes
