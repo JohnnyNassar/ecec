@@ -220,6 +220,13 @@ th { color: var(--raisin-black); font-weight: 600; background: var(--isabelline)
 <header class="banner">
 	<h1>ECEC — Developer Guide</h1>
 	<p class="lede">Technical reference for everything custom on the ECEC WordPress site (Emaurri child theme + custom shortcodes + block system).</p>
+	<p class="lede" style="margin-top:12px; font-size:13px;">
+		Related: <a href="http://207.180.196.39/ecec/project-blocks-help.html" style="color: var(--silver-sand); text-underline-offset:3px;">Client help page (project editor walkthrough)</a>
+		&nbsp;·&nbsp;
+		<a href="http://207.180.196.39/ecec/wp-admin/" style="color: var(--silver-sand); text-underline-offset:3px;">VPS WP admin</a>
+		&nbsp;·&nbsp;
+		<a href="https://github.com/JohnnyNassar/ecec" style="color: var(--silver-sand); text-underline-offset:3px;">GitHub repo</a>
+	</p>
 </header>
 
 <div class="shell">
@@ -299,18 +306,26 @@ th { color: var(--raisin-black); font-weight: 600; background: var(--isabelline)
 		<h2><span class="num">02</span>Site map (live URLs ↔ post IDs)</h2>
 		<p>Critical: post 120 ≠ live About Us; post 121 ≠ live Services. Always verify by slug before editing — don't trust the original 119–124 mapping.</p>
 		<table>
-			<thead><tr><th>Page</th><th>Live URL</th><th>Live post ID</th><th>Archived post (if any)</th></tr></thead>
+			<thead><tr><th>Page</th><th>Live URL</th><th>Post ID</th><th>Edit (WP admin)</th><th>Archived post</th></tr></thead>
 			<tbody>
-				<tr><td>Home</td><td><a href="http://207.180.196.39/ecec/">/ecec/</a></td><td><code>119</code></td><td>—</td></tr>
-				<tr><td>About Us</td><td><a href="http://207.180.196.39/ecec/about-us/">/about-us/</a></td><td><code>382</code></td><td><code>120</code> (slug <code>about-us-archive</code>)</td></tr>
-				<tr><td>Why ECEC</td><td><a href="http://207.180.196.39/ecec/why-ecec/">/why-ecec/</a></td><td><code>422</code></td><td>—</td></tr>
-				<tr><td>Projects (index)</td><td><a href="http://207.180.196.39/ecec/projects/">/projects/</a></td><td><code>122</code></td><td>—</td></tr>
-				<tr><td>Our Services</td><td><a href="http://207.180.196.39/ecec/our-services/">/our-services/</a></td><td><code>328</code></td><td><code>121</code> (slug <code>our-services-archive</code>)</td></tr>
-				<tr><td>People</td><td><a href="http://207.180.196.39/ecec/people/">/people/</a></td><td><code>123</code></td><td>—</td></tr>
-				<tr><td>Contact Us</td><td><a href="http://207.180.196.39/ecec/contact-us/">/contact-us/</a></td><td><code>124</code></td><td>—</td></tr>
-				<tr><td>Client help page</td><td><a href="http://207.180.196.39/ecec/project-blocks-help.html">/project-blocks-help.html</a></td><td>(static)</td><td>—</td></tr>
+				<tr><td>Home</td><td><a href="http://207.180.196.39/ecec/">/ecec/</a></td><td><code>119</code></td><td><a href="http://207.180.196.39/ecec/wp-admin/post.php?post=119&action=elementor">Elementor</a></td><td>—</td></tr>
+				<tr><td>About Us</td><td><a href="http://207.180.196.39/ecec/about-us/">/about-us/</a></td><td><code>382</code></td><td><a href="http://207.180.196.39/ecec/wp-admin/post.php?post=382&action=elementor">Elementor</a></td><td><code>120</code> (<code>about-us-archive</code>)</td></tr>
+				<tr><td>Why ECEC</td><td><a href="http://207.180.196.39/ecec/why-ecec/">/why-ecec/</a></td><td><code>422</code></td><td><a href="http://207.180.196.39/ecec/wp-admin/post.php?post=422&action=edit">Edit</a> (shortcode-only — content in functions.php)</td><td>—</td></tr>
+				<tr><td>Projects (index)</td><td><a href="http://207.180.196.39/ecec/projects/">/projects/</a></td><td><code>122</code></td><td><a href="http://207.180.196.39/ecec/wp-admin/post.php?post=122&action=elementor">Elementor</a></td><td>—</td></tr>
+				<tr><td>Our Services</td><td><a href="http://207.180.196.39/ecec/our-services/">/our-services/</a></td><td><code>328</code></td><td><a href="http://207.180.196.39/ecec/wp-admin/post.php?post=328&action=elementor">Elementor</a></td><td><code>121</code> (<code>our-services-archive</code>)</td></tr>
+				<tr><td>People</td><td><a href="http://207.180.196.39/ecec/people/">/people/</a></td><td><code>123</code></td><td><a href="http://207.180.196.39/ecec/wp-admin/post.php?post=123&action=elementor">Elementor</a></td><td>—</td></tr>
+				<tr><td>Contact Us</td><td><a href="http://207.180.196.39/ecec/contact-us/">/contact-us/</a></td><td><code>124</code></td><td><a href="http://207.180.196.39/ecec/wp-admin/post.php?post=124&action=elementor">Elementor</a></td><td>—</td></tr>
+				<tr><td>Client help page</td><td><a href="http://207.180.196.39/ecec/project-blocks-help.html">/project-blocks-help.html</a></td><td>(static HTML)</td><td>Edit file: <span class="path">/var/www/html/ecec/project-blocks-help.html</span></td><td>—</td></tr>
+				<tr><td>This developer guide</td><td><a href="http://207.180.196.39/ecec/developer-guide.html">/developer-guide.html</a></td><td>(static HTML)</td><td>Edit file: <span class="path">/var/www/html/ecec/developer-guide.html</span> (or <span class="path">docs/developer-guide.html</span> in repo)</td><td>—</td></tr>
 			</tbody>
 		</table>
+
+		<h3>Admin shortcuts</h3>
+		<ul>
+			<li><a href="http://207.180.196.39/ecec/wp-admin/edit.php?post_type=page">All Pages</a> · <a href="http://207.180.196.39/ecec/wp-admin/edit.php?post_type=portfolio-item">All Portfolio Items</a> · <a href="http://207.180.196.39/ecec/wp-admin/edit.php?post_type=ecec_team_member">Team Members CPT</a></li>
+			<li><a href="http://207.180.196.39/ecec/wp-admin/nav-menus.php">Edit menus</a> · <a href="http://207.180.196.39/ecec/wp-admin/upload.php">Media library</a> · <a href="http://207.180.196.39/ecec/wp-admin/options-general.php">Settings</a></li>
+			<li><a href="http://207.180.196.39/ecec/wp-admin/edit-tags.php?taxonomy=portfolio-location&post_type=portfolio-item">Portfolio locations taxonomy</a></li>
+		</ul>
 
 		<h3>Main nav menu order</h3>
 		<p>Single menu used for all 4 locations (main / fullscreen / vertical / mobile). <code>menu_id = 2</code>.</p>
@@ -332,7 +347,7 @@ th { color: var(--raisin-black); font-weight: 600; background: var(--isabelline)
 	<section class="section" id="s3">
 		<div class="kicker">functions.php</div>
 		<h2><span class="num">03</span>Custom shortcodes</h2>
-		<p>All in <span class="path">wp-content/themes/emaurri-child/functions.php</span>. Brand-themed styling lives in <span class="path">style.css</span>.</p>
+		<p>All in <a href="https://github.com/JohnnyNassar/ecec/blob/main/wp-content/themes/emaurri-child/functions.php"><span class="path">wp-content/themes/emaurri-child/functions.php</span></a>. Brand-themed styling lives in <a href="https://github.com/JohnnyNassar/ecec/blob/main/wp-content/themes/emaurri-child/style.css"><span class="path">style.css</span></a>.</p>
 		<table>
 			<thead><tr><th>Shortcode</th><th>Where used</th><th>Notes</th></tr></thead>
 			<tbody>
