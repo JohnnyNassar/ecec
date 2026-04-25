@@ -1710,6 +1710,32 @@ body.page-id-119 .elementor-element-87d2534 .elementor-heading-title {
 }
 
 /* ──────────────────────────────────────────────────────────────────────
+ * Projects page (post 122) — heading typography unification
+ * "Featured Projects" + "Our Recent Projects" use vanilla Elementor heading
+ * widgets with no brand class. Theme's .qodef-h2 overrides them with
+ * Metric-Semibold + black + letter-spacing -2px (negative — words run
+ * together). Page-scoped override matches About / People / Contact pattern.
+ * ────────────────────────────────────────────────────────────────────── */
+body.page-id-122 .elementor-widget-heading .elementor-heading-title {
+	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	color: var(--ecec-slate-gray) !important;
+	letter-spacing: 0.08em !important;
+	word-spacing: 0.15em !important;
+	text-transform: uppercase !important;
+	font-weight: 700 !important;
+}
+body.page-id-122 .elementor-widget-heading h2.elementor-heading-title {
+	font-size: clamp(28px, 3.2vw, 48px) !important;
+	line-height: 1.1 !important;
+	margin: 0 0 24px !important;
+}
+body.page-id-122 .elementor-widget-heading h3.elementor-heading-title {
+	font-size: clamp(22px, 2.4vw, 32px) !important;
+	line-height: 1.15 !important;
+	margin: 0 0 18px !important;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
  * Contact Us page (post 124) — typography unification
  * Brand fonts/colors/sizes for all headings + body, matching the rest
  * of the site (About Us / People / Services use same patterns).
