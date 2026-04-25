@@ -4,7 +4,7 @@ Theme URI: https://emaurri.qodeinteractive.com
 Description: A child theme of Emaurri
 Author: Mikado Themes
 Author URI: https://qodeinteractive.com
-Version: 1.0.0
+Version: 1.0.1
 Text Domain: emaurri
 Template: emaurri
 */
@@ -322,6 +322,33 @@ input[type=submit]:hover {
 	text-align: center;
 	color: var(--ecec-slate-gray);
 	padding: 40px 0;
+}
+
+/* Placeholder team-member cards (rendered when [ecec_team_grid min="N"]
+   needs more cards than there are real members). Visual nag for the client
+   to upload more team profiles. Same gray-dashed pattern as project image
+   placeholders for site-wide consistency. */
+.ecec-team-card--placeholder { opacity: 0.85; }
+.ecec-team-photo-placeholder--ghost {
+	background: var(--ecec-platinum);
+	border: 2px dashed var(--ecec-silver-sand);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--ecec-slate-gray);
+}
+.ecec-team-photo-placeholder__hint {
+	font-family: 'Plus Jakarta Sans', sans-serif;
+	font-size: 11px;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	opacity: 0.75;
+}
+.ecec-team-card--placeholder .ecec-team-name--ghost {
+	color: var(--ecec-silver-sand);
+}
+.ecec-team-card--placeholder .ecec-team-role--ghost {
+	color: var(--ecec-silver-sand);
 }
 
 /* Responsive */
@@ -1268,6 +1295,42 @@ body:not(.qodef-mobile-header--enabled) #qodef-page-wrapper {
 	display: block;
 }
 
+/* ----- Empty image placeholders -----
+   Rendered by image partials when image_id is 0/missing.
+   Visual nag for the client to upload real photos via admin. */
+.ecec-block-placeholder {
+	background: var(--ecec-platinum);
+	border: 2px dashed var(--ecec-silver-sand);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: var(--ecec-slate-gray);
+	font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+	text-align: center;
+	padding: 24px;
+	width: 100%;
+}
+.ecec-block-placeholder__size {
+	font-size: clamp(20px, 2.4vw, 32px);
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	margin: 0;
+	color: var(--ecec-slate-gray);
+	font-feature-settings: "tnum" 1;
+}
+.ecec-block-placeholder__hint {
+	font-size: 11px;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	margin: 8px 0 0;
+	opacity: 0.75;
+}
+.ecec-block-placeholder--full-image { aspect-ratio: 3 / 1; }
+.ecec-block-placeholder--pair       { aspect-ratio: 4 / 3; }
+.ecec-block-placeholder--gallery    { aspect-ratio: 4 / 3; }
+.ecec-block-placeholder--split      { aspect-ratio: 4 / 3; }
+
 /* ----- Back to projects ----- */
 .ecec-sp-footer-nav {
 	max-width: 1280px;
@@ -1407,8 +1470,10 @@ body:not(.qodef-mobile-header--enabled) #qodef-page-wrapper {
 .page-id-168 .qodef-accordion-content-inner p,
 .page-id-328 .qodef-accordion-content-inner p {
 	text-align: justify;
-	hyphens: auto;
-	-webkit-hyphens: auto;
+	hyphens: manual;
+	-webkit-hyphens: manual;
+	word-break: normal;
+	overflow-wrap: normal;
 }
 
 /* ──────────────────────────────────────────────────────────────────────
@@ -1455,10 +1520,9 @@ body:not(.qodef-mobile-header--enabled) #qodef-page-wrapper {
 }
 
 .ecec-clients-item img {
-	max-height: 100%;
-	max-width: 180px;
-	width: auto;
-	height: auto;
+	height: 100%;          /* force every logo to the container height for a uniform row */
+	width: auto;           /* let aspect ratio determine rendered width */
+	max-width: none;
 	object-fit: contain;
 	opacity: 0.75;
 	filter: grayscale(100%);
@@ -1594,31 +1658,481 @@ body:not(.qodef-mobile-header--enabled) #qodef-page-wrapper {
 
 .ecec-home-intro {
 	padding: 90px 6vw;
-	text-align: center;
-	max-width: 960px;
+	max-width: 1280px;
 	margin: 0 auto;
+}
+
+.ecec-home-intro__row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 80px;
+	align-items: start;
 }
 
 .ecec-home-intro__heading {
-	font-family: 'Plus Jakarta Sans', sans-serif;
-	font-size: clamp(32px, 4vw, 56px);
-	font-weight: 400;
-	line-height: 1.15;
-	margin: 0 0 28px;
-	color: var(--ecec-raisin-black);
-	letter-spacing: -0.015em;
+	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-size: clamp(36px, 5vw, 72px) !important;
+	font-weight: 700 !important;
+	line-height: 1.05 !important;
+	margin: 0 !important;
+	color: var(--ecec-slate-gray) !important;
+	letter-spacing: 0 !important;
+	text-transform: uppercase !important;
 }
 
 .ecec-home-intro__body {
+	font-family: 'Argentum Sans', sans-serif !important;
+	font-size: clamp(16px, 1.4vw, 22px) !important;
+	line-height: 1.5 !important;
+	color: var(--ecec-slate-gray) !important;
+	text-align: justify !important;
+	hyphens: manual;
+	-webkit-hyphens: manual;
+	word-break: normal;
+	overflow-wrap: normal;
+	margin: 0 !important;
+}
+
+.ecec-home-intro__body p:last-child { margin-bottom: 0; }
+
+@media (max-width: 900px) {
+	.ecec-home-intro { padding: 60px 24px; }
+	.ecec-home-intro__row {
+		grid-template-columns: 1fr;
+		gap: 24px;
+	}
+	.ecec-home-intro__heading { font-size: clamp(36px, 8vw, 56px); }
+}
+
+/* Home page Block 5 — "Featured Projects" heading: align color with brand palette */
+body.page-id-119 .elementor-element-87d2534 .elementor-heading-title {
+	color: var(--ecec-slate-gray) !important;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * Contact Us page (post 124) — typography unification
+ * Brand fonts/colors/sizes for all headings + body, matching the rest
+ * of the site (About Us / People / Services use same patterns).
+ * ────────────────────────────────────────────────────────────────────── */
+body.page-id-124 .elementor-widget-heading .elementor-heading-title {
+	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	color: var(--ecec-slate-gray) !important;
+	letter-spacing: 0.08em !important;
+	word-spacing: 0.15em !important;
+	text-transform: uppercase !important;
+}
+/* h2: large section titles (e.g. SEND US A MESSAGE) */
+body.page-id-124 .elementor-widget-heading h2.elementor-heading-title {
+	font-size: clamp(28px, 3.2vw, 48px) !important;
+	font-weight: 700 !important;
+	margin: 0 0 24px !important;
+}
+/* h3: section subtitles (OUR OFFICES, SEND US A MESSAGE) */
+body.page-id-124 .elementor-widget-heading h3.elementor-heading-title {
+	font-size: clamp(22px, 2.4vw, 32px) !important;
+	font-weight: 700 !important;
+	line-height: 1.15 !important;
+	margin: 0 0 18px !important;
+}
+/* h4: city names (Dubai, Riyadh, Amman) */
+body.page-id-124 h4 {
+	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-size: 16px !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.12em !important;
+	text-transform: uppercase !important;
+	color: var(--ecec-raisin-black) !important;
+	margin: 16px 0 6px !important;
+}
+/* Body paragraphs in text-editor widgets — brand body font + slate-gray */
+body.page-id-124 .elementor-widget-text-editor p,
+body.page-id-124 .elementor-widget-text-editor {
+	font-family: 'Argentum Sans', sans-serif !important;
+	font-size: 15px !important;
+	line-height: 1.65 !important;
+	color: var(--ecec-slate-gray) !important;
+	hyphens: manual !important;
+	-webkit-hyphens: manual !important;
+	word-break: normal;
+	overflow-wrap: normal;
+}
+/* Contact Form 7 — labels + inputs use brand sans-serif */
+body.page-id-124 .wpcf7 label,
+body.page-id-124 .wpcf7 input[type="text"],
+body.page-id-124 .wpcf7 input[type="email"],
+body.page-id-124 .wpcf7 input[type="tel"],
+body.page-id-124 .wpcf7 textarea,
+body.page-id-124 .wpcf7 select {
+	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	color: var(--ecec-raisin-black) !important;
+}
+body.page-id-124 .wpcf7 input[type="submit"] {
+	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-weight: 600 !important;
+	letter-spacing: 0.18em !important;
+	text-transform: uppercase !important;
+	background: var(--ecec-slate-gray) !important;
+	color: var(--ecec-white) !important;
+	border: none !important;
+	transition: opacity 0.2s ease;
+}
+body.page-id-124 .wpcf7 input[type="submit"]:hover { opacity: 0.85; }
+
+/* ──────────────────────────────────────────────────────────────────────
+ * About Us page (rebuilt 2026-04-25 — strict Emaurri demo layout)
+ * Unified to brand fonts only (Plus Jakarta Sans + Argentum Sans).
+ * Cormorant import removed 2026-04-25 — was inconsistent with other pages.
+ * ────────────────────────────────────────────────────────────────────── */
+
+/* About Us page-title bar — chairs hero, replicates Emaurri demo
+   Centered both horizontally and vertically over the chairs image. */
+body.page-id-382 .qodef-page-title {
+	height: 470px !important;
+	background-image: url('/ecec/wp-content/uploads/about-hero/about-chairs.jpg') !important;
+	background-size: cover !important;
+	background-position: center center !important;
+	background-color: var(--ecec-raisin-black) !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	text-align: center !important;
+}
+body.page-id-382 .qodef-page-title .qodef-m-inner,
+body.page-id-382 .qodef-page-title .qodef-m-content,
+body.page-id-382 .qodef-page-title .qodef-m-content-inner {
+	width: 100% !important;
+	text-align: center !important;
+}
+body.page-id-382 .qodef-page-title .qodef-m-title,
+body.page-id-382 .qodef-page-title .qodef-m-title a {
+	color: #ffffff !important;
+	text-align: center !important;
+	width: 100% !important;
+}
+body.page-id-382 .qodef-page-title .qodef-breadcrumbs {
+	text-align: center !important;
+}
+body.page-id-382 .qodef-page-title .qodef-breadcrumbs span,
+body.page-id-382 .qodef-page-title .qodef-breadcrumbs a {
+	color: #ffffff !important;
+}
+
+/* Hero — big "ABOUT US" + serif tagline (legacy — h1 now removed via script;
+   subtitle still rendered by Elementor section 1) */
+.ecec-about-hero-title .elementor-heading-title {
+	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-size: clamp(48px, 7vw, 96px) !important;
+	font-weight: 700 !important;
+	letter-spacing: 0 !important;
+	color: var(--ecec-raisin-black) !important;
+	line-height: 1.05 !important;
+	margin: 0 !important;
+}
+/* "ABOUT ECEC" main intro heading — same brand sans-serif treatment as
+   .ecec-about-section-title, just slightly larger to keep visual hierarchy
+   above the smaller WHO WE ARE / OUR EXPERT TEAM section titles. */
+.ecec-about-hero-subtitle .elementor-heading-title {
+	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-size: clamp(32px, 3.6vw, 56px) !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.08em !important;
+	word-spacing: 0.15em !important;
+	color: var(--ecec-slate-gray) !important;
+	text-transform: uppercase !important;
+	line-height: 1.1 !important;
+	margin: 0 !important;
+}
+
+/* Section titles (h2 like ABOUT ECEC, WHO WE ARE, etc.) — tracked spacing
+   so uppercase words don't visually run into each other. */
+.ecec-about-section-title .elementor-heading-title {
+	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-size: clamp(28px, 3.2vw, 48px) !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.08em !important;
+	word-spacing: 0.15em !important;
+	color: var(--ecec-slate-gray) !important;
+	text-transform: uppercase !important;
+	margin: 0 0 24px !important;
+}
+.ecec-about-section-subtitle .elementor-heading-title {
+	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-size: clamp(20px, 2vw, 28px) !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.08em !important;
+	word-spacing: 0.15em !important;
+	color: var(--ecec-slate-gray) !important;
+	text-transform: uppercase !important;
+	margin: 32px 0 12px !important;
+}
+
+/* Narrative body — same typographic treatment as Block 2 home intro */
+.ecec-about-narrative {
 	font-family: 'Argentum Sans', sans-serif;
-	font-size: 17px;
-	line-height: 1.85;
+	color: var(--ecec-slate-gray);
+}
+.ecec-about-narrative p {
+	font-size: clamp(15px, 1.1vw, 17px);
+	line-height: 1.7;
 	color: var(--ecec-slate-gray);
 	text-align: justify;
-	hyphens: auto;
-	-webkit-hyphens: auto;
+	hyphens: manual;
+	-webkit-hyphens: manual;
+	word-break: normal;
+	overflow-wrap: normal;
+	margin: 0 0 1em;
+}
+.ecec-about-narrative--centered p { text-align: center; max-width: 780px; margin-left: auto; margin-right: auto; }
+
+/* Placeholder boxes inside About 2-col sections — stretch to full column height */
+.ecec-block-placeholder--about {
+	width: 100%;
+	height: 100%;
+	min-height: 360px;
+	background: var(--ecec-platinum);
+	border: 2px dashed var(--ecec-silver-sand);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: var(--ecec-slate-gray);
+	font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+	text-align: center;
+	padding: 24px;
+}
+
+/* 4-col Key Highlights cards */
+.ecec-about-highlights {
+	background: var(--ecec-isabelline);
+}
+.ecec-about-highlight-card {
+	background: var(--ecec-white);
+	padding: 32px !important;
+	min-width: 0;
+	text-align: center;
+}
+
+/* Add horizontal breathing room between the 4 highlight columns so cards
+   read as 4 distinct cards, not a single merged strip. */
+body.page-id-382 .ecec-about-highlights .elementor-column {
+	padding-left: 28px !important;
+	padding-right: 28px !important;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * Why ECEC page — scrollytelling sticky-left + scrolling-right
+ * Mirrors Emaurri's portfolio/vertical-divided-list demo. JS: why-ecec.js
+ * uses IntersectionObserver to swap the active title on the left as each
+ * slide on the right enters viewport center.
+ *
+ * IMPORTANT: Qode theme's #qodef-page-wrapper has overflow:hidden which
+ * makes position:sticky on descendants stick to the wrapper's scroll
+ * context (which doesn't scroll, killing the sticky behavior). Override
+ * scoped to this page so sticky resolves to viewport instead.
+ * ────────────────────────────────────────────────────────────────────── */
+body.page-id-422,
+body.page-id-422 #qodef-page-wrapper,
+body.page-id-422 #qodef-page-inner,
+body.page-id-422 #qodef-page-outer,
+body.page-id-422 #qodef-page-content,
+body.page-id-422 #qodef-page-content-section {
+	overflow: visible !important;
+	overflow-x: visible !important;
+	overflow-y: visible !important;
+}
+
+.ecec-why { background: var(--ecec-white); padding: 100px 0; }
+.ecec-why-inner {
+	max-width: 1280px;
 	margin: 0 auto;
-	max-width: 780px;
+	padding: 0 40px;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 80px;
+	align-items: start;
+}
+
+/* LEFT — sticky title rotator */
+.ecec-why-info-holder {
+	position: sticky;
+	top: 140px;
+	min-height: 60vh;
+}
+.ecec-why-info-item {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	opacity: 0;
+	transform: translateY(8px);
+	transition: opacity 0.45s ease, transform 0.45s ease;
+	pointer-events: none;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	min-height: 60vh;
+}
+.ecec-why-info-item.is-active {
+	opacity: 1;
+	transform: none;
+	pointer-events: auto;
+}
+/* Unified with .ecec-about-section-title typography (Plus Jakarta Sans bold
+   uppercase slate-gray + same letter/word spacing). Same scale and color as
+   other section headings across the site (About, People, etc). */
+.ecec-why-num {
+	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-size: 12px !important;
+	font-weight: 500 !important;
+	letter-spacing: 0.2em !important;
+	color: var(--ecec-slate-gray) !important;
+	text-transform: uppercase !important;
+	margin: 0 0 24px !important;
+	opacity: 0.6;
+}
+.ecec-why-title,
+.ecec-why h2.ecec-why-title {
+	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-size: clamp(28px, 3.2vw, 48px) !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.08em !important;
+	word-spacing: 0.15em !important;
+	line-height: 1.1 !important;
+	color: var(--ecec-slate-gray) !important;
+	margin: 0 0 32px !important;
+	text-transform: uppercase !important;
+	hyphens: manual !important;
+	-webkit-hyphens: manual !important;
+	word-break: normal;
+	overflow-wrap: normal;
+}
+.ecec-why-cta,
+.ecec-why a.ecec-why-cta {
+	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-size: 12px !important;
+	font-weight: 600 !important;
+	letter-spacing: 0.2em !important;
+	text-transform: uppercase !important;
+	color: var(--ecec-slate-gray) !important;
+	text-decoration: none !important;
+	border-bottom: 1px solid var(--ecec-slate-gray) !important;
+	padding-bottom: 4px;
+	align-self: flex-start;
+	transition: opacity 0.2s ease;
+}
+.ecec-why-cta:hover { opacity: 0.6; }
+
+/* RIGHT — scrolling slides */
+.ecec-why-main {
+	display: flex;
+	flex-direction: column;
+	gap: 60px;
+}
+.ecec-why-slide {
+	min-height: 80vh;
+	display: flex;
+	align-items: center;
+}
+.ecec-why-placeholder {
+	width: 100%;
+	aspect-ratio: 3 / 4;
+	background: var(--ecec-platinum);
+	border: 2px dashed var(--ecec-silver-sand);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: var(--ecec-slate-gray);
+	font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+	text-align: center;
+	padding: 24px;
+}
+
+@media (max-width: 900px) {
+	.ecec-why { padding: 60px 0; }
+	.ecec-why-inner {
+		grid-template-columns: 1fr;
+		gap: 32px;
+		padding: 0 24px;
+	}
+	.ecec-why-info-holder { position: static; min-height: 0; }
+	.ecec-why-info-item {
+		position: static;
+		opacity: 1;
+		transform: none;
+		pointer-events: auto;
+		min-height: 0;
+		margin-bottom: 24px;
+	}
+	.ecec-why-slide { min-height: 0; margin-bottom: 32px; }
+	.ecec-why-placeholder { aspect-ratio: 4 / 3; }
+}
+.ecec-about-highlight-num img {
+	max-width: 140px !important;
+	height: auto;
+	display: block;
+	margin: 0 auto 20px !important;
+}
+.ecec-about-highlight-heading .elementor-heading-title {
+	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-size: 20px !important;
+	font-weight: 700 !important;
+	color: var(--ecec-raisin-black) !important;
+	margin: 0 0 12px !important;
+	letter-spacing: 0 !important;
+	text-align: center !important;
+}
+.ecec-about-highlight-body p {
+	font-family: 'Argentum Sans', sans-serif;
+	font-size: 14px;
+	line-height: 1.6;
+	color: var(--ecec-slate-gray);
+	margin: 0;
+	/* DECISION (do not flip back to justify): card columns are ~150px wide
+	   in a 4-col grid. Justified text needs hyphenation OR wider columns to
+	   avoid "rivers" of white-space — and we have neither (no auto-hyphens
+	   per word-for-word rule, wider columns conflict with the gap request).
+	   Left-align is the only clean option. The slightly ragged right edge
+	   reads better than gappy justified text in this width. */
+	text-align: left !important;
+	hyphens: manual !important;
+	-webkit-hyphens: manual !important;
+	word-break: normal;
+	overflow-wrap: normal;
+}
+
+/* Responsive: collapse 4 cards to 2-col, then 1-col */
+@media (max-width: 1024px) {
+	.ecec-about-highlights .e-con-inner > .e-con,
+	.ecec-about-highlights > .e-con-inner > .e-con {
+		flex-basis: calc(50% - 16px) !important;
+	}
+}
+@media (max-width: 600px) {
+	.ecec-about-highlights .e-con-inner > .e-con,
+	.ecec-about-highlights > .e-con-inner > .e-con {
+		flex-basis: 100% !important;
+	}
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * Services page (post 328) — image height alignment
+ * Make every emaurri_core_single_image widget stretch to fill its column
+ * so the image height matches the adjacent text-column height in each
+ * 2-column section (matches srv-1 / srv-2 / srv-3 reference mockups).
+ * ────────────────────────────────────────────────────────────────────── */
+body.page-id-328 .elementor-widget-emaurri_core_single_image,
+body.page-id-328 .elementor-widget-emaurri_core_single_image > .elementor-widget-container,
+body.page-id-328 .elementor-widget-emaurri_core_single_image .qodef-shortcode,
+body.page-id-328 .elementor-widget-emaurri_core_single_image .qodef-m-image {
+	height: 100% !important;
+	display: block;
+}
+body.page-id-328 .elementor-widget-emaurri_core_single_image img {
+	height: 100% !important;
+	width: 100% !important;
+	object-fit: cover !important;
+	display: block;
 }
 
 /* Home page Block 1 blog-list slider — cap to a reasonable hero height.

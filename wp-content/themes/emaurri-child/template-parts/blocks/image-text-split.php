@@ -17,6 +17,11 @@ if ( ! $image_id && trim( wp_strip_all_tags( $heading . $body ) ) === '' ) { ret
 		<div class="ecec-block-split__media">
 			<?php if ( $image_id ) : ?>
 				<?php echo wp_get_attachment_image( $image_id, 'large', false, [ 'class' => 'ecec-block-split__img' ] ); ?>
+			<?php else : ?>
+				<div class="ecec-block-placeholder ecec-block-placeholder--split">
+					<p class="ecec-block-placeholder__size">600 &times; 450</p>
+					<p class="ecec-block-placeholder__hint">Image placeholder &mdash; replace via admin</p>
+				</div>
 			<?php endif; ?>
 		</div>
 		<div class="ecec-block-split__text">

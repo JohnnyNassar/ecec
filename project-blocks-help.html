@@ -867,6 +867,7 @@ main { min-width: 0; }
 			<li><a href="#s13">Clone a project</a></li>
 			<li><a href="#s14">Create a new project</a></li>
 			<li><a href="#s15">Tips &amp; troubleshooting</a></li>
+			<li><a href="#s16">Replacing placeholder images</a></li>
 		</ol>
 	</aside>
 
@@ -1271,6 +1272,74 @@ main { min-width: 0; }
 
 		<h3>How do I preview before publishing?</h3>
 		<p>Use the <strong>Preview Changes</strong> button in the Publish box. It opens the draft project in a new tab as it would appear on the live site, without actually publishing.</p>
+	</section>
+
+	<!-- ── 16. Replacing placeholder images ─────────────────── -->
+	<section class="section" id="s16">
+		<div class="kicker">Site-wide</div>
+		<h2><span class="num">16</span>Replacing placeholder images</h2>
+		<p>Across the site you'll see <strong>gray boxes with a dashed border</strong> like &nbsp;<span style="display:inline-block; padding:4px 12px; border:2px dashed var(--silver-sand); background: var(--platinum); color: var(--slate-gray); font-size:11px; letter-spacing:.18em; text-transform:uppercase;">600&nbsp;&times;&nbsp;800</span>&nbsp; — those mark spots where a real image hasn't been uploaded yet. They're intentional reminders. Below is how to replace them in each location.</p>
+
+		<h3>1. Project page images (most common)</h3>
+		<p>The placeholders inside <strong>image-text-split</strong>, <strong>full-image</strong>, <strong>image-pair</strong>, and <strong>gallery</strong> blocks are managed via the project editor — same flow as <a href="#s10">section&nbsp;10</a>:</p>
+		<ol>
+			<li>Open the project: <strong>Projects</strong> → click the project name.</li>
+			<li>Find the block in the Content Blocks editor (the gray placeholder shows where the image will appear).</li>
+			<li>Click the empty image slot or the <strong>Choose image</strong> button → upload from your computer or pick from the media library.</li>
+			<li>Click <strong>Update</strong> at the top of the page. The placeholder disappears the moment a real image is set.</li>
+		</ol>
+
+		<h3>2. About Us page (2 placeholders)</h3>
+		<p>The two large gray boxes in the body of the About Us page are placed via Elementor (the visual page editor). To swap them:</p>
+		<ol>
+			<li>Go to <strong>Pages</strong> → click <strong>About Us</strong>.</li>
+			<li>Click the blue <strong>Edit with Elementor</strong> button at the top.</li>
+			<li>In the Elementor canvas, click on the gray placeholder box. The left panel will show its settings.</li>
+			<li>The placeholder is currently an HTML widget. To replace with a real image: <strong>delete the HTML widget</strong>, then drag an <strong>Image</strong> widget from the left panel into the same column, click it, and choose your image.</li>
+			<li>Click the green <strong>Update</strong> button bottom-left.</li>
+		</ol>
+		<p style="font-size:14px; color:var(--slate-gray); border-left: 3px solid var(--silver-sand); padding-left:14px;">If you'd like the About Us images to be swappable from the standard WordPress admin (not Elementor), ask your developer — that's a one-time refactor we can do.</p>
+
+		<h3>3. Why ECEC page (5 sliding placeholders)</h3>
+		<p>The five gray boxes on the Why ECEC page are part of a custom scrolling layout and currently can't be swapped from the WordPress admin. <strong>Send your 5 images to your developer</strong> and they'll wire them in once. After that swap, the placeholders disappear and the real images appear in the same scroll-cycle.</p>
+		<p style="font-size:14px; color:var(--slate-gray); border-left: 3px solid var(--silver-sand); padding-left:14px;">Recommended image specs: portrait orientation, ~600&nbsp;&times;&nbsp;800&nbsp;px or larger, JPEG.</p>
+
+		<h3>4. People page (placeholder team cards)</h3>
+		<p>The gray cards under the team grid are <strong>auto-placeholders</strong> — they appear only when there are fewer than 6 published team members. To remove them, just <strong>add more real team members</strong>:</p>
+		<ol>
+			<li><strong>Team Members</strong> in the left admin menu → <strong>Add New</strong>.</li>
+			<li>Fill in the <strong>name</strong>, <strong>role</strong>, and <strong>locations</strong>; upload a square <strong>headshot</strong> as the Featured Image.</li>
+			<li>Set the order number (lower = appears first), then <strong>Publish</strong>.</li>
+		</ol>
+		<p>As soon as you've published 6 team members, the placeholder cards disappear automatically. You can publish more than 6 — extras just continue the grid.</p>
+
+		<h3>5. Services page (4 section images)</h3>
+		<p>The Services page has four image slots in the various 2-column sections. Same flow as About Us:</p>
+		<ol>
+			<li><strong>Pages</strong> → <strong>Our Services</strong> → <strong>Edit with Elementor</strong>.</li>
+			<li>Click the placeholder image in the canvas.</li>
+			<li>Use the left panel's image picker to upload or select your replacement.</li>
+			<li><strong>Update</strong> bottom-left.</li>
+		</ol>
+
+		<h3>Image specs cheat-sheet</h3>
+		<p>Recommended pixel sizes by location (the system will resize down — bigger is OK, smaller will look blurry):</p>
+		<ul>
+			<li><strong>Project blocks &mdash; full-image:</strong> 1200&nbsp;&times;&nbsp;400 (3:1 wide)</li>
+			<li><strong>Project blocks &mdash; image-text-split / image-pair:</strong> 600&nbsp;&times;&nbsp;450 (4:3)</li>
+			<li><strong>Project blocks &mdash; gallery:</strong> 400&nbsp;&times;&nbsp;300 (4:3)</li>
+			<li><strong>About Us / Services 2-col placeholders:</strong> 600&nbsp;&times;&nbsp;700 (portrait)</li>
+			<li><strong>Why ECEC slides:</strong> 600&nbsp;&times;&nbsp;800 (portrait)</li>
+			<li><strong>Team headshot:</strong> 220&nbsp;&times;&nbsp;220 (square)</li>
+			<li><strong>Hero / page-title bar (e.g. About Us chairs photo):</strong> 1920&nbsp;&times;&nbsp;470 (very wide)</li>
+		</ul>
+
+		<h3>If something looks wrong after upload</h3>
+		<ul>
+			<li>Refresh with <span class="kbd">Ctrl</span>+<span class="kbd">Shift</span>+<span class="kbd">R</span> — sometimes the browser caches the old placeholder.</li>
+			<li>Check that the image is large enough (under 800&nbsp;px wide can look blurry on big screens).</li>
+			<li>If the layout shifts oddly, the image's aspect ratio is very different from the placeholder. The system fits the image to the slot but if it's extreme (e.g. very tall portrait into a wide slot) it may crop unexpectedly.</li>
+		</ul>
 	</section>
 
 	</main>

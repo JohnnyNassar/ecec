@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ECEC Project Page — Block Template Reference</title>
+<style>
+	:root {
+		--white: #ffffff;
+		--platinum: #e7e8ea;
+		--isabelline: #ece6e6;
+		--silver: #bbcdd1;
+		--slate: #687a84;
+		--black: #231f20;
+		--accent: #687a84;
+	}
+	@page {
+		size: A4;
+		margin: 16mm 14mm;
+	}
+	* { box-sizing: border-box; }
+	html, body {
+		margin: 0;
+		padding: 0;
+		font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+		color: var(--black);
+		background: var(--white);
+		font-size: 11pt;
+		line-height: 1.5;
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+	}
+	.page {
+		page-break-after: always;
+		min-height: calc(297mm - 32mm);
+		padding: 0 0 20mm;
+	}
+	.page:last-child { page-break-after: auto; }
+	h1, h2, h3, h4 { margin: 0; font-weight: 600; letter-spacing: 0.01em; }
+	h1 { font-size: 34pt; line-height: 1.1; }
+	h2 { font-size: 22pt; line-height: 1.2; margin-bottom: 6mm; letter-spacing: 0.02em; }
+	h3 { font-size: 13pt; letter-spacing: 0.08em; text-transform: uppercase; color: var(--slate); margin-bottom: 3mm; }
+	p { margin: 0 0 3mm; }
+	.muted { color: var(--slate); }
+
+	/* Cover */
+	.cover {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		min-height: calc(297mm - 32mm);
+		padding: 10mm 0;
+	}
+	.cover-top .eyebrow {
+		font-size: 10pt;
+		letter-spacing: 0.25em;
+		text-transform: uppercase;
+		color: var(--slate);
+		margin-bottom: 8mm;
+	}
+	.cover-top h1 {
+		font-size: 40pt;
+		line-height: 1.05;
+		max-width: 22ch;
+	}
+	.cover-top .sub {
+		margin-top: 6mm;
+		font-size: 13pt;
+		color: var(--slate);
+		max-width: 60ch;
+	}
+	.cover-bottom {
+		border-top: 1px solid var(--silver);
+		padding-top: 6mm;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 8mm;
+		font-size: 9pt;
+		color: var(--slate);
+	}
+	.cover-bottom strong { color: var(--black); display: block; font-size: 10pt; margin-bottom: 1mm; }
+
+	/* Block-spec page */
+	.block-spec {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 6mm;
+	}
+	.block-header {
+		display: flex;
+		align-items: baseline;
+		gap: 10mm;
+		border-bottom: 1px solid var(--silver);
+		padding-bottom: 4mm;
+	}
+	.block-number {
+		font-size: 14pt;
+		letter-spacing: 0.2em;
+		color: var(--slate);
+		font-variant-numeric: tabular-nums;
+	}
+	.block-lede {
+		margin-top: 2mm;
+		color: var(--slate);
+		font-size: 11pt;
+		max-width: 72ch;
+	}
+
+	.spec-grid {
+		display: grid;
+		grid-template-columns: 1.3fr 1fr;
+		gap: 8mm;
+		margin-top: 4mm;
+	}
+	.preview {
+		background: var(--isabelline);
+		border: 1px solid var(--silver);
+		padding: 6mm;
+		border-radius: 1mm;
+	}
+	.preview-label {
+		font-size: 9pt;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--slate);
+		margin-bottom: 3mm;
+	}
+	.preview-canvas {
+		background: var(--white);
+		border: 1px dashed var(--silver);
+		padding: 4mm;
+	}
+	.specs-box {
+		display: flex;
+		flex-direction: column;
+		gap: 4mm;
+	}
+	.spec-card {
+		border: 1px solid var(--silver);
+		padding: 4mm 5mm;
+	}
+	.spec-card h4 {
+		font-size: 9pt;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--slate);
+		margin-bottom: 2mm;
+		font-weight: 600;
+	}
+	.spec-card .big {
+		font-size: 16pt;
+		font-weight: 600;
+		color: var(--black);
+	}
+	.spec-card ul { margin: 0; padding-left: 5mm; }
+	.spec-card li { margin-bottom: 1.5mm; }
+	.spec-card table { width: 100%; font-size: 10pt; border-collapse: collapse; }
+	.spec-card table th, .spec-card table td {
+		text-align: left;
+		padding: 1.5mm 0;
+		border-bottom: 1px solid var(--platinum);
+	}
+	.spec-card table th {
+		font-weight: 500;
+		color: var(--slate);
+		width: 40%;
+	}
+	.spec-card table tr:last-child td,
+	.spec-card table tr:last-child th { border-bottom: none; }
+
+	.fields {
+		margin-top: 3mm;
+	}
+	.field-chip {
+		display: inline-block;
+		background: var(--platinum);
+		color: var(--black);
+		padding: 1mm 2mm;
+		border-radius: 1mm;
+		font-size: 9pt;
+		margin: 0 1mm 1mm 0;
+		font-family: 'Courier New', monospace;
+	}
+
+	/* Fake block previews — visual-only, not 1:1 with live theme */
+	.fx {
+		width: 100%;
+		background: linear-gradient(135deg, #cdd5d9, #a5b3b8);
+		border: none;
+	}
+	.fx-caption {
+		font-size: 8pt;
+		letter-spacing: 0.04em;
+		color: var(--slate);
+		text-align: center;
+		margin-top: 2mm;
+	}
+	.fx-overline {
+		font-size: 8pt;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--slate);
+		margin-bottom: 2mm;
+	}
+	.fx-heading {
+		font-size: 13pt;
+		line-height: 1.2;
+		font-weight: 600;
+		letter-spacing: 0.02em;
+		margin-bottom: 2mm;
+	}
+	.fx-body {
+		font-size: 9pt;
+		color: var(--slate);
+		line-height: 1.5;
+		text-align: justify;
+	}
+	.fx-hero { aspect-ratio: 21/9; }
+	.fx-split { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; align-items: center; }
+	.fx-split .fx { aspect-ratio: 4/3; }
+	.fx-full { aspect-ratio: 3/1; }
+	.fx-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 2mm; }
+	.fx-pair .fx { aspect-ratio: 4/3; }
+	.fx-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2mm; }
+	.fx-gallery .fx { aspect-ratio: 4/3; }
+	.fx-data {
+		padding: 3mm 0;
+		border-top: 1px solid var(--silver);
+		border-bottom: 1px solid var(--silver);
+	}
+	.fx-data dl {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 3mm;
+		margin: 2mm 0 0;
+	}
+	.fx-data dt {
+		font-size: 7pt;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--slate);
+	}
+	.fx-data dd {
+		margin: 0;
+		font-size: 10pt;
+		font-weight: 500;
+	}
+	.fx-quote {
+		border-left: 2px solid var(--slate);
+		padding-left: 4mm;
+	}
+	.fx-quote p {
+		font-size: 12pt;
+		line-height: 1.3;
+		font-style: italic;
+		margin: 0 0 2mm;
+	}
+	.fx-quote cite {
+		font-size: 8pt;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--slate);
+		font-style: normal;
+	}
+	.fx-text {
+		font-size: 9pt;
+		line-height: 1.7;
+		text-align: justify;
+		color: var(--black);
+	}
+
+	/* Overview — anatomy of a page */
+	.anatomy {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 5mm;
+		margin-top: 4mm;
+	}
+	.anatomy-stack {
+		display: flex;
+		flex-direction: column;
+		gap: 2mm;
+	}
+	.anatomy-stack > * {
+		background: var(--isabelline);
+		padding: 3mm;
+		border: 1px solid var(--silver);
+		font-size: 9pt;
+	}
+	.anatomy-stack > *.hero   { background: var(--black); color: var(--white); min-height: 18mm; display: flex; align-items: flex-end; padding-bottom: 3mm; }
+	.anatomy-stack > *.narrow { max-width: 80%; }
+	.anatomy-notes {
+		font-size: 10pt;
+		line-height: 1.6;
+	}
+	.anatomy-notes ol { padding-left: 5mm; }
+	.anatomy-notes li { margin-bottom: 2mm; }
+
+	/* Quick reference table */
+	.ref-table {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 10pt;
+		margin-top: 4mm;
+	}
+	.ref-table th, .ref-table td {
+		text-align: left;
+		padding: 3mm;
+		border-bottom: 1px solid var(--platinum);
+		vertical-align: top;
+	}
+	.ref-table th {
+		font-size: 9pt;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--slate);
+		font-weight: 600;
+		border-bottom: 2px solid var(--silver);
+	}
+	.ref-table tr:last-child td { border-bottom: none; }
+	.ref-table code {
+		font-size: 9pt;
+		background: var(--platinum);
+		padding: 0.5mm 1.5mm;
+		border-radius: 0.5mm;
+	}
+
+	.footer-note {
+		margin-top: 6mm;
+		padding: 3mm 4mm;
+		background: var(--isabelline);
+		font-size: 9pt;
+		color: var(--slate);
+		border-left: 2px solid var(--silver);
+	}
+</style>
+</head>
+<body>
+
+<!-- ====================  COVER  ==================== -->
+<section class="page cover">
+	<div class="cover-top">
+		<div class="eyebrow">Project Page · Template Reference</div>
+		<h1>ECEC Project Page — Block Template Reference</h1>
+		<p class="sub">Everything you need to prepare copy and images for a new project page. Seven block types, consistent across all projects, edited inside WordPress admin.</p>
+	</div>
+	<div class="cover-bottom">
+		<div>
+			<strong>For</strong>
+			ECEC Engineering Consultants
+		</div>
+		<div>
+			<strong>Applies to</strong>
+			All single-project pages (portfolio-item CPT)
+		</div>
+		<div>
+			<strong>Version</strong>
+			v1 · 2026-04-23
+		</div>
+	</div>
+</section>
+
+<!-- ====================  OVERVIEW  ==================== -->
+<section class="page">
+	<h2>Page anatomy</h2>
+	<p class="muted">Every project page is composed of a <strong>hero section</strong> (fixed, driven by the featured image + title) and a <strong>body</strong> made up of content blocks arranged in order. An <strong>info sidebar</strong> on the right reads from the existing portfolio info meta (Client, Contractor, Services Provided, Completion Date). Each block is optional — use what the story needs.</p>
+
+	<div class="anatomy">
+		<div class="anatomy-stack">
+			<div class="hero">HERO</div>
+			<div>01 · Intro text</div>
+			<div class="narrow">02 · Image + Text split</div>
+			<div>03 · Full-width image (3:1)</div>
+			<div>04 · Image pair (2 columns)</div>
+			<div class="narrow">05 · Project data (facts list)</div>
+			<div class="narrow">06 · Pull quote</div>
+			<div>07 · Gallery (2 or 3 columns)</div>
+		</div>
+		<div class="anatomy-notes">
+			<h3>How it's built</h3>
+			<ol>
+				<li>Every block is <strong>optional</strong>. A short project may use 2-3 blocks; a flagship project 8+.</li>
+				<li>Block order is controlled from the <strong>ECEC Content Blocks</strong> editor in the project's admin screen.</li>
+				<li>The <strong>info sidebar</strong> is populated from "Portfolio Settings → Info" — unchanged from the existing admin pattern.</li>
+				<li>The <strong>hero</strong> is always the featured image + the page title — not a block.</li>
+				<li>Images are <strong>cropped automatically</strong> to fit each block's aspect ratio (cover-fit, centred).</li>
+			</ol>
+			<div class="footer-note">
+				<strong>Tip:</strong> prepare all images as JPG. Use PNG only when transparency is needed (rarely).
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ====================  BLOCK: HERO  ==================== -->
+<section class="page block-spec">
+	<div class="block-header">
+		<div class="block-number">00</div>
+		<div>
+			<h2>Hero</h2>
+			<p class="block-lede">The first thing a visitor sees. Full-width, takes 60% of the viewport height. Built from the project's featured image + title.</p>
+		</div>
+	</div>
+	<div class="spec-grid">
+		<div class="preview">
+			<div class="preview-label">Preview</div>
+			<div class="preview-canvas">
+				<div class="fx fx-hero" style="aspect-ratio: 21/9; position: relative; display: flex; align-items: flex-end; padding: 4mm; color: var(--white);">
+					<div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(35,31,32,0.1), rgba(35,31,32,0.75));"></div>
+					<div style="position: relative;">
+						<div style="font-size: 7pt; letter-spacing: 0.18em; color: var(--silver); margin-bottom: 1.5mm;">SECTOR · CATEGORY</div>
+						<div style="font-size: 16pt; font-weight: 600; line-height: 1.05; letter-spacing: 0.015em;">Project Title Goes Here</div>
+						<div style="font-size: 8pt; color: var(--platinum); margin-top: 1mm;">Location, Country</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="specs-box">
+			<div class="spec-card">
+				<h4>Image spec</h4>
+				<table>
+					<tr><th>Min size</th><td><strong>2400 × 1600 px</strong></td></tr>
+					<tr><th>Aspect ratio</th><td>Any (cropped to ~60vh)</td></tr>
+					<tr><th>Format</th><td>JPG (≤ 800 KB)</td></tr>
+					<tr><th>Subject</th><td>Landscape, wide shot, hero-worthy</td></tr>
+					<tr><th>Avoid</th><td>Text overlays, tall portraits</td></tr>
+				</table>
+			</div>
+			<div class="spec-card">
+				<h4>Editable fields</h4>
+				<div class="fields">
+					<span class="field-chip">Featured image</span>
+					<span class="field-chip">Title</span>
+					<span class="field-chip">Portfolio Category</span>
+					<span class="field-chip">Portfolio Location</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ====================  BLOCK: TEXT PARAGRAPH  ==================== -->
+<section class="page block-spec">
+	<div class="block-header">
+		<div class="block-number">01</div>
+		<div>
+			<h2>Text Paragraph</h2>
+			<p class="block-lede">Body copy — intro prose, a narrative paragraph between images, or a closing reflection. Text is justified.</p>
+		</div>
+	</div>
+	<div class="spec-grid">
+		<div class="preview">
+			<div class="preview-label">Preview</div>
+			<div class="preview-canvas" style="padding: 6mm;">
+				<div class="fx-text">The engineering brief required systems that respected the dramatic desert terrain while delivering a hospitality experience at the top of the luxury scale. Every decision from MEP routing to thermal comfort was taken in response to the site, not imposed upon it. Guests experience quiet infrastructure; operators experience disciplined redundancy.</div>
+			</div>
+		</div>
+		<div class="specs-box">
+			<div class="spec-card">
+				<h4>Content spec</h4>
+				<table>
+					<tr><th>Text length</th><td>~80–200 words per block</td></tr>
+					<tr><th>Alignment</th><td>Justified, no hyphenation</td></tr>
+					<tr><th>Column width</th><td>Max 920 px (readable measure)</td></tr>
+					<tr><th>Formatting</th><td>Plain paragraphs · **bold**, *italic* OK</td></tr>
+				</table>
+			</div>
+			<div class="spec-card">
+				<h4>Editable fields</h4>
+				<div class="fields">
+					<span class="field-chip">body (rich text)</span>
+				</div>
+			</div>
+			<div class="spec-card">
+				<h4>Best used for</h4>
+				<p>Introduction, transitions between visual blocks, closing statement.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ====================  BLOCK: IMAGE + TEXT SPLIT  ==================== -->
+<section class="page block-spec">
+	<div class="block-header">
+		<div class="block-number">02</div>
+		<div>
+			<h2>Image + Text Split</h2>
+			<p class="block-lede">A two-column row: one half image, one half text. Image can be on the left or right. The signature "magazine" block — use it for the most important narrative beats.</p>
+		</div>
+	</div>
+	<div class="spec-grid">
+		<div class="preview">
+			<div class="preview-label">Preview</div>
+			<div class="preview-canvas" style="padding: 5mm;">
+				<div class="fx-split">
+					<div class="fx"></div>
+					<div>
+						<div class="fx-overline">VISION &amp; CONTEXT</div>
+						<div class="fx-heading">A landmark shaped by its landscape</div>
+						<div class="fx-body">Desert Rock Resort was conceived as a destination that disappears into its canyon setting. Engineering systems were designed to stay invisible while delivering hospitality-grade reliability.</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="specs-box">
+			<div class="spec-card">
+				<h4>Image spec</h4>
+				<table>
+					<tr><th>Min size</th><td><strong>1200 × 900 px</strong></td></tr>
+					<tr><th>Aspect ratio</th><td>4 : 3 (cover-fit)</td></tr>
+					<tr><th>Format</th><td>JPG</td></tr>
+				</table>
+			</div>
+			<div class="spec-card">
+				<h4>Content spec</h4>
+				<table>
+					<tr><th>Overline</th><td>2–4 words, uppercase</td></tr>
+					<tr><th>Heading</th><td>4–10 words</td></tr>
+					<tr><th>Body</th><td>~50–120 words</td></tr>
+					<tr><th>Image side</th><td>Left (default) or Right</td></tr>
+				</table>
+			</div>
+			<div class="spec-card">
+				<h4>Editable fields</h4>
+				<div class="fields">
+					<span class="field-chip">image</span>
+					<span class="field-chip">overline</span>
+					<span class="field-chip">heading</span>
+					<span class="field-chip">body</span>
+					<span class="field-chip">image_side</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ====================  BLOCK: FULL IMAGE  ==================== -->
+<section class="page block-spec">
+	<div class="block-header">
+		<div class="block-number">03</div>
+		<div>
+			<h2>Full-Width Image</h2>
+			<p class="block-lede">A banner-style image that spans the content width. Locked to a 3:1 rectangle — wide, cinematic. Image is cropped automatically to fit.</p>
+		</div>
+	</div>
+	<div class="spec-grid">
+		<div class="preview">
+			<div class="preview-label">Preview</div>
+			<div class="preview-canvas" style="padding: 5mm;">
+				<div class="fx fx-full"></div>
+				<div class="fx-caption">Optional caption below the image</div>
+			</div>
+		</div>
+		<div class="specs-box">
+			<div class="spec-card">
+				<h4>Image spec</h4>
+				<table>
+					<tr><th>Min size</th><td><strong>2400 × 800 px</strong></td></tr>
+					<tr><th>Aspect ratio</th><td><strong>3 : 1 (fixed, cover-fit)</strong></td></tr>
+					<tr><th>Max rendered width</th><td>1200 px</td></tr>
+					<tr><th>Format</th><td>JPG (≤ 700 KB)</td></tr>
+					<tr><th>Subject</th><td>Landscape, horizon-rich, wide shot</td></tr>
+				</table>
+			</div>
+			<div class="spec-card">
+				<h4>Editable fields</h4>
+				<div class="fields">
+					<span class="field-chip">image</span>
+					<span class="field-chip">caption (optional)</span>
+				</div>
+			</div>
+			<div class="spec-card">
+				<h4>Best used for</h4>
+				<p>A dramatic site shot, context view, or completed-building hero. One per page recommended.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ====================  BLOCK: IMAGE PAIR  ==================== -->
+<section class="page block-spec">
+	<div class="block-header">
+		<div class="block-number">04</div>
+		<div>
+			<h2>Image Pair</h2>
+			<p class="block-lede">Two images side-by-side in a 2-column row. Each image has its own optional caption. Great for before/after, exterior/interior, plan/elevation pairs.</p>
+		</div>
+	</div>
+	<div class="spec-grid">
+		<div class="preview">
+			<div class="preview-label">Preview</div>
+			<div class="preview-canvas" style="padding: 5mm;">
+				<div class="fx-pair">
+					<div>
+						<div class="fx"></div>
+						<div class="fx-caption" style="text-align: left;">Exterior · valley approach</div>
+					</div>
+					<div>
+						<div class="fx"></div>
+						<div class="fx-caption" style="text-align: left;">Interior · guest suite</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="specs-box">
+			<div class="spec-card">
+				<h4>Image spec (each of 2)</h4>
+				<table>
+					<tr><th>Min size</th><td><strong>1200 × 900 px</strong></td></tr>
+					<tr><th>Aspect ratio</th><td>4 : 3 (cover-fit)</td></tr>
+					<tr><th>Format</th><td>JPG</td></tr>
+					<tr><th>Best when</th><td>Both images share visual weight (similar horizons, lighting)</td></tr>
+				</table>
+			</div>
+			<div class="spec-card">
+				<h4>Editable fields</h4>
+				<div class="fields">
+					<span class="field-chip">image_left</span>
+					<span class="field-chip">image_right</span>
+					<span class="field-chip">caption_left</span>
+					<span class="field-chip">caption_right</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ====================  BLOCK: PROJECT DATA  ==================== -->
+<section class="page block-spec">
+	<div class="block-header">
+		<div class="block-number">05</div>
+		<div>
+			<h2>Project Data</h2>
+			<p class="block-lede">A labeled facts block for the hard numbers: GFA, MEP scope, completion date, client, engineering disciplines. Rendered as a 2-column list with a top/bottom rule.</p>
+		</div>
+	</div>
+	<div class="spec-grid">
+		<div class="preview">
+			<div class="preview-label">Preview</div>
+			<div class="preview-canvas" style="padding: 5mm;">
+				<div class="fx-overline">PROJECT DATA</div>
+				<div class="fx-heading" style="margin-bottom: 3mm;">At a glance</div>
+				<div class="fx-data">
+					<dl>
+						<div><dt>Client</dt><dd>Red Sea Global</dd></div>
+						<div><dt>Location</dt><dd>Saudi Arabia</dd></div>
+						<div><dt>Scope</dt><dd>MEP · ICT · Sustainability</dd></div>
+						<div><dt>Completion</dt><dd>2024</dd></div>
+					</dl>
+				</div>
+			</div>
+		</div>
+		<div class="specs-box">
+			<div class="spec-card">
+				<h4>Content spec</h4>
+				<table>
+					<tr><th>Rows</th><td>Typically 4–8</td></tr>
+					<tr><th>Label</th><td>Short, uppercase · 1–3 words</td></tr>
+					<tr><th>Value</th><td>Concise · units included (e.g. "56,000 sqm")</td></tr>
+				</table>
+			</div>
+			<div class="spec-card">
+				<h4>Editable fields</h4>
+				<div class="fields">
+					<span class="field-chip">overline</span>
+					<span class="field-chip">heading</span>
+					<span class="field-chip">rows (label + value)</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ====================  BLOCK: PULL QUOTE  ==================== -->
+<section class="page block-spec">
+	<div class="block-header">
+		<div class="block-number">06</div>
+		<div>
+			<h2>Pull Quote</h2>
+			<p class="block-lede">A short, italicised statement — a design philosophy, client testimonial, or project-director reflection. Sits inside the body flow as visual punctuation.</p>
+		</div>
+	</div>
+	<div class="spec-grid">
+		<div class="preview">
+			<div class="preview-label">Preview</div>
+			<div class="preview-canvas" style="padding: 5mm;">
+				<div class="fx-quote">
+					<p>Good engineering is invisible to the guest and indispensable to the operator. On Desert Rock, both happened at the same time.</p>
+					<cite>Project Director, ECEC</cite>
+				</div>
+			</div>
+		</div>
+		<div class="specs-box">
+			<div class="spec-card">
+				<h4>Content spec</h4>
+				<table>
+					<tr><th>Quote length</th><td>10–40 words</td></tr>
+					<tr><th>Attribution</th><td>Optional · name + role or organisation</td></tr>
+				</table>
+			</div>
+			<div class="spec-card">
+				<h4>Editable fields</h4>
+				<div class="fields">
+					<span class="field-chip">quote</span>
+					<span class="field-chip">attribution</span>
+				</div>
+			</div>
+			<div class="spec-card">
+				<h4>Best used for</h4>
+				<p>One per page max — keep it rare so it feels earned.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ====================  BLOCK: GALLERY  ==================== -->
+<section class="page block-spec">
+	<div class="block-header">
+		<div class="block-number">07</div>
+		<div>
+			<h2>Gallery</h2>
+			<p class="block-lede">A grid of additional images at the end of the page — detail shots, on-site photography, completed-building exteriors. 2- or 3-column layout.</p>
+		</div>
+	</div>
+	<div class="spec-grid">
+		<div class="preview">
+			<div class="preview-label">Preview · 3 columns</div>
+			<div class="preview-canvas" style="padding: 5mm;">
+				<div class="fx-gallery">
+					<div class="fx"></div>
+					<div class="fx"></div>
+					<div class="fx"></div>
+					<div class="fx"></div>
+					<div class="fx"></div>
+					<div class="fx"></div>
+				</div>
+			</div>
+		</div>
+		<div class="specs-box">
+			<div class="spec-card">
+				<h4>Image spec (per tile)</h4>
+				<table>
+					<tr><th>Min size</th><td><strong>800 × 600 px</strong></td></tr>
+					<tr><th>Aspect ratio</th><td>4 : 3 (cover-fit)</td></tr>
+					<tr><th>Format</th><td>JPG</td></tr>
+					<tr><th>How many</th><td>3, 6, or 9 (fills the grid evenly)</td></tr>
+				</table>
+			</div>
+			<div class="spec-card">
+				<h4>Editable fields</h4>
+				<div class="fields">
+					<span class="field-chip">images (multi-select)</span>
+					<span class="field-chip">columns (2 or 3)</span>
+				</div>
+			</div>
+			<div class="spec-card">
+				<h4>Best used for</h4>
+				<p>End-of-page visual summary. Don't dilute — curate 6–9 strong images over 20 average ones.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ====================  QUICK REFERENCE  ==================== -->
+<section class="page">
+	<h2>Quick reference</h2>
+	<p class="muted">All block image requirements at a glance. Every image is cover-cropped to fit the block's aspect ratio — centre the subject in your source image.</p>
+	<table class="ref-table">
+		<thead>
+			<tr>
+				<th>Block</th>
+				<th>Min image size</th>
+				<th>Aspect ratio</th>
+				<th>Qty per block</th>
+				<th>Best for</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><strong>Hero</strong></td>
+				<td>2400 × 1600</td>
+				<td>Any (crops to 60vh)</td>
+				<td>1 (featured image)</td>
+				<td>Landscape / wide shot</td>
+			</tr>
+			<tr>
+				<td><strong>Text Paragraph</strong></td>
+				<td>—</td>
+				<td>—</td>
+				<td>No image</td>
+				<td>Body prose · 80–200 words</td>
+			</tr>
+			<tr>
+				<td><strong>Image + Text Split</strong></td>
+				<td>1200 × 900</td>
+				<td>4 : 3</td>
+				<td>1</td>
+				<td>Narrative beats · key story sections</td>
+			</tr>
+			<tr>
+				<td><strong>Full-Width Image</strong></td>
+				<td>2400 × 800</td>
+				<td>3 : 1</td>
+				<td>1</td>
+				<td>Banner · context shot</td>
+			</tr>
+			<tr>
+				<td><strong>Image Pair</strong></td>
+				<td>1200 × 900 (each)</td>
+				<td>4 : 3</td>
+				<td>2</td>
+				<td>Before/after · exterior/interior</td>
+			</tr>
+			<tr>
+				<td><strong>Project Data</strong></td>
+				<td>—</td>
+				<td>—</td>
+				<td>No image</td>
+				<td>Facts · GFA, client, scope, completion</td>
+			</tr>
+			<tr>
+				<td><strong>Pull Quote</strong></td>
+				<td>—</td>
+				<td>—</td>
+				<td>No image</td>
+				<td>Design philosophy · testimonial</td>
+			</tr>
+			<tr>
+				<td><strong>Gallery</strong></td>
+				<td>800 × 600 (each)</td>
+				<td>4 : 3</td>
+				<td>3, 6, or 9</td>
+				<td>End-of-page visual summary</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="footer-note" style="margin-top: 10mm;">
+		<strong>Info sidebar (right column):</strong> Client · Contractor · Services Provided · Completion Date. Edited from the project's <em>Portfolio Settings → Info</em> tab — not part of the block system.
+	</div>
+</section>
+
+</body>
+</html>

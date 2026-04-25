@@ -7,7 +7,9 @@ if ( ! function_exists( 'emaurri_child_theme_enqueue_scripts' ) ) {
 	function emaurri_child_theme_enqueue_scripts() {
 		$main_style = 'emaurri-main';
 
-		wp_enqueue_style( 'emaurri-child-style', get_stylesheet_directory_uri() . '/style.css', array( $main_style ) );
+		$style_path = get_stylesheet_directory() . '/style.css';
+		$style_ver  = file_exists( $style_path ) ? filemtime( $style_path ) : false;
+		wp_enqueue_style( 'emaurri-child-style', get_stylesheet_directory_uri() . '/style.css', array( $main_style ), $style_ver );
 	}
 
 	add_action( 'wp_enqueue_scripts', 'emaurri_child_theme_enqueue_scripts' );
@@ -483,11 +485,15 @@ function ecec_team_member_admin_column_content( $col, $post_id ) {
 add_action( 'manage_ecec_team_member_posts_custom_column', 'ecec_team_member_admin_column_content', 10, 2 );
 
 // ─── [ecec_team_grid] shortcode ───
+// `min` pads the grid with placeholder cards (dashed photo + greyed "Team
+// member" placeholder text) when real published members < min. Used so the
+// grid doesn't look sparse before the client has uploaded all team members.
 function ecec_team_grid_shortcode( $atts ) {
 	$atts = shortcode_atts( array(
 		'columns' => '3',
 		'orderby' => 'menu_order',
 		'order'   => 'ASC',
+		'min'     => '0',
 	), $atts, 'ecec_team_grid' );
 
 	$q = new WP_Query( array(
@@ -497,9 +503,18 @@ function ecec_team_grid_shortcode( $atts ) {
 		'orderby'        => array( $atts['orderby'] => $atts['order'], 'title' => 'ASC' ),
 		'no_found_rows'  => true,
 	) );
-	if ( ! $q->have_posts() ) return '<p class="ecec-team-empty">No team members yet.</p>';
 
 	$cols = max( 1, min( 4, (int) $atts['columns'] ) );
+	$min  = max( 0, (int) $atts['min'] );
+
+	// Use post_count (or array count) — $q->found_posts returns 0 when
+	// no_found_rows=true is set on the query, which would inflate placeholders.
+	$real_count = is_array( $q->posts ) ? count( $q->posts ) : 0;
+	if ( $real_count === 0 && $min === 0 ) {
+		return '<p class="ecec-team-empty">No team members yet.</p>';
+	}
+	$placeholders_needed = max( 0, $min - $real_count );
+
 	ob_start(); ?>
 	<div class="ecec-team-grid ecec-team-columns-<?php echo (int) $cols; ?>">
 	<?php while ( $q->have_posts() ) : $q->the_post();
@@ -523,11 +538,76 @@ function ecec_team_grid_shortcode( $atts ) {
 			<?php endif; ?>
 		</article>
 	<?php endwhile; wp_reset_postdata(); ?>
+
+	<?php for ( $i = 0; $i < $placeholders_needed; $i++ ) : ?>
+		<article class="ecec-team-card ecec-team-card--placeholder" aria-hidden="true">
+			<div class="ecec-team-photo">
+				<div class="ecec-team-photo-placeholder ecec-team-photo-placeholder--ghost">
+					<span class="ecec-team-photo-placeholder__hint">Team member</span>
+				</div>
+			</div>
+			<h4 class="ecec-team-name ecec-team-name--ghost">&mdash;</h4>
+			<p class="ecec-team-role ecec-team-role--ghost">Role</p>
+		</article>
+	<?php endfor; ?>
 	</div>
 	<?php
 	return ob_get_clean();
 }
 add_shortcode( 'ecec_team_grid', 'ecec_team_grid_shortcode' );
+
+// ─── [ecec_why] shortcode — sticky-left + scrolling-right "Why ECEC" page ─
+// Mirrors Emaurri's portfolio/vertical-divided-list demo's scrollytelling
+// pattern: 5 pillar titles stack in a sticky left column (only one visible
+// at a time), 5 image slides stack in the scrolling right column. JS uses
+// IntersectionObserver to swap the visible title as each right-column slide
+// crosses the viewport center.
+function ecec_why_shortcode( $atts ) {
+	$pillars = [
+		[ 'num' => '01', 'title' => 'Proven Performance' ],
+		[ 'num' => '02', 'title' => 'Data-Driven Efficiency' ],
+		[ 'num' => '03', 'title' => 'Global Standards Local Insight' ],
+		[ 'num' => '04', 'title' => 'Collaborative Engagement' ],
+		[ 'num' => '05', 'title' => 'Comprehensive Expertise' ],
+	];
+	$projects_url = esc_url( home_url( '/projects/' ) );
+	ob_start();
+	?>
+	<section class="ecec-why" aria-label="Why ECEC">
+		<div class="ecec-why-inner">
+			<div class="ecec-why-info-holder">
+				<?php foreach ( $pillars as $i => $p ) : ?>
+					<div class="ecec-why-info-item<?php echo $i === 0 ? ' is-active' : ''; ?>" data-idx="<?php echo (int) $i; ?>">
+						<div class="ecec-why-num"><?php echo esc_html( $p['num'] ); ?></div>
+						<h2 class="ecec-why-title"><?php echo esc_html( $p['title'] ); ?></h2>
+						<a class="ecec-why-cta" href="<?php echo $projects_url; ?>">Explore</a>
+					</div>
+				<?php endforeach; ?>
+			</div>
+			<div class="ecec-why-main">
+				<?php foreach ( $pillars as $i => $p ) : ?>
+					<article class="ecec-why-slide" data-idx="<?php echo (int) $i; ?>">
+						<div class="ecec-block-placeholder ecec-why-placeholder">
+							<p class="ecec-block-placeholder__size">600 &times; 800</p>
+							<p class="ecec-block-placeholder__hint">Image placeholder &mdash; replace via admin</p>
+						</div>
+					</article>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	</section>
+	<?php
+	return ob_get_clean();
+}
+add_shortcode( 'ecec_why', 'ecec_why_shortcode' );
+
+// Enqueue Why ECEC JS only on the Why ECEC page
+add_action( 'wp_enqueue_scripts', function () {
+	if ( ! is_page( 'why-ecec' ) ) { return; }
+	$js_path = get_stylesheet_directory() . '/assets/why-ecec.js';
+	$ver = file_exists( $js_path ) ? filemtime( $js_path ) : false;
+	wp_enqueue_script( 'ecec-why-ecec', get_stylesheet_directory_uri() . '/assets/why-ecec.js', [], $ver, true );
+}, 20 );
 
 // ─── Single-Project Content Blocks: admin metabox (drag-sort repeater UI) ─
 // Stores a JSON array of block objects in `_ecec_blocks` meta on portfolio-item.
@@ -874,7 +954,7 @@ add_shortcode( 'ecec_services_list', 'ecec_services_list_shortcode' );
 function ecec_clients_marquee_shortcode( $atts ) {
 	$atts = shortcode_atts( [
 		'speed' => '50',  // seconds for one full loop
-		'height' => '60', // logo row height in px
+		'height' => '45', // logo row height in px
 	], $atts, 'ecec_clients_marquee' );
 
 	$ids = get_option( 'ecec_client_logo_ids', [] );

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ECEC Project Page — Anatomy</title>
+<style>
+	:root {
+		--white: #ffffff;
+		--platinum: #e7e8ea;
+		--isabelline: #ece6e6;
+		--silver: #bbcdd1;
+		--slate: #687a84;
+		--black: #231f20;
+	}
+	@page { size: A4 portrait; margin: 12mm; }
+	* { box-sizing: border-box; }
+	html, body {
+		margin: 0; padding: 0;
+		font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+		color: var(--black);
+		background: var(--white);
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+	}
+	.sheet {
+		width: 186mm;          /* A4 210mm - 24mm margins */
+		min-height: 273mm;     /* A4 297mm - 24mm */
+		padding: 0;
+	}
+
+	/* Header */
+	.hd { border-bottom: 1px solid var(--silver); padding-bottom: 4mm; margin-bottom: 6mm; }
+	.hd .eyebrow {
+		font-size: 8pt; letter-spacing: 0.25em; text-transform: uppercase;
+		color: var(--slate); margin-bottom: 2mm;
+	}
+	.hd h1 {
+		font-size: 20pt; line-height: 1.15; margin: 0 0 2mm;
+		font-weight: 600; letter-spacing: 0.01em;
+	}
+	.hd p { font-size: 9pt; color: var(--slate); margin: 0; max-width: 130mm; line-height: 1.5; }
+
+	/* Wireframe layout */
+	.wf {
+		display: grid;
+		grid-template-columns: 1fr 52mm;   /* body blocks | info sidebar */
+		gap: 6mm;
+		margin-bottom: 6mm;
+	}
+
+	/* Hero spans full width */
+	.hero {
+		grid-column: 1 / -1;
+		height: 48mm;
+		background: var(--black);
+		color: var(--white);
+		padding: 5mm;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		border-radius: 1mm;
+	}
+	.hero::before {
+		content: "";
+		position: absolute; inset: 0;
+		background: linear-gradient(180deg, rgba(104,122,132,0.2), rgba(35,31,32,0.6));
+		border-radius: 1mm;
+	}
+	.hero .tag {
+		position: absolute; top: 4mm; left: 5mm;
+		font-size: 7pt; letter-spacing: 0.2em; text-transform: uppercase; color: var(--silver);
+	}
+	.hero .dim {
+		position: absolute; top: 4mm; right: 5mm;
+		font-size: 7pt; letter-spacing: 0.08em; color: var(--silver);
+		font-family: 'Courier New', monospace;
+	}
+	.hero .t {
+		position: relative;
+		font-size: 13pt; font-weight: 600; line-height: 1.1;
+		letter-spacing: 0.015em;
+	}
+	.hero .s {
+		position: relative;
+		font-size: 8pt; color: var(--platinum); margin-top: 1mm;
+		letter-spacing: 0.02em;
+	}
+
+	/* Body blocks column */
+	.blocks {
+		display: flex;
+		flex-direction: column;
+		gap: 3mm;
+	}
+	.blk {
+		background: var(--isabelline);
+		border: 1px solid var(--silver);
+		border-radius: 1mm;
+		padding: 3mm 4mm;
+		display: grid;
+		grid-template-columns: 10mm 1fr auto;
+		gap: 3mm;
+		align-items: center;
+		min-height: 14mm;
+	}
+	.blk .n {
+		font-size: 11pt; font-weight: 600; color: var(--slate);
+		font-variant-numeric: tabular-nums; letter-spacing: 0.08em;
+	}
+	.blk .lbl { }
+	.blk .lbl .name { font-size: 10pt; font-weight: 600; margin-bottom: 0.5mm; }
+	.blk .lbl .note { font-size: 8pt; color: var(--slate); line-height: 1.45; }
+	.blk .dim {
+		font-size: 7.5pt; color: var(--slate);
+		font-family: 'Courier New', monospace;
+		text-align: right;
+		white-space: nowrap;
+	}
+
+	/* Differentiate image-heavy blocks visually */
+	.blk-image {
+		background: var(--platinum);
+		border-color: var(--silver);
+	}
+	.blk.tall {
+		min-height: 20mm;
+	}
+	.blk.extra-tall {
+		min-height: 28mm;
+	}
+	.blk.banner {
+		min-height: 16mm;
+		background: linear-gradient(90deg, #cdd5d9 0%, #a5b3b8 100%);
+	}
+	.blk.banner .name, .blk.banner .note, .blk.banner .n, .blk.banner .dim { color: var(--black); }
+
+	/* Image-pair visual: split into 2 halves */
+	.blk-pair {
+		padding: 0;
+		display: block;
+		position: relative;
+	}
+	.blk-pair .hdr {
+		padding: 2mm 4mm 0;
+		display: grid;
+		grid-template-columns: 10mm 1fr auto;
+		gap: 3mm;
+		align-items: baseline;
+	}
+	.blk-pair .hdr .n {
+		font-size: 11pt; font-weight: 600; color: var(--slate);
+		letter-spacing: 0.08em;
+	}
+	.blk-pair .hdr .name { font-size: 10pt; font-weight: 600; }
+	.blk-pair .hdr .dim { font-size: 7.5pt; color: var(--slate); font-family: 'Courier New', monospace; white-space: nowrap; }
+	.blk-pair .row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 2mm;
+		padding: 2mm 4mm 3mm;
+	}
+	.blk-pair .row > div {
+		height: 16mm;
+		background: linear-gradient(135deg, #cdd5d9, #a5b3b8);
+		border-radius: 1mm;
+	}
+	.blk-pair .note {
+		font-size: 8pt; color: var(--slate);
+		padding: 0 4mm 3mm;
+	}
+
+	/* Gallery visual: mini grid */
+	.blk-gallery {
+		padding: 0;
+		display: block;
+	}
+	.blk-gallery .hdr {
+		padding: 2mm 4mm 0;
+		display: grid;
+		grid-template-columns: 10mm 1fr auto;
+		gap: 3mm;
+		align-items: baseline;
+	}
+	.blk-gallery .hdr .n { font-size: 11pt; font-weight: 600; color: var(--slate); letter-spacing: 0.08em; }
+	.blk-gallery .hdr .name { font-size: 10pt; font-weight: 600; }
+	.blk-gallery .hdr .dim { font-size: 7.5pt; color: var(--slate); font-family: 'Courier New', monospace; white-space: nowrap; }
+	.blk-gallery .grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1.5mm;
+		padding: 2mm 4mm 3mm;
+	}
+	.blk-gallery .grid > div {
+		height: 12mm;
+		background: linear-gradient(135deg, #cdd5d9, #a5b3b8);
+		border-radius: 0.8mm;
+	}
+
+	/* Split visual: image + text side by side */
+	.blk-split {
+		padding: 0;
+		display: block;
+	}
+	.blk-split .hdr {
+		padding: 2mm 4mm 1mm;
+		display: grid;
+		grid-template-columns: 10mm 1fr auto;
+		gap: 3mm;
+		align-items: baseline;
+	}
+	.blk-split .hdr .n { font-size: 11pt; font-weight: 600; color: var(--slate); letter-spacing: 0.08em; }
+	.blk-split .hdr .name { font-size: 10pt; font-weight: 600; }
+	.blk-split .hdr .dim { font-size: 7.5pt; color: var(--slate); font-family: 'Courier New', monospace; white-space: nowrap; }
+	.blk-split .row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 3mm;
+		padding: 1mm 4mm 3mm;
+	}
+	.blk-split .img {
+		height: 18mm;
+		background: linear-gradient(135deg, #cdd5d9, #a5b3b8);
+		border-radius: 1mm;
+	}
+	.blk-split .txt {
+		display: flex; flex-direction: column; justify-content: center; gap: 1mm;
+	}
+	.blk-split .txt .ovl {
+		font-size: 6.5pt; letter-spacing: 0.2em; text-transform: uppercase; color: var(--slate);
+	}
+	.blk-split .txt .hd2 {
+		font-size: 9pt; font-weight: 600; line-height: 1.2; letter-spacing: 0.02em;
+	}
+	.blk-split .txt .p {
+		font-size: 7pt; color: var(--slate); line-height: 1.45;
+	}
+
+	/* Sidebar column */
+	.side {
+		background: var(--white);
+		border: 1px solid var(--silver);
+		border-radius: 1mm;
+		padding: 4mm;
+		position: relative;
+		height: fit-content;
+	}
+	.side .tag {
+		font-size: 7pt; letter-spacing: 0.2em; text-transform: uppercase;
+		color: var(--slate); margin-bottom: 3mm; padding-bottom: 2mm;
+		border-bottom: 1px solid var(--silver);
+	}
+	.side .row {
+		margin-bottom: 3mm;
+	}
+	.side .row:last-child { margin-bottom: 0; }
+	.side .label {
+		font-size: 7pt; letter-spacing: 0.1em; text-transform: uppercase;
+		color: var(--slate); margin-bottom: 0.5mm;
+	}
+	.side .value {
+		font-size: 9pt; color: var(--black);
+	}
+	.side .dim {
+		position: absolute; top: 4mm; right: 4mm;
+		font-size: 7pt; color: var(--slate);
+		font-family: 'Courier New', monospace;
+	}
+	.side .sticky-note {
+		margin-top: 4mm;
+		padding-top: 3mm;
+		border-top: 1px dashed var(--silver);
+		font-size: 7pt;
+		color: var(--slate);
+		line-height: 1.5;
+		font-style: italic;
+	}
+
+	/* Legend */
+	.legend {
+		margin-top: 4mm;
+		border-top: 1px solid var(--silver);
+		padding-top: 4mm;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 4mm;
+	}
+	.legend .item {
+		font-size: 8pt;
+		color: var(--slate);
+		line-height: 1.5;
+	}
+	.legend .item strong {
+		color: var(--black);
+		display: block;
+		margin-bottom: 1mm;
+		font-size: 8.5pt;
+		letter-spacing: 0.05em;
+	}
+	.legend code {
+		background: var(--platinum); padding: 0.3mm 1mm; border-radius: 0.5mm;
+		font-size: 7.5pt;
+	}
+
+	.footline {
+		margin-top: 5mm;
+		font-size: 7pt;
+		color: var(--slate);
+		text-align: right;
+		letter-spacing: 0.08em;
+	}
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+	<div class="hd">
+		<div class="eyebrow">Project page · anatomy</div>
+		<h1>Single-Project Page — Layout Anatomy</h1>
+		<p>One-page visual reference. Each block's dimension line shows <strong>what it renders at</strong> on screen (display size) and <strong>what to upload</strong> (min source size for sharp rendering on retina displays). Every image is cover-cropped to fit the block's aspect ratio automatically.</p>
+	</div>
+
+	<div class="wf">
+
+		<!-- HERO (full width) -->
+		<div class="hero">
+			<div class="tag">HERO</div>
+			<div class="dim">displays ~1920×720 · upload ≥ 2400×1400</div>
+			<div class="t">Project Title Goes Here</div>
+			<div class="s">Location, Country · Sector</div>
+		</div>
+
+		<!-- BLOCKS COLUMN -->
+		<div class="blocks">
+
+			<!-- 01 Text -->
+			<div class="blk">
+				<div class="n">01</div>
+				<div class="lbl">
+					<div class="name">Text Paragraph</div>
+					<div class="note">Body prose · 80–200 words · justified</div>
+				</div>
+				<div class="dim">≤920 px wide</div>
+			</div>
+
+			<!-- 02 Image + Text Split -->
+			<div class="blk-split">
+				<div class="hdr">
+					<div class="n">02</div>
+					<div class="name">Image + Text Split</div>
+					<div class="dim">displays ~390×290 · upload ≥ 1000×750 · 4:3</div>
+				</div>
+				<div class="row">
+					<div class="img"></div>
+					<div class="txt">
+						<div class="ovl">VISION &amp; CONTEXT</div>
+						<div class="hd2">Heading — 4 to 10 words</div>
+						<div class="p">Body copy · 50–120 words · left or right image toggle</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 03 Full Image -->
+			<div class="blk banner">
+				<div class="n">03</div>
+				<div class="lbl">
+					<div class="name">Full-Width Image (banner)</div>
+					<div class="note">Optional caption below</div>
+				</div>
+				<div class="dim">displays ~840×280 · upload ≥ 1800×600 · 3:1</div>
+			</div>
+
+			<!-- 04 Image Pair -->
+			<div class="blk-pair">
+				<div class="hdr">
+					<div class="n">04</div>
+					<div class="name">Image Pair</div>
+					<div class="dim">displays ~410×310 each · upload ≥ 1000×750 · 4:3</div>
+				</div>
+				<div class="row">
+					<div></div>
+					<div></div>
+				</div>
+				<div class="note">Two side-by-side · optional caption per image</div>
+			</div>
+
+			<!-- 05 Project Data -->
+			<div class="blk tall">
+				<div class="n">05</div>
+				<div class="lbl">
+					<div class="name">Project Data</div>
+					<div class="note">Facts list · 4–8 label + value rows (GFA, Client, Scope, Completion…)</div>
+				</div>
+				<div class="dim">no image</div>
+			</div>
+
+			<!-- 06 Pull Quote -->
+			<div class="blk">
+				<div class="n">06</div>
+				<div class="lbl">
+					<div class="name">Pull Quote</div>
+					<div class="note">10–40 words italicised · optional attribution</div>
+				</div>
+				<div class="dim">no image</div>
+			</div>
+
+			<!-- 07 Gallery -->
+			<div class="blk-gallery">
+				<div class="hdr">
+					<div class="n">07</div>
+					<div class="name">Gallery (3 or 2 columns)</div>
+					<div class="dim">displays ~270×200 each · upload ≥ 600×450 · 4:3</div>
+				</div>
+				<div class="grid">
+					<div></div><div></div><div></div>
+					<div></div><div></div><div></div>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- SIDEBAR COLUMN -->
+		<div class="side">
+			<div class="dim">280 px</div>
+			<div class="tag">Project Info</div>
+			<div class="row">
+				<div class="label">Client</div>
+				<div class="value">Red Sea Global</div>
+			</div>
+			<div class="row">
+				<div class="label">Contractor</div>
+				<div class="value">—</div>
+			</div>
+			<div class="row">
+				<div class="label">Services Provided</div>
+				<div class="value">MEP · ICT · Sustainability</div>
+			</div>
+			<div class="row">
+				<div class="label">Completion Date</div>
+				<div class="value">2024</div>
+			</div>
+			<div class="sticky-note">
+				Sticky right column · Scrolls with body · Populated from <em>Portfolio Settings → Info</em> tab (not a block)
+			</div>
+		</div>
+
+	</div>
+
+	<!-- LEGEND -->
+	<div class="legend">
+		<div class="item">
+			<strong>Display vs. source</strong>
+			The "displays at" number is what you'll see on screen. The "upload ≥" number is the minimum source size for a sharp render on retina displays — roughly 2× the display size.
+		</div>
+		<div class="item">
+			<strong>Image sourcing</strong>
+			JPG under ~800&nbsp;KB. Every image is cover-cropped to the block's aspect ratio — centre the subject when preparing sources. Uploading bigger is fine; WordPress scales down automatically.
+		</div>
+		<div class="item">
+			<strong>Optional blocks</strong>
+			Every block is optional. A short project may use 2–3 blocks; a flagship project 8+. Order is drag-and-drop in the admin Content Blocks editor.
+		</div>
+	</div>
+
+	<div class="footline">ECEC Engineering Consultants · Single-Project Page Anatomy · v1 · 2026-04-23</div>
+
+</div>
+
+</body>
+</html>
