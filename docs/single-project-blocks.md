@@ -72,6 +72,18 @@ Flow in `single-portfolio-item.php`:
 
 CSS: appended to `style.css` under section "Single-Project Page (block system)". Responsive: single-column below 900px.
 
+## Image placeholder system (added 2026-04-25)
+
+When a block's `image_id` is `0` or missing, the four image-rendering partials (`full-image`, `image-pair`, `gallery`, `image-text-split`) render a styled gray dashed-border `<div class="ecec-block-placeholder">` with dimension text + "Image placeholder — replace via admin" hint. CSS variants per block type: `--full-image` (3:1), `--pair` (4:3), `--gallery` (4:3), `--split` (4:3) — match the real-image aspect ratios so layout doesn't shift when the client uploads a real photo.
+
+Disappears the moment a real `image_id` is saved via the admin repeater UI. Same nag pattern used elsewhere on the site (About Us 2 placeholders, Why ECEC 5 slides, People grid auto-pad).
+
+## Sidebar autofill (2026-04-25)
+
+`single-portfolio-item.php` reads `qodef_portfolio_info_items` for the right-column sidebar. After bulk-rolling the block layout to 81 portfolio-items, 27 client-added projects had empty sidebars (no qodef data). `_deploy/fix_portfolio_sidebar_breadcrumb.php` auto-filled them with rows derived from existing data: Location (portfolio-location taxonomy), Sector (portfolio-category taxonomy), Completion year (post_date if 2010–2024). Marked with `_ecec_sidebar_autofilled_at` for undo. Same script also set `qodef_title_layout='breadcrumbs'` on every portfolio-item so the breadcrumb bar renders consistently.
+
+**CLI gotcha:** `get_the_terms()` and `wp_get_object_terms()` both return empty for `portfolio-category` / `portfolio-location` in CLI scripts run as `www-data` (likely an Emaurri Core capability filter). Use direct `$wpdb->get_col()` SQL instead.
+
 ## Admin UX — drag-sort repeater (shipped 2026-04-24)
 
 The v1 plan proposed a JSON textarea PoC to be upgraded to a drag-sort UI after visual sign-off. The drag-sort UI shipped 2026-04-24; the JSON textarea is now hidden (source of truth, still submitted with the form so `ecec_blocks_save` sanitizer is unchanged).

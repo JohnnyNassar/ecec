@@ -20,14 +20,18 @@ Saving publishes the member and they appear on the People page automatically (no
 
 ## What the visitor sees on /people/
 
-A responsive grid of cards above the existing "OUR EXPERT TEAM" / "WHO WE ARE" headings. Each card has:
+Block 1 (intro): 2-col section with "OUR EXPERT TEAM" h2 (left) + narrative body (right) — verbatim ECEC team blurb. (Earlier "WHO WE ARE" h3 was removed 2026-04-25 to match the demo's intro pattern more cleanly.)
 
-- Photo (220px square, 12px rounded corners)
+Block 2 (team grid): A responsive grid of cards. Each card has:
+
+- Photo (300px square, 12px rounded corners — bumped from 220px on 2026-04-25 per client feedback)
 - Name (Plus Jakarta Sans, 20px)
 - Role (uppercase, letter-spaced, slate-gray)
 - Location(s)
 
 Grid is 3 columns on desktop, 2 on tablet, 1 on mobile.
+
+**Placeholder padding:** the grid is rendered with `[ecec_team_grid columns="3" min="6"]`. If fewer than `min` real members exist, dashed-border placeholder cards fill the remaining slots ("Team member" + role label "Role"). Auto-removed once published members reach `min`. Same nag pattern as the project image placeholders.
 
 ## Files
 
@@ -43,15 +47,18 @@ Nothing in `assets/` is needed — pure CSS, no JS.
 ## Shortcode
 
 ```
-[ecec_team_grid columns="3"]
+[ecec_team_grid columns="3" min="6"]
 ```
 
 Attributes:
 - `columns` — `1`, `2`, `3`, or `4` (default `3`)
+- `min` — minimum visible cards. If real published members < min, the grid is padded with placeholder cards (added 2026-04-25). Default `0` = no padding.
 - `orderby` — any WP_Query orderby (default `menu_order`)
 - `order` — `ASC` / `DESC` (default `ASC`)
 
-Placed in the People page (post 123) inside container `5614a79`, replacing the previously hardcoded image + heading + text-editor widgets.
+Placed in the People page (post 123) — currently used as `[ecec_team_grid columns="3" min="6"]` so the grid always shows at least 6 cards (real + dashed-border placeholders).
+
+**Implementation gotcha:** when computing `placeholders_needed = $min - $real_count`, use `count($q->posts)` — `$q->found_posts` returns 0 if the WP_Query was built with `no_found_rows=true`.
 
 ## Data model
 
