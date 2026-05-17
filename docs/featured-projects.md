@@ -2,6 +2,8 @@
 
 The Projects page matches the [lwkp.com/projects](https://www.lwkp.com/projects) layout: full-width hero with image/headline, anchor-scroll tabs (FEATURED / RECENT PROJECTS), a Featured Projects 2-column grid, then the searchable Recent Projects grid below.
 
+> **Editor's guide:** end-user instructions for marking projects as featured live at [`help/projects.html#featured`](../help/projects.html#featured). For the home page Featured strip see [`help/home.html#block5`](../help/home.html#block5).
+
 All admin-facing controls use standard WP UI — no Elementor knowledge needed for day-to-day content updates.
 
 ## What the user sees
@@ -32,8 +34,12 @@ Our Recent Projects
 
 [ Search here ........... ] [ By Type ] [ By Location ] [ SEARCH ]
 
-[3-column grid of all 54 projects, filterable via bar + sidebar]
+[3-column grid: first 12 cards shown, "Load More" button reveals the rest in batches of 12]
 ```
+
+**Recent Projects pagination (changed 2026-05-17):** the grid uses the theme's built-in `pagination_type="load-more"` AJAX. The shortcode call lives in the page's Elementor data; the toggle was applied by `_deploy/enable_projects_load_more.php` (slug-based, idempotent). To change the batch size, edit `posts_per_page="12"` in the shortcode via Elementor. Filtering via the search bar / sidebar still applies before pagination — the load-more button respects active filters.
+
+**Featured title spacing fix (2026-05-17):** the parent Qode theme applies a negative `letter-spacing` to `h3` headings via `.qodef-h3`, which made multi-word featured project titles run together. Override scoped to `.ecec-featured-title` with `letter-spacing: 0.01em !important;` in `style.css`. If a future theme update brings the negative tracking back, that's the rule to keep.
 
 ## Files
 
@@ -48,6 +54,7 @@ Plus deploy scripts in `_deploy/`:
 - `seed_featured_projects.php` — marks the initial 6 projects as featured + sets their menu_order
 - `add_hero_and_featured_to_projects.php` — injects hero container, tabs container, featured container into post 122; updates the existing recent container with anchor + headings
 - `remove_year_timeline_from_projects.php` — strips `[ecec_year_timeline]` from the Elementor data
+- `enable_projects_load_more.php` — flips the Recent Projects shortcode from `no-pagination/54` to `load-more/12` (added 2026-05-17; slug-based, idempotent)
 - `deploy_hero_featured.ps1` — Posh-SSH driver
 
 ## The "Featured" flag

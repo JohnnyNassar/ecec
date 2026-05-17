@@ -352,9 +352,19 @@ th { color: var(--raisin-black); font-weight: 600; background: var(--isabelline)
 			<thead><tr><th>Shortcode</th><th>Where used</th><th>Notes</th></tr></thead>
 			<tbody>
 				<tr>
-					<td><code>[ecec_team_grid columns="3" min="6"]</code></td>
+					<td><code>[ecec_team_leadership]</code></td>
 					<td>People page (123)</td>
-					<td>Renders <code>ecec_team_member</code> CPT. <code>min</code> pads with placeholder cards. Auto-removed once real members ≥ min.</td>
+					<td>Full-width image+bio rows for <code>founder</code> &amp; <code>director</code> tier members. Alternates sides via CSS <code>:nth-child(even)</code> — first leader photo-left, second photo-right. Default <code>min_directors=0</code> (no placeholders); rewritten 2026-05-17 from the previous 2-up grid.</td>
+				</tr>
+				<tr>
+					<td><code>[ecec_team_department dept="..." columns="4" min="3"]</code></td>
+					<td>People page (123) — one per department</td>
+					<td>Senior-tier grid filtered by <code>_ecec_team_department</code>. Cards show photo + name + role (no location). Pads with "Name of employee / Position" placeholder cards up to <code>min</code>. Valid dept slugs: <code>business-development</code>, <code>design-team</code>, <code>project-management</code>, <code>administration</code>. Added 2026-05-17.</td>
+				</tr>
+				<tr>
+					<td><code>[ecec_team_grid columns="3" min="6"]</code></td>
+					<td>(legacy — no longer on People page)</td>
+					<td>All senior-tier team members regardless of department. Kept for ad-hoc embeds. Note: doesn't filter by department, so don't combine with <code>[ecec_team_department]</code> on the same page or members render twice.</td>
 				</tr>
 				<tr>
 					<td><code>[ecec_clients_marquee]</code></td>
@@ -415,13 +425,16 @@ th { color: var(--raisin-black); font-weight: 600; background: var(--isabelline)
 		</ul>
 
 		<h3>ecec_team_member (custom CPT, in functions.php)</h3>
-		<p>Used by <code>[ecec_team_grid]</code>. Fields:</p>
+		<p>Used by <code>[ecec_team_leadership]</code> (full-width alternating image+bio rows for founder/director, rewritten 2026-05-17) + <code>[ecec_team_department dept="..."]</code> (4-col senior grid per department, added 2026-05-17). Legacy <code>[ecec_team_grid]</code> still registered but no longer on the People page. Fields:</p>
 		<ul>
 			<li><code>post_title</code> — Name</li>
-			<li>Featured Image — Headshot (square, 220×220 recommended)</li>
+			<li>Featured Image — Headshot (square, 800×800 recommended)</li>
 			<li><code>_ecec_team_role</code> — Role/title (text)</li>
-			<li><code>_ecec_team_locations</code> — Office locations (text)</li>
-			<li><code>menu_order</code> — Sort order (lower = first)</li>
+			<li><code>_ecec_team_locations</code> — Office locations (text, pipe-separated). Only rendered on founder/director leadership rows; department grids omit it.</li>
+			<li><code>_ecec_team_tier</code> — enum: <code>founder</code> | <code>director</code> | <code>senior</code> (default <code>senior</code>; added 2026-05-02). Decides which section the member appears in.</li>
+			<li><code>_ecec_team_bio</code> — sanitized textarea, 100–150 word narrative, only displayed for founder/director tiers (added 2026-05-02)</li>
+			<li><code>_ecec_team_department</code> — enum: <code>business-development</code> | <code>design-team</code> | <code>project-management</code> | <code>administration</code> | empty (added 2026-05-17). Senior-tier members are invisible on the page if empty. Ignored for founder/director.</li>
+			<li><code>menu_order</code> — Sort order (lower = first; applied independently within each section/department)</li>
 		</ul>
 
 		<h3>portfolio-location (custom taxonomy)</h3>
@@ -471,7 +484,13 @@ th { color: var(--raisin-black); font-weight: 600; background: var(--isabelline)
 		<p>Royal Atlantis Resort (post #114) — second hand-curated, 7 blocks with placeholder images. Live: <a href="http://207.180.196.39/ecec/portfolio-item/royal-atlantis-resort/">/ecec/portfolio-item/royal-atlantis-resort/</a>.</p>
 
 		<h3>Bulk seed script</h3>
-		<p><span class="path">_deploy/bulk_seed_multiblock.php</span> — modes: <code>dry | confirm | undo</code>. Skips Desert Rock + Royal Atlantis (curated). Sources project-data rows from existing qodef_portfolio_info_items + auto-prepends Location (taxonomy) + auto-appends Completion (post_date year, only if 2010–2024 to avoid client-create dates).</p>
+		<p><span class="path">_deploy/bulk_seed_multiblock.php</span> — modes: <code>dry | confirm | undo</code>. Skips Desert Rock + Royal Atlantis (curated). Sources project-data rows from existing qodef_portfolio_info_items + auto-prepends Location (taxonomy) + auto-appends Completion (post_date year, only if 2010–2024 to avoid client-create dates). Note: this script still seeds the v1 pattern (with image-pair). For v2 pattern, run the relayout sweep below afterward.</p>
+
+		<h3>Layout v2 sweep (2026-05-02)</h3>
+		<p><span class="path">_deploy/relayout_all_to_two_splits.php</span> — modes: <code>dry | confirm | undo</code>. Replaces each bulk-seeded project's <code>image-pair</code> block with a second <code>image-text-split</code> (<code>image_side='right'</code>, generic INTEGRATED DELIVERY copy). Targets only projects with <code>_ecec_blocks_bulkseeded_at</code> marker (auto-excludes curated). Idempotent; per-project backup at <code>_ecec_blocks_backup_pretwosplits</code> meta. Default block sequence post-sweep: <code>text-paragraph &rarr; image-text-split (LEFT) &rarr; image-text-split (RIGHT) &rarr; full-image &rarr; project-data &rarr; pull-quote &rarr; gallery</code>.</p>
+
+		<h3>Gallery lightbox (2026-05-02)</h3>
+		<p><span class="path">assets/gallery-lightbox.js</span> — vanilla JS, no deps (~130 lines). Click any <code>.ecec-block-gallery__item img</code> opens a fullscreen overlay with prev/next, ESC + arrow keys, click backdrop to close, touch swipe. Reads largest source from <code>srcset</code>. CSS: <code>.ecec-lb*</code> selectors in style.css. Enqueue: <code>ecec_enqueue_gallery_lightbox()</code> in functions.php — <code>is_singular('portfolio-item')</code> guard.</p>
 	</section>
 
 	<!-- ── 6. Why ECEC scrollytelling ─────────────────────────── -->
