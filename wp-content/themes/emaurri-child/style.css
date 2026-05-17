@@ -26,7 +26,7 @@ Template: emaurri
 /* ─── Typography: Body ─── */
 
 body {
-	font-family: 'Argentum Sans', sans-serif !important;
+	font-family: 'Argentum Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	color: var(--ecec-raisin-black);
 }
 
@@ -50,7 +50,7 @@ h5, .qodef-h5,
 h6, .qodef-h6,
 .wp-block-quote,
 blockquote {
-	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	color: var(--ecec-raisin-black);
 }
 
@@ -68,7 +68,7 @@ input[type=submit],
 #qodef-page-comments-list .qodef-comment-item .qodef-e-date a,
 #qodef-page-comments-list .qodef-comment-item .qodef-e-links > *,
 .qodef-copy-text {
-	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 }
 
 /* ─── Typography: Inputs ─── */
@@ -83,7 +83,7 @@ input[type=text],
 input[type=url],
 textarea,
 select {
-	font-family: 'Argentum Sans', sans-serif !important;
+	font-family: 'Argentum Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	color: var(--ecec-slate-gray);
 	border-color: var(--ecec-silver-sand);
 }
@@ -166,7 +166,7 @@ input[type=submit]:hover {
    ============================================= */
 
 #qodef-page-footer-top-area {
-	background-color: var(--ecec-raisin-black);
+	background-color: var(--ecec-silver-sand);
 	padding: 0;
 }
 
@@ -231,25 +231,178 @@ input[type=submit]:hover {
 	filter: brightness(0) invert(1);
 }
 
+#qodef-page-footer-bottom-area,
+#qodef-page-footer-bottom-area-inner,
+#qodef-page-footer-bottom-area .qodef-grid-item,
+#qodef-page-footer-bottom-area .textwidget > div {
+	background-color: var(--ecec-silver-sand);
+}
+
 #qodef-page-footer-bottom-area {
-	background-color: #1a1a1b;
 	padding: 25px 0;
 	border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 #qodef-page-footer-bottom-area,
 #qodef-page-footer-bottom-area p,
+#qodef-page-footer-bottom-area li,
+#qodef-page-footer-bottom-area address,
+#qodef-page-footer-bottom-area .qodef-e-text,
 #qodef-page-footer-bottom-area .qodef-copy-text,
+#qodef-page-footer-bottom-area .widget,
+#qodef-page-footer-bottom-area p strong {
+	color: var(--ecec-platinum) !important;
+}
+
+#qodef-page-footer-bottom-area .qodef-widget-title,
+#qodef-page-footer-bottom-area h1,
+#qodef-page-footer-bottom-area h2,
+#qodef-page-footer-bottom-area h3,
+#qodef-page-footer-bottom-area h4,
+#qodef-page-footer-bottom-area h5,
+#qodef-page-footer-bottom-area h6 {
+	color: var(--ecec-white) !important;
+}
+
 #qodef-page-footer-bottom-area a {
-	color: var(--ecec-slate-gray);
+	color: var(--ecec-silver-sand) !important;
+	transition: color 0.2s ease;
 }
 
 #qodef-page-footer-bottom-area a:hover {
-	color: var(--ecec-white);
+	color: var(--ecec-white) !important;
 }
 
 #qodef-page-footer .widget {
 	padding: 0 15px;
+}
+
+/* =============================================
+   PEOPLE PAGE - Leadership rows (Founder / Director tiers)
+   ============================================= */
+
+.ecec-team-leadership {
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 40px 0 60px;
+	display: flex;
+	flex-direction: column;
+	gap: 70px;
+}
+
+.ecec-leader-row {
+	display: grid;
+	grid-template-columns: minmax(260px, 42%) 1fr;
+	gap: 48px;
+	align-items: center;
+}
+
+/* Alternate sides: even rows put the photo on the right. */
+.ecec-leader-row:nth-child(even) {
+	grid-template-columns: 1fr minmax(260px, 42%);
+}
+.ecec-leader-row:nth-child(even) .ecec-leader-photo { order: 2; }
+.ecec-leader-row:nth-child(even) .ecec-leader-text  { order: 1; }
+
+.ecec-leader-photo {
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	background: var(--ecec-platinum);
+	overflow: hidden;
+}
+
+.ecec-leader-photo .ecec-leader-img,
+.ecec-leader-photo img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.ecec-leader-photo-placeholder {
+	width: 100%;
+	height: 100%;
+	background: var(--ecec-platinum);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--ecec-silver-sand);
+}
+.ecec-leader-photo-placeholder svg {
+	width: 28%;
+	max-width: 110px;
+	height: auto;
+}
+
+.ecec-leader-text {
+	padding-top: 4px;
+}
+
+.ecec-leader-name {
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+	font-size: clamp(20px, 1.8vw, 26px) !important;
+	font-weight: 700 !important;
+	color: var(--ecec-raisin-black) !important;
+	text-transform: uppercase !important;
+	letter-spacing: 0.04em !important;
+	line-height: 1.15 !important;
+	margin: 0 0 6px !important;
+}
+
+.ecec-leader-role {
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+	font-size: 12px !important;
+	font-weight: 600 !important;
+	color: var(--ecec-slate-gray) !important;
+	text-transform: uppercase !important;
+	letter-spacing: 0.16em !important;
+	margin: 0 0 3px !important;
+}
+
+.ecec-leader-location {
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+	font-size: 12px !important;
+	color: var(--ecec-slate-gray) !important;
+	letter-spacing: 0.08em !important;
+	margin: 0 0 16px !important;
+}
+
+.ecec-leader-bio {
+	font-family: 'Argentum Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+	font-size: 14.5px;
+	line-height: 1.65;
+	color: var(--ecec-slate-gray);
+	text-align: justify;
+	text-align-last: left;
+	text-wrap: pretty;
+	word-spacing: -0.04em;
+	hyphens: manual;
+	-webkit-hyphens: manual;
+}
+.ecec-leader-bio p { margin: 0; }
+
+.ecec-leader-row--placeholder .ecec-leader-name--placeholder,
+.ecec-leader-row--placeholder .ecec-leader-role--placeholder { opacity: 0.55; }
+.ecec-leader-row--placeholder .ecec-leader-bio--placeholder { opacity: 0.55; font-style: italic; }
+
+@media (max-width: 1100px) {
+	.ecec-team-leadership { gap: 56px; padding: 32px 0 48px; }
+	.ecec-leader-row,
+	.ecec-leader-row:nth-child(even) {
+		grid-template-columns: minmax(220px, 38%) 1fr;
+		gap: 32px;
+	}
+}
+@media (max-width: 600px) {
+	.ecec-leader-row,
+	.ecec-leader-row:nth-child(even) {
+		grid-template-columns: 1fr;
+		gap: 20px;
+	}
+	/* On mobile, restore source order regardless of alternation. */
+	.ecec-leader-row:nth-child(even) .ecec-leader-photo { order: 0; }
+	.ecec-leader-row:nth-child(even) .ecec-leader-text  { order: 0; }
+	.ecec-leader-photo { max-width: 320px; margin: 0 auto; }
 }
 
 /* =============================================
@@ -258,8 +411,8 @@ input[type=submit]:hover {
 
 .ecec-team-grid {
 	display: grid;
-	gap: 40px 30px;
-	max-width: 1100px;
+	gap: 50px 36px;
+	max-width: 1280px;
 	margin: 0 auto;
 	padding: 20px 0;
 }
@@ -275,10 +428,10 @@ input[type=submit]:hover {
 
 .ecec-team-photo {
 	display: block;
-	width: 300px;
-	height: 300px;
-	max-width: 100%;
-	margin: 0 auto 18px;
+	width: 100%;
+	max-width: 400px;
+	aspect-ratio: 1 / 1;
+	margin: 0 auto 22px;
 	border-radius: 12px;
 	overflow: hidden;
 	background: var(--ecec-platinum);
@@ -296,7 +449,7 @@ input[type=submit]:hover {
 }
 
 .ecec-team-card .ecec-team-name {
-	font-family: 'Plus Jakarta Sans', sans-serif;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 	font-size: 20px;
 	font-weight: 600;
 	color: var(--ecec-raisin-black);
@@ -304,7 +457,7 @@ input[type=submit]:hover {
 	line-height: 1.3;
 }
 .ecec-team-card .ecec-team-role {
-	font-family: 'Plus Jakarta Sans', sans-serif;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 	font-size: 12px;
 	font-weight: 500;
 	letter-spacing: 0.1em;
@@ -329,40 +482,94 @@ input[type=submit]:hover {
    needs more cards than there are real members). Visual nag for the client
    to upload more team profiles. Same gray-dashed pattern as project image
    placeholders for site-wide consistency. */
-.ecec-team-card--placeholder { opacity: 0.85; }
 .ecec-team-photo-placeholder--ghost {
 	background: var(--ecec-platinum);
-	border: 2px dashed var(--ecec-silver-sand);
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	color: var(--ecec-slate-gray);
-}
-.ecec-team-photo-placeholder__hint {
-	font-family: 'Plus Jakarta Sans', sans-serif;
-	font-size: 11px;
-	letter-spacing: 0.18em;
-	text-transform: uppercase;
-	opacity: 0.75;
-}
-.ecec-team-card--placeholder .ecec-team-name--ghost {
 	color: var(--ecec-silver-sand);
 }
-.ecec-team-card--placeholder .ecec-team-role--ghost {
-	color: var(--ecec-silver-sand);
+.ecec-team-photo-placeholder__icon {
+	width: 28%;
+	height: auto;
+	max-width: 90px;
+	opacity: 0.9;
 }
 
 /* Responsive */
 @media only screen and (max-width: 1024px) {
 	.ecec-team-columns-3,
 	.ecec-team-columns-4 { grid-template-columns: repeat(2, 1fr); }
-	.ecec-team-photo { width: 180px; height: 180px; }
+	.ecec-team-photo { max-width: 320px; }
 }
 @media only screen and (max-width: 600px) {
 	.ecec-team-columns-2,
 	.ecec-team-columns-3,
 	.ecec-team-columns-4 { grid-template-columns: 1fr; }
-	.ecec-team-photo { width: 160px; height: 160px; }
+	.ecec-team-photo { max-width: 280px; }
+}
+
+/* =============================================
+   PEOPLE PAGE - Hero band + section labels (2026 redesign)
+   ============================================= */
+
+/* Empty gray hero band sitting under the site header. Client can add an
+   image later via Elementor (background-image on the same container). */
+.ecec-people-hero {
+	width: 100%;
+	height: 320px;
+	background: var(--ecec-platinum);
+}
+@media (max-width: 900px) { .ecec-people-hero { height: 220px; } }
+@media (max-width: 600px) { .ecec-people-hero { height: 160px; } }
+
+/* "OUR LEADERS" centered heading above the leader rows. Uses the canonical
+   uppercase tracked-spacing pattern so it reads as a section title, not a
+   page title. */
+body.page-id-123 .ecec-people-leaders-heading .elementor-heading-title {
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+	font-size: clamp(26px, 3vw, 40px) !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.06em !important;
+	word-spacing: 0.15em !important;
+	color: var(--ecec-slate-gray) !important;
+	text-transform: uppercase !important;
+	text-align: center !important;
+	margin: 60px 0 10px !important;
+}
+
+/* Department section label — lighter gray, sentence case (matches the
+   mockup's "Business Development" / "Design Team" style: smaller, left-
+   aligned, calmer than the page section titles). */
+body.page-id-123 .ecec-people-dept-label .elementor-heading-title {
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+	font-size: clamp(22px, 2.2vw, 30px) !important;
+	font-weight: 600 !important;
+	letter-spacing: 0 !important;
+	color: var(--ecec-silver-sand) !important;
+	text-transform: none !important;
+	text-align: left !important;
+	margin: 70px 0 24px !important;
+}
+
+/* Hide the role/location text under department-grid cards — the mockup only
+   shows name + position. We keep .ecec-team-location markup elsewhere for the
+   senior-grid backwards-compat, but inside a department-tagged grid we drop
+   it to match the mockup. (The shortcode already omits location in render —
+   this is a belt-and-braces hide in case theme/cache injects it.) */
+.ecec-team-grid[data-dept] .ecec-team-location { display: none; }
+
+/* Center-anchor the dept grid + label under the same max-width as leaders. */
+.ecec-team-grid[data-dept] {
+	max-width: 1100px;
+	padding: 0;
+}
+
+.ecec-team-dept-empty {
+	max-width: 1100px;
+	margin: 0 auto 30px;
+	color: var(--ecec-silver-sand);
+	font-style: italic;
 }
 
 /* =============================================
@@ -386,7 +593,7 @@ html { scroll-behavior: smooth; }
 	align-items: center;
 	padding: 18px 0;
 	border-bottom: 1px solid var(--ecec-platinum);
-	font-family: 'Plus Jakarta Sans', sans-serif;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 	font-size: 12px;
 	font-weight: 600;
 	letter-spacing: 0.2em;
@@ -451,10 +658,11 @@ html { scroll-behavior: smooth; }
 	padding: 22px 0 0;
 }
 .ecec-featured-title {
-	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	font-size: 24px;
 	font-weight: 600;
 	line-height: 1.3;
+	letter-spacing: 0.01em !important;
 	margin: 0 0 6px;
 }
 .ecec-featured-title a {
@@ -472,7 +680,7 @@ html { scroll-behavior: smooth; }
 }
 .ecec-featured-link {
 	display: inline-block;
-	font-family: 'Plus Jakarta Sans', sans-serif;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 	font-size: 13px;
 	font-weight: 600;
 	color: var(--ecec-raisin-black);
@@ -518,7 +726,7 @@ html { scroll-behavior: smooth; }
 	padding: 5px 10px 5px 8px;
 	background: var(--ecec-raisin-black);
 	color: var(--ecec-white);
-	font-family: 'Plus Jakarta Sans', sans-serif;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 	font-size: 10px;
 	font-weight: 600;
 	letter-spacing: 0.15em;
@@ -549,7 +757,7 @@ html { scroll-behavior: smooth; }
 	gap: 20px;
 	align-items: stretch;
 	padding: 10px 0 0;
-	font-family: 'Plus Jakarta Sans', sans-serif;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 .ecec-project-search .ecec-ps-field {
@@ -566,7 +774,7 @@ html { scroll-behavior: smooth; }
 	background: var(--ecec-white);
 	border: 1px solid var(--ecec-silver-sand);
 	border-radius: 6px;
-	font-family: 'Argentum Sans', sans-serif !important;
+	font-family: 'Argentum Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	font-size: 15px;
 	color: var(--ecec-raisin-black);
 	box-sizing: border-box;
@@ -601,7 +809,7 @@ html { scroll-behavior: smooth; }
 	color: var(--ecec-white) !important;
 	border: 1px solid var(--ecec-raisin-black);
 	border-radius: 6px;
-	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	font-size: 13px;
 	font-weight: 600;
 	letter-spacing: 0.2em;
@@ -641,7 +849,7 @@ html { scroll-behavior: smooth; }
 	padding: 30px 0 20px;
 	margin-bottom: 40px;
 	border-bottom: 1px solid var(--ecec-platinum);
-	font-family: 'Plus Jakarta Sans', sans-serif;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 .ecec-year-all {
@@ -914,9 +1122,9 @@ html { scroll-behavior: smooth; }
 	background: var(--ecec-white);
 }
 
-/* Silver Sand breadcrumb bar — single-project pages only */
+/* White breadcrumb bar — single-project pages only */
 .single-portfolio-item .qodef-page-title {
-	background-color: var(--ecec-silver-sand);
+	background-color: var(--ecec-white);
 }
 
 /* ============================================================
@@ -1294,6 +1502,99 @@ body:not(.qodef-mobile-header--enabled) #qodef-page-wrapper {
 	object-fit: cover;
 	aspect-ratio: 4 / 3;
 	display: block;
+	cursor: zoom-in;
+	transition: opacity 0.2s ease;
+}
+.ecec-block-gallery__img:hover { opacity: 0.9; }
+
+/* ===== Gallery lightbox =====
+   Vanilla JS modal opened via assets/gallery-lightbox.js. */
+.ecec-lb {
+	position: fixed;
+	inset: 0;
+	z-index: 99999;
+	background: rgba(35, 31, 32, 0.92);
+	display: none;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	transition: opacity 0.25s ease;
+}
+.ecec-lb.is-open {
+	display: flex;
+	opacity: 1;
+}
+body.ecec-lb-locked { overflow: hidden; }
+.ecec-lb__stage {
+	flex: 1 1 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 100%;
+	max-height: 100vh;
+	padding: 60px 70px;
+}
+.ecec-lb__img {
+	max-width: 100%;
+	max-height: calc(100vh - 120px);
+	display: block;
+	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+.ecec-lb__close,
+.ecec-lb__prev,
+.ecec-lb__next {
+	position: absolute;
+	background: transparent;
+	border: 0;
+	color: var(--ecec-white);
+	cursor: pointer;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+	transition: opacity 0.2s ease, transform 0.2s ease;
+	opacity: 0.85;
+	padding: 0;
+	line-height: 1;
+}
+.ecec-lb__close:hover,
+.ecec-lb__prev:hover,
+.ecec-lb__next:hover { opacity: 1; }
+.ecec-lb__close {
+	top: 20px;
+	right: 24px;
+	font-size: 36px;
+	width: 44px;
+	height: 44px;
+}
+.ecec-lb__prev,
+.ecec-lb__next {
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 28px;
+	width: 50px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.ecec-lb__prev:hover { transform: translateY(-50%) translateX(-3px); }
+.ecec-lb__next:hover { transform: translateY(-50%) translateX(3px); }
+.ecec-lb__prev { left: 16px; }
+.ecec-lb__next { right: 16px; }
+.ecec-lb__counter {
+	position: absolute;
+	bottom: 18px;
+	left: 50%;
+	transform: translateX(-50%);
+	color: var(--ecec-white);
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+	font-size: 12px;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	opacity: 0.7;
+}
+@media (max-width: 600px) {
+	.ecec-lb__stage { padding: 50px 16px; }
+	.ecec-lb__prev { left: 4px; }
+	.ecec-lb__next { right: 4px; }
 }
 
 /* ----- Empty image placeholders -----
@@ -1482,13 +1783,34 @@ body:not(.qodef-mobile-header--enabled) #qodef-page-wrapper {
  * Infinite horizontal scroll, grayscale -> color on hover, pause on hover.
  * ────────────────────────────────────────────────────────────────────── */
 
+.ecec-clients-block {
+	background: var(--ecec-white);
+	padding: 60px 0 0;
+}
+
+.ecec-clients-marquee__title {
+	display: block !important;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+	font-size: clamp(28px, 3.2vw, 48px) !important;
+	font-weight: 700 !important;
+	color: var(--ecec-slate-gray) !important;
+	text-transform: uppercase !important;
+	letter-spacing: 0.08em !important;
+	word-spacing: 0.15em !important;
+	text-align: center !important;
+	margin: 0 0 36px !important;
+	padding: 0 !important;
+	line-height: 1.2 !important;
+	position: relative;
+	z-index: 1;
+}
+
 .ecec-clients-marquee {
 	--ecec-clients-speed: 50s;
 	--ecec-clients-h: 60px;
-	padding: 60px 0;
+	padding: 0 0 60px;
 	overflow: hidden;
 	background: var(--ecec-white);
-	/* soft edge fade on both sides so logos don't hard-cut */
 	-webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 	        mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
@@ -1514,25 +1836,33 @@ body:not(.qodef-mobile-header--enabled) #qodef-page-wrapper {
 
 .ecec-clients-item {
 	flex: 0 0 auto;
-	display: flex;
+	display: flex !important;
 	align-items: center;
 	justify-content: center;
-	height: var(--ecec-clients-h);
+	height: clamp(80px, 7vw, 130px) !important;
+	max-height: clamp(80px, 7vw, 130px) !important;
+	overflow: hidden;
+	margin: 0 !important;
+	padding: 0 !important;
 }
 
 .ecec-clients-item img {
-	height: 100%;          /* force every logo to the container height for a uniform row */
-	width: auto;           /* let aspect ratio determine rendered width */
-	max-width: none;
-	object-fit: contain;
-	opacity: 0.75;
-	filter: grayscale(100%);
+	height: clamp(80px, 7vw, 130px) !important;
+	max-height: clamp(80px, 7vw, 130px) !important;
+	width: auto !important;
+	max-width: none !important;
+	object-fit: contain !important;
+	display: block !important;
+	margin: 0 !important;
+	opacity: 0.55 !important;
+	filter: grayscale(100%) !important;
 	transition: filter 0.3s ease, opacity 0.3s ease;
 }
 
-.ecec-clients-item:hover img {
-	filter: grayscale(0%);
-	opacity: 1;
+.ecec-clients-item:hover img,
+.ecec-clients-track:hover .ecec-clients-item img {
+	filter: grayscale(0%) !important;
+	opacity: 1 !important;
 }
 
 @keyframes ecec-clients-scroll {
@@ -1607,7 +1937,7 @@ body:not(.qodef-mobile-header--enabled) #qodef-page-wrapper {
 
 .ecec-pcar__cat {
 	display: inline-block;
-	font-family: 'Plus Jakarta Sans', sans-serif;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 	font-size: 11px;
 	letter-spacing: 0.18em;
 	text-transform: uppercase;
@@ -1616,7 +1946,7 @@ body:not(.qodef-mobile-header--enabled) #qodef-page-wrapper {
 }
 
 .ecec-pcar__title {
-	font-family: 'Plus Jakarta Sans', sans-serif;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 	font-size: 20px;
 	font-weight: 600;
 	line-height: 1.3;
@@ -1659,8 +1989,13 @@ body:not(.qodef-mobile-header--enabled) #qodef-page-wrapper {
 
 .ecec-home-intro {
 	padding: 90px 6vw;
-	max-width: 1280px;
+	max-width: min(1600px, 92vw);
 	margin: 0 auto;
+}
+
+/* Override Elementor's boxed container cap for Block 2 so it can fill wide screens */
+body.page-id-119 .elementor-element-307c52e > .elementor-container {
+	max-width: 100% !important;
 }
 
 .ecec-home-intro__row {
@@ -1671,7 +2006,7 @@ body:not(.qodef-mobile-header--enabled) #qodef-page-wrapper {
 }
 
 .ecec-home-intro__heading {
-	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	font-size: clamp(36px, 5vw, 72px) !important;
 	font-weight: 700 !important;
 	line-height: 1.05 !important;
@@ -1682,7 +2017,7 @@ body:not(.qodef-mobile-header--enabled) #qodef-page-wrapper {
 }
 
 .ecec-home-intro__body {
-	font-family: 'Argentum Sans', sans-serif !important;
+	font-family: 'Argentum Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	font-size: clamp(16px, 1.4vw, 22px) !important;
 	line-height: 1.5 !important;
 	color: var(--ecec-slate-gray) !important;
@@ -1705,9 +2040,17 @@ body:not(.qodef-mobile-header--enabled) #qodef-page-wrapper {
 	.ecec-home-intro__heading { font-size: clamp(36px, 8vw, 56px); }
 }
 
-/* Home page Block 5 — "Featured Projects" heading: align color with brand palette */
+/* Home page Block 5 — "Featured Projects" heading: unify with canonical section title style */
 body.page-id-119 .elementor-element-87d2534 .elementor-heading-title {
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+	font-size: clamp(28px, 3.2vw, 48px) !important;
+	font-weight: 700 !important;
 	color: var(--ecec-slate-gray) !important;
+	text-transform: uppercase !important;
+	letter-spacing: 0.08em !important;
+	word-spacing: 0.15em !important;
+	line-height: 1.1 !important;
+	margin: 0 0 24px !important;
 }
 
 /* ──────────────────────────────────────────────────────────────────────
@@ -1718,7 +2061,7 @@ body.page-id-119 .elementor-element-87d2534 .elementor-heading-title {
  * together). Page-scoped override matches About / People / Contact pattern.
  * ────────────────────────────────────────────────────────────────────── */
 body.page-id-122 .elementor-widget-heading .elementor-heading-title {
-	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	color: var(--ecec-slate-gray) !important;
 	letter-spacing: 0.08em !important;
 	word-spacing: 0.15em !important;
@@ -1742,7 +2085,7 @@ body.page-id-122 .elementor-widget-heading h3.elementor-heading-title {
  * of the site (About Us / People / Services use same patterns).
  * ────────────────────────────────────────────────────────────────────── */
 body.page-id-124 .elementor-widget-heading .elementor-heading-title {
-	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	color: var(--ecec-slate-gray) !important;
 	letter-spacing: 0.08em !important;
 	word-spacing: 0.15em !important;
@@ -1763,7 +2106,7 @@ body.page-id-124 .elementor-widget-heading h3.elementor-heading-title {
 }
 /* h4: city names (Dubai, Riyadh, Amman) */
 body.page-id-124 h4 {
-	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	font-size: 16px !important;
 	font-weight: 700 !important;
 	letter-spacing: 0.12em !important;
@@ -1774,7 +2117,7 @@ body.page-id-124 h4 {
 /* Body paragraphs in text-editor widgets — brand body font + slate-gray */
 body.page-id-124 .elementor-widget-text-editor p,
 body.page-id-124 .elementor-widget-text-editor {
-	font-family: 'Argentum Sans', sans-serif !important;
+	font-family: 'Argentum Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	font-size: 15px !important;
 	line-height: 1.65 !important;
 	color: var(--ecec-slate-gray) !important;
@@ -1790,11 +2133,11 @@ body.page-id-124 .wpcf7 input[type="email"],
 body.page-id-124 .wpcf7 input[type="tel"],
 body.page-id-124 .wpcf7 textarea,
 body.page-id-124 .wpcf7 select {
-	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	color: var(--ecec-raisin-black) !important;
 }
 body.page-id-124 .wpcf7 input[type="submit"] {
-	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	font-weight: 600 !important;
 	letter-spacing: 0.18em !important;
 	text-transform: uppercase !important;
@@ -1836,6 +2179,8 @@ body.page-id-382 .qodef-page-title .qodef-m-title a {
 	text-align: center !important;
 	width: 100% !important;
 }
+/* Hide the "About Us" title text in the hero — keep the chairs image. */
+body.page-id-382 .qodef-page-title .qodef-m-title { display: none !important; }
 body.page-id-382 .qodef-page-title .qodef-breadcrumbs {
 	text-align: center !important;
 }
@@ -1847,7 +2192,7 @@ body.page-id-382 .qodef-page-title .qodef-breadcrumbs a {
 /* Hero — big "ABOUT US" + serif tagline (legacy — h1 now removed via script;
    subtitle still rendered by Elementor section 1) */
 .ecec-about-hero-title .elementor-heading-title {
-	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	font-size: clamp(48px, 7vw, 96px) !important;
 	font-weight: 700 !important;
 	letter-spacing: 0 !important;
@@ -1855,12 +2200,10 @@ body.page-id-382 .qodef-page-title .qodef-breadcrumbs a {
 	line-height: 1.05 !important;
 	margin: 0 !important;
 }
-/* "ABOUT ECEC" main intro heading — same brand sans-serif treatment as
-   .ecec-about-section-title, just slightly larger to keep visual hierarchy
-   above the smaller WHO WE ARE / OUR EXPERT TEAM section titles. */
+/* "ABOUT ECEC" main intro heading — unified with canonical section-title size. */
 .ecec-about-hero-subtitle .elementor-heading-title {
-	font-family: 'Plus Jakarta Sans', sans-serif !important;
-	font-size: clamp(32px, 3.6vw, 56px) !important;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+	font-size: clamp(28px, 3.2vw, 48px) !important;
 	font-weight: 700 !important;
 	letter-spacing: 0.08em !important;
 	word-spacing: 0.15em !important;
@@ -1873,7 +2216,7 @@ body.page-id-382 .qodef-page-title .qodef-breadcrumbs a {
 /* Section titles (h2 like ABOUT ECEC, WHO WE ARE, etc.) — tracked spacing
    so uppercase words don't visually run into each other. */
 .ecec-about-section-title .elementor-heading-title {
-	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	font-size: clamp(28px, 3.2vw, 48px) !important;
 	font-weight: 700 !important;
 	letter-spacing: 0.08em !important;
@@ -1883,7 +2226,7 @@ body.page-id-382 .qodef-page-title .qodef-breadcrumbs a {
 	margin: 0 0 24px !important;
 }
 .ecec-about-section-subtitle .elementor-heading-title {
-	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	font-size: clamp(20px, 2vw, 28px) !important;
 	font-weight: 700 !important;
 	letter-spacing: 0.08em !important;
@@ -1895,7 +2238,7 @@ body.page-id-382 .qodef-page-title .qodef-breadcrumbs a {
 
 /* Narrative body — same typographic treatment as Block 2 home intro */
 .ecec-about-narrative {
-	font-family: 'Argentum Sans', sans-serif;
+	font-family: 'Argentum Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 	color: var(--ecec-slate-gray);
 }
 .ecec-about-narrative p {
@@ -1909,7 +2252,7 @@ body.page-id-382 .qodef-page-title .qodef-breadcrumbs a {
 	overflow-wrap: normal;
 	margin: 0 0 1em;
 }
-.ecec-about-narrative--centered p { text-align: center; max-width: 780px; margin-left: auto; margin-right: auto; }
+.ecec-about-narrative--centered p { text-align: center; max-width: 1100px; margin-left: auto; margin-right: auto; }
 
 /* Placeholder boxes inside About 2-col sections — stretch to full column height */
 .ecec-block-placeholder--about {
@@ -2011,47 +2354,49 @@ body.page-id-422 .qodef-page-title { display: none !important; }
 /* Unified with .ecec-about-section-title typography (Plus Jakarta Sans bold
    uppercase slate-gray + same letter/word spacing). Same scale and color as
    other section headings across the site (About, People, etc). */
-.ecec-why-num {
-	font-family: 'Plus Jakarta Sans', sans-serif !important;
+.ecec-why .qodef-e-info-top,
+.ecec-why .qodef-e-category {
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	font-size: 12px !important;
 	font-weight: 500 !important;
 	letter-spacing: 0.2em !important;
 	color: var(--ecec-slate-gray) !important;
 	text-transform: uppercase !important;
-	margin: 0 0 24px !important;
 	opacity: 0.6;
 }
-.ecec-why-title,
-.ecec-why h2.ecec-why-title {
-	font-family: 'Plus Jakarta Sans', sans-serif !important;
+.ecec-why .qodef-e-info-category .qodef-e-category:after {
+	content: "" !important;
+}
+.ecec-why .qodef-e-title,
+.ecec-why h1.qodef-e-title {
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	font-size: clamp(28px, 3.2vw, 48px) !important;
 	font-weight: 700 !important;
 	letter-spacing: 0.08em !important;
 	word-spacing: 0.15em !important;
 	line-height: 1.1 !important;
 	color: var(--ecec-slate-gray) !important;
-	margin: 0 0 32px !important;
+	margin: 6px 87px 36px 0 !important;
 	text-transform: uppercase !important;
 	hyphens: manual !important;
 	-webkit-hyphens: manual !important;
 	word-break: normal;
 	overflow-wrap: normal;
 }
-.ecec-why-cta,
-.ecec-why a.ecec-why-cta {
-	font-family: 'Plus Jakarta Sans', sans-serif !important;
+.ecec-why .qodef-e-read-more .qodef-button,
+.ecec-why .qodef-e-read-more .qodef-button .qodef-m-text {
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	font-size: 12px !important;
 	font-weight: 600 !important;
 	letter-spacing: 0.2em !important;
 	text-transform: uppercase !important;
 	color: var(--ecec-slate-gray) !important;
-	text-decoration: none !important;
-	border-bottom: 1px solid var(--ecec-slate-gray) !important;
-	padding-bottom: 4px;
-	align-self: flex-start;
-	transition: opacity 0.2s ease;
 }
-.ecec-why-cta:hover { opacity: 0.6; }
+.ecec-why .qodef-e-portfolio-exhibition-bg-text {
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+	color: var(--ecec-platinum) !important;
+	-webkit-text-stroke: 1px var(--ecec-silver-sand) !important;
+}
 
 /* RIGHT — scrolling slides */
 .ecec-why-main {
@@ -2066,7 +2411,7 @@ body.page-id-422 .qodef-page-title { display: none !important; }
 }
 .ecec-why-placeholder {
 	width: 100%;
-	aspect-ratio: 3 / 4;
+	aspect-ratio: 1300 / 848;
 	background: var(--ecec-platinum);
 	border: 2px dashed var(--ecec-silver-sand);
 	display: flex;
@@ -2096,7 +2441,7 @@ body.page-id-422 .qodef-page-title { display: none !important; }
 		margin-bottom: 24px;
 	}
 	.ecec-why-slide { min-height: 0; margin-bottom: 32px; }
-	.ecec-why-placeholder { aspect-ratio: 4 / 3; }
+	.ecec-why-placeholder { aspect-ratio: 4 / 3; width: 100%; }
 }
 .ecec-about-highlight-num img {
 	max-width: 140px !important;
@@ -2105,7 +2450,7 @@ body.page-id-422 .qodef-page-title { display: none !important; }
 	margin: 0 auto 20px !important;
 }
 .ecec-about-highlight-heading .elementor-heading-title {
-	font-family: 'Plus Jakarta Sans', sans-serif !important;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 	font-size: 20px !important;
 	font-weight: 700 !important;
 	color: var(--ecec-raisin-black) !important;
@@ -2114,18 +2459,16 @@ body.page-id-422 .qodef-page-title { display: none !important; }
 	text-align: center !important;
 }
 .ecec-about-highlight-body p {
-	font-family: 'Argentum Sans', sans-serif;
+	font-family: 'Argentum Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 	font-size: 14px;
 	line-height: 1.6;
 	color: var(--ecec-slate-gray);
-	margin: 0;
-	/* DECISION (do not flip back to justify): card columns are ~150px wide
-	   in a 4-col grid. Justified text needs hyphenation OR wider columns to
-	   avoid "rivers" of white-space — and we have neither (no auto-hyphens
-	   per word-for-word rule, wider columns conflict with the gap request).
-	   Left-align is the only clean option. The slightly ragged right edge
-	   reads better than gappy justified text in this width. */
-	text-align: left !important;
+	margin: 0 12px;
+	text-align: center !important;
+	text-align-last: center !important;
+	text-wrap: pretty;
+	word-spacing: -0.12em;
+	letter-spacing: -0.005em;
 	hyphens: manual !important;
 	-webkit-hyphens: manual !important;
 	word-break: normal;
@@ -2166,6 +2509,19 @@ body.page-id-328 .elementor-widget-emaurri_core_single_image img {
 	display: block;
 }
 
+/* Services page — breathing room between Progress (block 2) and the
+   Services Accordion section (block 3 after the reorder). Targeted by
+   Elementor element id, so it applies on both local + VPS regardless of
+   page-id. */
+.elementor-element-0eb738e {
+	margin-top: 80px !important;
+}
+@media (max-width: 768px) {
+	.elementor-element-0eb738e {
+		margin-top: 40px !important;
+	}
+}
+
 /* Home page Block 1 blog-list slider — cap to a reasonable hero height.
    The previous attempt used RevSlider's configured gh values (958px) but
    that was oversized since RevSlider scales down at render time. This is a
@@ -2200,4 +2556,13 @@ body.page-id-119 .elementor-widget-emaurri_core_blog_list .qodef-e-media-image i
 	height: 100% !important;
 	width: 100% !important;
 	object-fit: cover !important;
+}
+
+/* ============================================================
+   Hide breadcrumbs site-wide
+   ============================================================ */
+.qodef-breadcrumbs,
+.qodef-page-title .qodef-breadcrumbs,
+.woocommerce-breadcrumb {
+	display: none !important;
 }

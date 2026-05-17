@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Home Page · ECEC Help</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="topbar__brand">ECEC Help</a>
+  <a href="index.html" class="topbar__back">All guides</a>
+  <div class="topbar__progress" id="bar"></div>
+</header>
+
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="hero__grid"></div>
+  <div class="hero__inner">
+    <div class="hero__crumb"><a href="index.html">Help center</a> &middot; Guide 02</div>
+    <h1 class="hero__title">The home <span>page.</span></h1>
+    <p class="hero__sub">Five blocks make up the home page. Edit any of them without rebuilding from scratch &mdash; from the top blog slider to the featured projects strip at the bottom.</p>
+    <div class="hero__meta">
+      <span>5 sections</span>
+      <span>~6 min read</span>
+      <span>Page ID 119</span>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <aside class="toc">
+    <h4>On this page</h4>
+    <a href="#layout">Layout overview</a>
+    <a href="#block1">Block 1 &middot; Blog slider</a>
+    <a href="#block2">Block 2 &middot; "We Design the Future"</a>
+    <a href="#block3">Block 3 &middot; Main slider (RevSlider)</a>
+    <a href="#block4">Block 4 &middot; Clients marquee</a>
+    <a href="#block5">Block 5 &middot; Featured Projects</a>
+    <a href="#faq">FAQ</a>
+  </aside>
+
+  <main class="content">
+
+    <section class="sec reveal" id="layout">
+      <span class="sec__num">01</span>
+      <h2>Layout overview</h2>
+      <p class="lead">The home page is built in WP Admin → Pages → Home (post 119). It uses Elementor with five top-level sections, top to bottom.</p>
+
+      <div class="steps">
+        <div class="step"><div class="step__body"><strong>Block 1 &mdash; Blog slider</strong>Latest 4 blog posts in a slider with pagination dots. Auto-updates when you publish blog posts.</div></div>
+        <div class="step"><div class="step__body"><strong>Block 2 &mdash; "We Design the Future"</strong>2-column intro: heading on the left, narrative text on the right.</div></div>
+        <div class="step"><div class="step__body"><strong>Block 3 &mdash; Main RevSlider</strong>Full-width hero slider with project images. Edited via WP Admin → Slider Revolution.</div></div>
+        <div class="step"><div class="step__body"><strong>Block 4 &mdash; Clients marquee</strong>Auto-scrolling logo strip with "Our Clients" heading. Logos managed centrally.</div></div>
+        <div class="step"><div class="step__body"><strong>Block 5 &mdash; Featured Projects</strong>3-column grid pulled from projects flagged as Featured.</div></div>
+      </div>
+
+      <div class="callout callout--tip">
+        <div class="callout__icon">i</div>
+        <div>
+          <strong>To edit any block:</strong>
+          <p>Open <code>WP Admin → Pages → Home</code>, click <em>Edit with Elementor</em>. The 5 sections appear top to bottom. Click any section to expand and edit its widget contents.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="block1">
+      <span class="sec__num">02</span>
+      <h2>Block 1 &mdash; Blog slider</h2>
+      <p>This is the wide image slider at the very top of the home page. It pulls the 4 latest blog posts and turns them into slides.</p>
+      <h3>To change which posts appear</h3>
+      <p>Just publish a blog post (<code>WP Admin → Posts → Add New</code>) &mdash; it'll automatically replace the oldest of the 4. No home-page edit required.</p>
+      <h3>To change the slider behaviour (speed, dots)</h3>
+      <p>Open the home page in Elementor, click the <em>Blog list</em> widget in Block 1. The right panel shows fields for slider speed, pagination, autoplay, etc.</p>
+    </section>
+
+    <section class="sec reveal" id="block2">
+      <span class="sec__num">03</span>
+      <h2>Block 2 &mdash; "We Design the Future"</h2>
+      <p>The 2-column intro section. The HTML is hardcoded inside an Elementor HTML widget &mdash; meaning the heading and narrative are stored as HTML, not as editable Elementor fields.</p>
+
+      <div class="steps">
+        <div class="step"><div class="step__body"><strong>Open the home page in Elementor</strong>From WP Admin → Pages → Home → Edit with Elementor.</div></div>
+        <div class="step"><div class="step__body"><strong>Click on Block 2's HTML widget</strong>It's the second section. The widget contents appear in the left panel.</div></div>
+        <div class="step"><div class="step__body"><strong>Edit the HTML directly</strong>You'll see <code>&lt;h2 class="ecec-home-intro__heading"&gt;We Design the Future&lt;/h2&gt;</code> &mdash; change the text inside the tags. Don't change the class names.</div></div>
+        <div class="step"><div class="step__body"><strong>Click Update</strong>The new text appears on the live site immediately.</div></div>
+      </div>
+
+      <div class="callout callout--warn">
+        <div class="callout__icon">!</div>
+        <div>
+          <strong>Don't change the HTML structure.</strong>
+          <p>Keep <code>__heading</code> and <code>__body</code> classes intact &mdash; the CSS styling depends on them. Only change the text between the tags.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="block3">
+      <span class="sec__num">04</span>
+      <h2>Block 3 &mdash; Main slider (RevSlider)</h2>
+      <p>The big hero slider with project images. Editing it lives in <em>WP Admin → Slider Revolution</em>, not the home page itself.</p>
+
+      <div class="steps">
+        <div class="step"><div class="step__body"><strong>Open Slider Revolution</strong>From the WP admin sidebar.</div></div>
+        <div class="step"><div class="step__body"><strong>Click "main-home"</strong>That's the slider used on the home page.</div></div>
+        <div class="step"><div class="step__body"><strong>Edit individual slides</strong>Each slide has a background image, optional text overlays, and timing controls. Drag to reorder.</div></div>
+        <div class="step"><div class="step__body"><strong>Click Save</strong>The new slider appears on the home page after a hard refresh.</div></div>
+      </div>
+
+      <div class="callout callout--tip">
+        <div class="callout__icon">i</div>
+        <div>
+          <strong>Image specs:</strong>
+          <p>Use <strong>1920 &times; 1080</strong> JPGs for slider backgrounds &mdash; smaller files cause noticeable upscaling. Keep the file under 500 KB per slide for fast loads.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="block4">
+      <span class="sec__num">05</span>
+      <h2>Block 4 &mdash; Clients marquee</h2>
+      <p>The auto-scrolling logo strip with "Our Clients" heading. The list of logos is shared between the home page and the About Us page &mdash; edit once, both update.</p>
+
+      <h3>To add or remove a client logo</h3>
+      <p>Logos live in the WP media library, and a saved option (<code>ecec_client_logo_ids</code>) tracks which ones to show.</p>
+      <ol>
+        <li>Upload the new logo to <code>WP Admin → Media → Add New</code>. Use a transparent PNG, height around 80&ndash;120px.</li>
+        <li>Note the new attachment's ID (visible in the URL of the media item).</li>
+        <li>Run <code>_deploy/update_client_logos.php</code> with the updated list of IDs &mdash; or use the management interface if available.</li>
+      </ol>
+
+      <div class="callout callout--ok">
+        <div class="callout__icon">✓</div>
+        <div>
+          <strong>Heading override:</strong>
+          <p>The "Our Clients" title is set in the shortcode &mdash; default is <em>Our Clients</em>. To change it on a specific page, override via <code>[ecec_clients_marquee title="Our Partners"]</code>. Pass <code>title=""</code> to hide it.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="block5">
+      <span class="sec__num">06</span>
+      <h2>Block 5 &mdash; Featured Projects</h2>
+      <p>The 3-card grid at the bottom of the home page. Each card is a project flagged as <em>Featured</em>.</p>
+
+      <h3>To change which projects appear</h3>
+      <ol>
+        <li>Open <code>WP Admin → Portfolio</code>.</li>
+        <li>Click any project to open it.</li>
+        <li>In the right sidebar under <em>Project options</em>, toggle the <strong>Featured project</strong> checkbox.</li>
+        <li>Set <strong>Menu Order</strong> &mdash; lower numbers appear first.</li>
+        <li>Click <em>Update</em>.</li>
+      </ol>
+
+      <div class="callout callout--warn">
+        <div class="callout__icon">!</div>
+        <div>
+          <strong>Limit:</strong>
+          <p>Block 5 shows the first <strong>3</strong> featured projects (sorted by Menu Order ascending). The Projects page also has a Featured strip but it shows up to 6.</p>
+        </div>
+      </div>
+      <p>For step-by-step on toggling Featured and using Menu Order, see <a href="projects.html#featured">the Projects guide &middot; Mark as Featured</a>.</p>
+    </section>
+
+    <section class="sec reveal" id="faq">
+      <span class="sec__num">07</span>
+      <h2>FAQ</h2>
+      <div class="faq">
+        <details>
+          <summary>I edited a block but the home page still shows the old version.</summary>
+          <div class="faq__body"><p>Two-step fix: (1) hard refresh in your browser with <kbd>Ctrl</kbd> + <kbd>F5</kbd>; (2) clear Elementor's CSS cache from <em>Elementor → Tools → Regenerate CSS &amp; Data</em>.</p></div>
+        </details>
+        <details>
+          <summary>The clients marquee logos look different sizes.</summary>
+          <div class="faq__body"><p>Make sure each logo is exported with <strong>consistent height</strong> (e.g. 100px tall) and transparent background. Different intrinsic heights cause uneven rendering even though our CSS forces a row height.</p></div>
+        </details>
+        <details>
+          <summary>Where do I edit the page background or section colors?</summary>
+          <div class="faq__body"><p>Open the home page in Elementor → click any section's handle → in the left panel switch to <em>Style</em> tab → background color/image. Save.</p></div>
+        </details>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="_scripts.js"></script>
+</body>
+</html>

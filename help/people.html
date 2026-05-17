@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Team Members · ECEC Help</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="topbar__brand">ECEC Help</a>
+  <a href="index.html" class="topbar__back">All guides</a>
+  <div class="topbar__progress" id="bar"></div>
+</header>
+
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="hero__grid"></div>
+  <div class="hero__inner">
+    <div class="hero__crumb"><a href="index.html">Help center</a> &middot; Guide 06</div>
+    <h1 class="hero__title">Team <span>members.</span></h1>
+    <p class="hero__sub">Add, edit and reorder people on the People page entirely from WP admin &mdash; no developer required. Each person is a Custom Post Type entry.</p>
+    <div class="hero__meta">
+      <span>Custom Post Type</span>
+      <span>~5 min read</span>
+      <span>Self-service</span>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <aside class="toc">
+    <h4>On this page</h4>
+    <a href="#overview">How team members work</a>
+    <a href="#add">Add a team member</a>
+    <a href="#edit">Edit an existing person</a>
+    <a href="#reorder">Reorder the grids</a>
+    <a href="#remove">Remove someone</a>
+    <a href="#layout">Page layout &amp; placeholders</a>
+    <a href="#faq">FAQ</a>
+  </aside>
+
+  <main class="content">
+
+    <section class="sec reveal" id="overview">
+      <span class="sec__num">01</span>
+      <h2>How team members work</h2>
+      <p class="lead">The People page (<code>/people/</code>) is organised into two parts: an <strong>Our Leaders</strong> section (Founder &amp; Directors, shown as large image+bio rows that alternate sides), and four <strong>department grids</strong> (Business Development, Design Team, Project Management, Administration). Each person is an entry in a custom post type called <code>ecec_team_member</code> &mdash; add a new person and they appear in the right section automatically based on their Tier and Department.</p>
+
+      <p>The page sections are wired to three shortcodes: <code>[ecec_team_leadership]</code> for the leader rows, and <code>[ecec_team_department dept="..."]</code> for each department grid. You don't normally need to touch these &mdash; just add people and they slot in.</p>
+    </section>
+
+    <section class="sec reveal" id="add">
+      <span class="sec__num">02</span>
+      <h2>Adding a new team member</h2>
+
+      <div class="steps">
+        <div class="step"><div class="step__body"><strong>Open Team Members</strong>From WP Admin sidebar → <em>Team Members → Add New</em>.</div></div>
+        <div class="step"><div class="step__body"><strong>Enter the person's name</strong>Use the title field at the top &mdash; this becomes their display name.</div></div>
+        <div class="step"><div class="step__body"><strong>Pick a Tier</strong>In the <em>Team Member Details</em> box, choose <em>Senior team</em> for normal staff (appears in a department grid), <em>Director</em> for a department head (appears as a large image + bio row in the Our Leaders section), or <em>Founder / Managing Director</em> (appears at the top of Our Leaders).</div></div>
+        <div class="step"><div class="step__body"><strong>Pick a Department</strong> (Senior team only)Choose one of: Business Development, Design Team, Project Management, or Administration. This decides which grid the person appears in. Ignored for Founder/Director (they go to Our Leaders instead).</div></div>
+        <div class="step"><div class="step__body"><strong>Set the Featured Image (their portrait)</strong>Right sidebar → <em>Featured Image → Set featured image</em>. Use a square photo, ideally <strong>800 &times; 800</strong>. Crop tightly.</div></div>
+        <div class="step"><div class="step__body"><strong>Fill in Role and Locations</strong>Role is the job title (e.g. "Senior MEP Engineer"). Locations are office cities, separated by <code>|</code> (e.g. "Dubai | Riyadh | Amman"). Locations only display on Founder/Director rows.</div></div>
+        <div class="step"><div class="step__body"><strong>Write a Bio</strong> (Founder &amp; Director only)Use the <em>Bio</em> textarea &mdash; about 100&ndash;150 words. This narrative appears next to the photo on the leadership row. Senior-team cards don't display the bio.</div></div>
+        <div class="step"><div class="step__body"><strong>Click Publish</strong>The person appears in the relevant section immediately.</div></div>
+      </div>
+
+      <div class="callout callout--ok">
+        <div class="callout__icon">✓</div>
+        <div>
+          <strong>Photo specs:</strong>
+          <p>Square crop, <strong>800 &times; 800 minimum</strong>, JPG. Face roughly centred. The grid renders these at fluid widths up to 400px so anything smaller than 400px source will look soft on big screens.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="edit">
+      <span class="sec__num">03</span>
+      <h2>Editing an existing person</h2>
+
+      <div class="steps">
+        <div class="step"><div class="step__body"><strong>Open the team list</strong>WP Admin → <em>Team Members</em>. You'll see all current entries.</div></div>
+        <div class="step"><div class="step__body"><strong>Click their name</strong>Opens the edit screen.</div></div>
+        <div class="step"><div class="step__body"><strong>Update any field</strong>Name, photo, role, locations.</div></div>
+        <div class="step"><div class="step__body"><strong>Click Update</strong>Live on the People page immediately.</div></div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="reorder">
+      <span class="sec__num">04</span>
+      <h2>Reordering the grid</h2>
+      <p>Each team member has a <em>Menu Order</em> field in the right sidebar of their edit screen. The grid sorts ascending: <strong>lower numbers appear first</strong>.</p>
+
+      <ol>
+        <li>Open each person you want to reorder.</li>
+        <li>Set <em>Menu Order</em> to a number reflecting their position (e.g. CEO = 1, CTO = 2, Senior Engineer = 10).</li>
+        <li>Click <em>Update</em>.</li>
+      </ol>
+
+      <div class="callout callout--tip">
+        <div class="callout__icon">i</div>
+        <div>
+          <strong>Power tip:</strong>
+          <p>Use gaps of 10 (10, 20, 30...) so you can insert new people in between later without renumbering everyone. "Menu Order 25" slots between 20 and 30.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="remove">
+      <span class="sec__num">05</span>
+      <h2>Removing someone</h2>
+      <p>From the team list, hover their row and click <em>Trash</em>. They disappear from the live grid. To restore, go to the <em>Trash</em> tab and click <em>Restore</em>.</p>
+
+      <p>To permanently delete: open <em>Trash</em>, hover the row, click <em>Delete Permanently</em>. Their featured image stays in the media library &mdash; delete that separately if needed.</p>
+    </section>
+
+    <section class="sec reveal" id="layout">
+      <span class="sec__num">06</span>
+      <h2>Page layout &amp; placeholders</h2>
+      <p>The People page is composed of six top-to-bottom sections, all wired automatically by shortcodes:</p>
+      <ol>
+        <li><strong>Hero band</strong> &mdash; a full-width gray strip under the site header. Currently empty by design; can be filled with an image later by editing the section's background in Elementor.</li>
+        <li><strong>"OUR LEADERS"</strong> heading.</li>
+        <li><strong>Leader rows</strong> &mdash; <code>[ecec_team_leadership]</code>. Renders Founder &amp; Director records as alternating full-width image + bio rows (photo on the left for the first leader, right for the second, etc.).</li>
+        <li><strong>Business Development</strong> &mdash; <code>[ecec_team_department dept="business-development" columns="4" min="3"]</code>.</li>
+        <li><strong>Design Team</strong> &mdash; <code>[ecec_team_department dept="design-team" columns="4" min="9"]</code>.</li>
+        <li><strong>Project Management</strong> &mdash; <code>[ecec_team_department dept="project-management" columns="4" min="3"]</code>.</li>
+        <li><strong>Administration</strong> &mdash; <code>[ecec_team_department dept="administration" columns="4" min="3"]</code>.</li>
+      </ol>
+
+      <h3>Placeholder cards</h3>
+      <p>Each department grid has a <code>min</code> attribute. If you have fewer real members in a department than <code>min</code>, the grid pads with light-gray placeholder cards labelled "Name of employee / Position" so the section looks complete while you're recruiting. Once published members reach <code>min</code>, the placeholders disappear automatically.</p>
+
+      <p>To change a department's column count or padding count, edit the shortcode in Elementor. For example to make the Design Team grid 3-column with no placeholders:</p>
+      <ul>
+        <li><code>[ecec_team_department dept="design-team" columns="3" min="0"]</code></li>
+      </ul>
+    </section>
+
+    <section class="sec reveal" id="faq">
+      <span class="sec__num">07</span>
+      <h2>FAQ</h2>
+      <div class="faq">
+        <details>
+          <summary>I added a team member but they don't show on the People page.</summary>
+          <div class="faq__body"><p>Check post status is <em>Publish</em>, not Draft. Also check the team list is not filtered to "Trash". Hard refresh the People page after publishing.</p></div>
+        </details>
+        <details>
+          <summary>The portrait is squashed / stretched.</summary>
+          <div class="faq__body"><p>The card forces a square (1:1) aspect ratio. Upload a square crop &mdash; if your source isn't square, crop in WP Admin → Media → Edit image, or pre-crop with any image tool.</p></div>
+        </details>
+        <details>
+          <summary>Can I add a bio or social links?</summary>
+          <div class="faq__body"><p>Bios <em>are</em> displayed for Founder &amp; Director tiers &mdash; fill in the <em>Bio</em> field on their edit screen and it appears next to their photo on the Our Leaders section. Senior-team cards don't show bios on the department grid (kept compact by design). Social links aren't part of the current data model &mdash; ask the developer if you want them added.</p></div>
+        </details>
+        <details>
+          <summary>I added a Senior team member but they don't show up.</summary>
+          <div class="faq__body"><p>Senior-tier members only appear in the department grid that matches their <em>Department</em> selection. Open their edit screen, pick a department, and click <em>Update</em>. If <em>Department</em> is blank, the person is published but invisible on the page.</p></div>
+        </details>
+        <details>
+          <summary>How do I show role next to name on the live page?</summary>
+          <div class="faq__body"><p>Role IS shown by default on every card (under the photo). If yours isn't appearing, check that the <em>Role</em> meta field on the team member's edit screen isn't empty.</p></div>
+        </details>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="_scripts.js"></script>
+</body>
+</html>

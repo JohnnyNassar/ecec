@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ECEC · Site Help Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #ffffff;
+  --platinum: #e7e8ea;
+  --isabelline: #ece6e6;
+  --silver: #bbcdd1;
+  --slate: #687a84;
+  --raisin: #231f20;
+  --accent: #4a8fa3;
+  --shadow-sm: 0 2px 8px rgba(35,31,32,.06);
+  --shadow-md: 0 8px 24px rgba(35,31,32,.10);
+  --shadow-lg: 0 20px 60px rgba(35,31,32,.18);
+  --grad-1: linear-gradient(135deg, #687a84 0%, #4a8fa3 100%);
+  --grad-2: linear-gradient(135deg, #bbcdd1 0%, #687a84 100%);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  background: var(--isabelline);
+  color: var(--raisin);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── Reading progress bar ───────────────────────────────────────── */
+.progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 3px;
+  background: transparent; z-index: 1000; pointer-events: none;
+}
+.progress__bar {
+  height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--slate), var(--accent));
+  transition: width .15s ease-out;
+}
+
+/* ── Hero ───────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 80px 24px 120px;
+  text-align: center;
+  overflow: hidden;
+  background: var(--raisin);
+  color: var(--white);
+}
+.hero__bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(74,143,163,.35) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(187,205,209,.22) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 100%, rgba(104,122,132,.30) 0%, transparent 60%);
+  animation: pulse 10s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.1); opacity: .85; }
+}
+.hero__grid {
+  position: absolute; inset: 0; pointer-events: none; opacity: .08;
+  background-image:
+    linear-gradient(var(--silver) 1px, transparent 1px),
+    linear-gradient(90deg, var(--silver) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, #000 30%, transparent 80%);
+  animation: drift 20s linear infinite;
+}
+@keyframes drift {
+  to { transform: translate(64px, 64px); }
+}
+.hero__particles {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.hero__particles span {
+  position: absolute; width: 4px; height: 4px; border-radius: 50%;
+  background: var(--silver); opacity: 0;
+  animation: float 8s ease-in-out infinite;
+}
+@keyframes float {
+  0%   { transform: translateY(40px); opacity: 0; }
+  20%  { opacity: .6; }
+  80%  { opacity: .6; }
+  100% { transform: translateY(-100vh); opacity: 0; }
+}
+.hero__inner {
+  position: relative; z-index: 2; max-width: 900px;
+}
+.hero__eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 600; letter-spacing: .25em; text-transform: uppercase;
+  color: var(--silver);
+  padding: 8px 18px; border-radius: 100px;
+  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+  margin-bottom: 32px;
+  backdrop-filter: blur(8px);
+  animation: fadeIn 1s ease-out .2s backwards;
+}
+.hero__eyebrow::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent); box-shadow: 0 0 12px var(--accent);
+  animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: .3; }
+}
+.hero__title {
+  font-size: clamp(48px, 8vw, 112px);
+  font-weight: 800; line-height: .98; letter-spacing: -.03em;
+  margin-bottom: 24px;
+  background: linear-gradient(180deg, #fff 0%, var(--silver) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeIn 1.2s ease-out .4s backwards;
+}
+.hero__title span {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--silver) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-style: italic; font-weight: 300;
+}
+.hero__sub {
+  font-size: clamp(16px, 1.4vw, 20px);
+  color: rgba(255,255,255,.7); max-width: 600px; margin: 0 auto 48px;
+  animation: fadeIn 1.4s ease-out .6s backwards;
+}
+.hero__cta {
+  display: inline-flex; gap: 12px; align-items: center;
+  padding: 16px 32px;
+  background: var(--white); color: var(--raisin);
+  text-decoration: none; font-weight: 600; font-size: 14px;
+  letter-spacing: .12em; text-transform: uppercase;
+  border-radius: 100px;
+  transition: transform .3s, box-shadow .3s;
+  animation: fadeIn 1.6s ease-out .8s backwards;
+}
+.hero__cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(74,143,163,.5);
+}
+.hero__cta::after {
+  content: '↓'; font-size: 18px; transition: transform .3s;
+}
+.hero__cta:hover::after { transform: translateY(3px); }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Stats strip ────────────────────────────────────────────────── */
+.stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px; background: var(--platinum);
+  margin: -80px 32px 0; position: relative; z-index: 3;
+  border-radius: 24px; overflow: hidden; box-shadow: var(--shadow-lg);
+  background-color: var(--white);
+}
+.stats__cell {
+  padding: 36px 28px; text-align: center; background: var(--white);
+}
+.stats__num {
+  font-size: clamp(36px, 4vw, 56px); font-weight: 800; line-height: 1;
+  color: var(--slate); letter-spacing: -.02em;
+  background: linear-gradient(135deg, var(--slate), var(--accent));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.stats__label {
+  font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--slate); margin-top: 8px;
+}
+
+/* ── Section base ───────────────────────────────────────────────── */
+.section { padding: 120px 32px; position: relative; }
+.section__inner { max-width: 1200px; margin: 0 auto; }
+.section__head { text-align: center; margin-bottom: 72px; }
+.section__eyebrow {
+  display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .25em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 16px;
+}
+.section__title {
+  font-size: clamp(32px, 4vw, 56px); font-weight: 800; line-height: 1.05;
+  letter-spacing: -.02em; color: var(--raisin);
+}
+.section__sub {
+  font-size: 17px; color: var(--slate); max-width: 580px; margin: 16px auto 0;
+}
+
+/* ── Topic cards ────────────────────────────────────────────────── */
+.topics {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+.topic {
+  position: relative; padding: 40px 32px;
+  background: var(--white); border-radius: 20px;
+  text-decoration: none; color: var(--raisin);
+  overflow: hidden;
+  transition: transform .5s cubic-bezier(.2,.9,.3,1.4), box-shadow .5s;
+  border: 1px solid var(--platinum);
+}
+.topic::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--grad-1); opacity: 0;
+  transition: opacity .5s;
+  z-index: 0;
+}
+.topic > * { position: relative; z-index: 1; }
+.topic:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-lg);
+  color: var(--white);
+}
+.topic:hover::before { opacity: 1; }
+.topic:hover .topic__num,
+.topic:hover .topic__sub,
+.topic:hover .topic__arrow { color: rgba(255,255,255,.85); }
+.topic:hover .topic__icon { background: rgba(255,255,255,.18); border-color: rgba(255,255,255,.25); }
+.topic:hover .topic__icon svg { stroke: var(--white); }
+
+.topic__icon {
+  width: 56px; height: 56px; border-radius: 16px;
+  background: var(--isabelline); border: 1px solid var(--platinum);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 24px;
+  transition: background .5s, border-color .5s;
+}
+.topic__icon svg {
+  width: 28px; height: 28px; stroke: var(--slate); stroke-width: 1.6;
+  fill: none; stroke-linecap: round; stroke-linejoin: round;
+  transition: stroke .5s;
+}
+.topic__num {
+  font-size: 12px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--slate); margin-bottom: 8px; transition: color .5s;
+}
+.topic__title {
+  font-size: 22px; font-weight: 700; letter-spacing: -.01em;
+  margin-bottom: 12px; line-height: 1.2;
+}
+.topic__sub { font-size: 14px; color: var(--slate); transition: color .5s; line-height: 1.5; }
+.topic__arrow {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 24px; font-size: 13px; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--accent);
+  transition: color .5s, gap .3s;
+}
+.topic:hover .topic__arrow { gap: 12px; }
+.topic__arrow::after {
+  content: '→'; transition: transform .3s;
+}
+.topic:hover .topic__arrow::after { transform: translateX(4px); }
+
+/* Reveal on scroll */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity .8s, transform .8s; }
+.reveal.in { opacity: 1; transform: translateY(0); }
+.topics .topic { transition-delay: var(--d, 0s); }
+
+/* ── Tips strip ─────────────────────────────────────────────────── */
+.tips {
+  margin: 0 32px; padding: 80px 48px;
+  background: var(--raisin); color: var(--white);
+  border-radius: 32px;
+  position: relative; overflow: hidden;
+}
+.tips::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(74,143,163,.3) 0%, transparent 50%);
+  pointer-events: none;
+}
+.tips__inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 2fr; gap: 64px;
+  align-items: center; position: relative;
+}
+.tips__title {
+  font-size: clamp(28px, 3vw, 44px); font-weight: 800; line-height: 1.1;
+  letter-spacing: -.02em;
+}
+.tips__title span {
+  background: linear-gradient(135deg, var(--accent), var(--silver));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.tips__list {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+  list-style: none;
+}
+.tips__list li {
+  padding: 20px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  font-size: 14px; color: rgba(255,255,255,.85);
+  transition: background .3s, border-color .3s, transform .3s;
+}
+.tips__list li:hover {
+  background: rgba(255,255,255,.08);
+  border-color: rgba(74,143,163,.3);
+  transform: translateY(-2px);
+}
+.tips__list strong {
+  display: block; color: var(--white); margin-bottom: 6px;
+  font-size: 13px; font-weight: 700; letter-spacing: .05em;
+}
+@media (max-width: 800px) {
+  .tips { padding: 48px 28px; margin: 0 16px; }
+  .tips__inner { grid-template-columns: 1fr; gap: 32px; }
+  .tips__list { grid-template-columns: 1fr; }
+}
+
+/* ── Footer ─────────────────────────────────────────────────────── */
+.foot {
+  text-align: center; padding: 56px 24px;
+  font-size: 13px; color: var(--slate);
+}
+.foot a { color: var(--accent); text-decoration: none; }
+.foot a:hover { text-decoration: underline; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important; transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="progress"><div class="progress__bar" id="bar"></div></div>
+
+<!-- ─── HERO ────────────────────────────────────────────────────── -->
+<section class="hero" id="top">
+  <div class="hero__bg"></div>
+  <div class="hero__grid"></div>
+  <div class="hero__particles" id="particles"></div>
+  <div class="hero__inner">
+    <span class="hero__eyebrow">ECEC Site Help Center</span>
+    <h1 class="hero__title">Edit anything,<br><span>fearlessly.</span></h1>
+    <p class="hero__sub">Step-by-step guides for managing every page, every block, and every image on your site &mdash; written for editors, not developers.</p>
+    <a class="hero__cta" href="#topics">Browse the guides</a>
+  </div>
+</section>
+
+<!-- ─── STATS ───────────────────────────────────────────────────── -->
+<div class="stats">
+  <div class="stats__cell"><div class="stats__num">8</div><div class="stats__label">Page guides</div></div>
+  <div class="stats__cell"><div class="stats__num">7</div><div class="stats__label">Block types</div></div>
+  <div class="stats__cell"><div class="stats__num">80+</div><div class="stats__label">Projects</div></div>
+  <div class="stats__cell"><div class="stats__num">∞</div><div class="stats__label">Customisation</div></div>
+</div>
+
+<!-- ─── TOPICS ──────────────────────────────────────────────────── -->
+<section class="section" id="topics">
+  <div class="section__inner">
+    <div class="section__head reveal">
+      <span class="section__eyebrow">Choose a guide</span>
+      <h2 class="section__title">What do you want to edit today?</h2>
+      <p class="section__sub">Each guide is a self-contained page covering one area of the site. Click any card to dive in.</p>
+    </div>
+
+    <div class="topics">
+      <a href="projects.html" class="topic reveal" style="--d:.05s">
+        <div class="topic__icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+        <div class="topic__num">01 · Most edited</div>
+        <h3 class="topic__title">Projects &amp; Portfolio</h3>
+        <p class="topic__sub">Add new projects, edit narrative blocks, swap images, mark as featured, clone existing projects, manage location and category tags.</p>
+        <span class="topic__arrow">Open guide</span>
+      </a>
+
+      <a href="home.html" class="topic reveal" style="--d:.10s">
+        <div class="topic__icon"><svg viewBox="0 0 24 24"><path d="M3 12L12 3l9 9"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg></div>
+        <div class="topic__num">02</div>
+        <h3 class="topic__title">Home Page</h3>
+        <p class="topic__sub">Manage the headline, intro narrative, RevSlider images, client logos, featured projects strip and section padding.</p>
+        <span class="topic__arrow">Open guide</span>
+      </a>
+
+      <a href="about-us.html" class="topic reveal" style="--d:.15s">
+        <div class="topic__icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg></div>
+        <div class="topic__num">03</div>
+        <h3 class="topic__title">About Us</h3>
+        <p class="topic__sub">Update the chairs hero, ABOUT ECEC narrative, WHO WE ARE block, the four key-highlight cards, and the clients marquee section.</p>
+        <span class="topic__arrow">Open guide</span>
+      </a>
+
+      <a href="why-ecec.html" class="topic reveal" style="--d:.20s">
+        <div class="topic__icon"><svg viewBox="0 0 24 24"><path d="M12 2l2.5 6.5L21 9l-5 4.5L17.5 21 12 17l-5.5 4 1.5-7.5L3 9l6.5-.5z"/></svg></div>
+        <div class="topic__num">04</div>
+        <h3 class="topic__title">Why ECEC</h3>
+        <p class="topic__sub">Edit the five pillars, swap the scrollytelling images and tweak the CTAs that link out to the Projects page.</p>
+        <span class="topic__arrow">Open guide</span>
+      </a>
+
+      <a href="services.html" class="topic reveal" style="--d:.25s">
+        <div class="topic__icon"><svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-4 9-8 10-4-1-8-5-8-10V6l8-4z"/></svg></div>
+        <div class="topic__num">05</div>
+        <h3 class="topic__title">Our Services</h3>
+        <p class="topic__sub">Update each service category description, the strategic-advantages grid and the "Driving Innovation" sectors bar.</p>
+        <span class="topic__arrow">Open guide</span>
+      </a>
+
+      <a href="people.html" class="topic reveal" style="--d:.30s">
+        <div class="topic__icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 19c0-3 3-5 6-5s6 2 6 5"/><path d="M14 19c0-2 2-4 5-4s2 2 2 4"/></svg></div>
+        <div class="topic__num">06</div>
+        <h3 class="topic__title">Team Members</h3>
+        <p class="topic__sub">Add or remove a person, set role and locations, upload a portrait, and reorder how they appear in the People grid.</p>
+        <span class="topic__arrow">Open guide</span>
+      </a>
+
+      <a href="contact.html" class="topic reveal" style="--d:.35s">
+        <div class="topic__icon"><svg viewBox="0 0 24 24"><path d="M21 7v10c0 1-1 2-2 2H5c-1 0-2-1-2-2V7"/><path d="M3 7l9 6 9-6"/><path d="M3 7c0-1 1-2 2-2h14c1 0 2 1 2 2"/></svg></div>
+        <div class="topic__num">07</div>
+        <h3 class="topic__title">Contact &amp; Forms</h3>
+        <p class="topic__sub">Change office addresses and contact numbers, manage Contact Form 7 recipients and update the map embed.</p>
+        <span class="topic__arrow">Open guide</span>
+      </a>
+
+      <a href="settings.html" class="topic reveal" style="--d:.40s">
+        <div class="topic__icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></div>
+        <div class="topic__num">08</div>
+        <h3 class="topic__title">Logos &amp; Settings</h3>
+        <p class="topic__sub">Upload the official ECEC logo, manage brand favicons, and configure site-wide preferences without breaking anything.</p>
+        <span class="topic__arrow">Open guide</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TIPS ────────────────────────────────────────────────────── -->
+<aside class="tips reveal">
+  <div class="tips__inner">
+    <div>
+      <h2 class="tips__title">Three rules that<br><span>always apply.</span></h2>
+    </div>
+    <ul class="tips__list">
+      <li><strong>Always preview.</strong> Click <em>Preview</em> in the top-right of any edit screen before clicking <em>Update</em>. Catches mistakes before they go live.</li>
+      <li><strong>Drafts are free.</strong> If you're unsure, set the post status to <em>Draft</em> while editing. It won't show on the public site until you publish.</li>
+      <li><strong>Hard-refresh after CSS.</strong> If something looks off after a deploy, press <em>Ctrl + F5</em> &mdash; you're seeing cached files.</li>
+      <li><strong>Image specs matter.</strong> Use the dimensions noted in each guide. Wrong sizes cause layout shifts on the live site.</li>
+    </ul>
+  </div>
+</aside>
+
+<footer class="foot">
+  <p>ECEC Engineering Consultants &middot; Site help center &middot; <a href="../">Back to site</a></p>
+</footer>
+
+<script>
+// Particle generator
+(function () {
+  const host = document.getElementById('particles');
+  if (!host) return;
+  for (let i = 0; i < 30; i++) {
+    const s = document.createElement('span');
+    s.style.left = Math.random() * 100 + '%';
+    s.style.bottom = '-10px';
+    s.style.animationDelay = (Math.random() * 8) + 's';
+    s.style.animationDuration = (6 + Math.random() * 6) + 's';
+    s.style.opacity = (.3 + Math.random() * .5);
+    host.appendChild(s);
+  }
+})();
+
+// Reading progress bar
+(function () {
+  const bar = document.getElementById('bar');
+  if (!bar) return;
+  function update() {
+    const scrolled = window.scrollY;
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = total > 0 ? (scrolled / total) * 100 : 0;
+    bar.style.width = pct + '%';
+  }
+  document.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
+// Reveal on scroll
+(function () {
+  const els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(el => el.classList.add('in'));
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: .12 });
+  els.forEach(el => io.observe(el));
+})();
+</script>
+</body>
+</html>

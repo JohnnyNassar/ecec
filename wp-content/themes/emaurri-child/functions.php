@@ -23,23 +23,51 @@ function ecec_set_footer_columns( $config ) {
 }
 add_filter( 'emaurri_filter_page_footer_sidebars_config', 'ecec_set_footer_columns', 20 );
 
-// ─── ECEC Brand Fonts ───────────────────────────────────────────────
-// Replace default theme fonts with brand fonts:
-// Plus Jakarta Sans (headings/UI) + Tajawal (Arabic) via Google Fonts
-// Argentum Sans (body) via CDNFonts
+// ─── ECEC Brand Fonts (self-hosted) ─────────────────────────────────
+// All brand fonts live on the same origin under /assets/fonts/ — no external
+// CDN dependencies. Defends against corporate firewalls / ISP blocks /
+// ad-blockers that intercept Google Fonts or CDNFonts and would otherwise
+// cause the page to render with fallback typography on the client's side.
+//
+// Tajawal (Arabic) is intentionally NOT included — the site has no Arabic
+// pages live yet. Add it to fonts.css if/when an Arabic version ships.
 add_filter( 'emaurri_filter_google_fonts_list', function () {
-	return array( 'Plus Jakarta Sans', 'Tajawal' );
+	return array();
 } );
 
 function ecec_enqueue_brand_fonts() {
+	$fonts_path = get_stylesheet_directory() . '/fonts.css';
+	$ver = file_exists( $fonts_path ) ? filemtime( $fonts_path ) : false;
 	wp_enqueue_style(
-		'ecec-argentum-sans',
-		'https://fonts.cdnfonts.com/css/argentum-sans',
+		'ecec-brand-fonts',
+		get_stylesheet_directory_uri() . '/fonts.css',
 		array(),
-		null
+		$ver
 	);
 }
 add_action( 'wp_enqueue_scripts', 'ecec_enqueue_brand_fonts', 5 );
+
+// Dequeue Elementor's default Google Fonts on the frontend — our brand
+// styles override every font-family with Plus Jakarta Sans / Argentum Sans,
+// so Roboto and Roboto Slab are unused weight (~50KB each from Google).
+// Removing them cuts another network dependency that corporate firewalls /
+// ISP blocks could intercept. Material Icons stays loaded since icons would
+// render as blocky boxes if blocked.
+function ecec_dequeue_elementor_google_fonts() {
+	wp_dequeue_style( 'elementor-gf-roboto' );
+	wp_dequeue_style( 'elementor-gf-robotoslab' );
+}
+add_action( 'wp_print_styles', 'ecec_dequeue_elementor_google_fonts', 999 );
+
+// Belt-and-braces: also nullify the URL via the loader filter, in case
+// Elementor enqueues these after wp_print_styles fires for a particular
+// view (some Elementor widgets enqueue late).
+add_filter( 'style_loader_src', function ( $src, $handle ) {
+	if ( in_array( $handle, array( 'elementor-gf-roboto', 'elementor-gf-robotoslab' ), true ) ) {
+		return false;
+	}
+	return $src;
+}, 10, 2 );
 
 // ─── Projects Year Timeline Filter ──────────────────────────────────
 // [ecec_year_timeline] — renders a horizontal timeline above the portfolio grid.
@@ -126,6 +154,19 @@ function ecec_enqueue_year_timeline_assets() {
 	wp_localize_script( 'ecec-year-timeline', 'ECEC_YEAR_MAP', ecec_get_portfolio_year_map() );
 }
 add_action( 'wp_enqueue_scripts', 'ecec_enqueue_year_timeline_assets', 20 );
+
+// Gallery lightbox — single portfolio-item pages only.
+function ecec_enqueue_gallery_lightbox() {
+	if ( ! is_singular( 'portfolio-item' ) ) { return; }
+	wp_enqueue_script(
+		'ecec-gallery-lightbox',
+		get_stylesheet_directory_uri() . '/assets/gallery-lightbox.js',
+		array(),
+		'1.0.0',
+		true
+	);
+}
+add_action( 'wp_enqueue_scripts', 'ecec_enqueue_gallery_lightbox', 20 );
 
 // ─── Featured Projects ──────────────────────────────────────────────
 // Boolean _ecec_featured meta on portfolio-item + metabox checkbox.
@@ -406,14 +447,37 @@ add_action( 'add_meta_boxes', 'ecec_team_member_meta_box' );
 
 function ecec_team_member_meta_box_html( $post ) {
 	wp_nonce_field( 'ecec_team_member_save', 'ecec_team_member_nonce' );
-	$role      = get_post_meta( $post->ID, '_ecec_team_role', true );
-	$locations = get_post_meta( $post->ID, '_ecec_team_locations', true );
+	$role       = get_post_meta( $post->ID, '_ecec_team_role', true );
+	$locations  = get_post_meta( $post->ID, '_ecec_team_locations', true );
+	$tier       = get_post_meta( $post->ID, '_ecec_team_tier', true );
+	$bio        = get_post_meta( $post->ID, '_ecec_team_bio', true );
+	$department = get_post_meta( $post->ID, '_ecec_team_department', true );
+	$depts      = ecec_team_departments();
 	?>
+	<p>
+		<label for="ecec_team_tier"><strong>Tier</strong></label><br>
+		<select id="ecec_team_tier" name="ecec_team_tier" style="width:100%;">
+			<option value="senior"   <?php selected( $tier, 'senior' ); ?>>Senior team (department grid)</option>
+			<option value="director" <?php selected( $tier, 'director' ); ?>>Director (image + bio row)</option>
+			<option value="founder"  <?php selected( $tier, 'founder' ); ?>>Founder / Managing Director (image + bio row, top)</option>
+		</select>
+		<span style="color:#666;font-size:12px;">Founders &amp; Directors render as image+bio rows under the leadership section. Senior team renders in the department grid matching their Department selection below.</span>
+	</p>
+	<p>
+		<label for="ecec_team_department"><strong>Department</strong> (Senior team only)</label><br>
+		<select id="ecec_team_department" name="ecec_team_department" style="width:100%;">
+			<option value="">— Select department —</option>
+			<?php foreach ( $depts as $slug => $label ) : ?>
+				<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( $department, $slug ); ?>><?php echo esc_html( $label ); ?></option>
+			<?php endforeach; ?>
+		</select>
+		<span style="color:#666;font-size:12px;">Ignored for Founder &amp; Director tiers. Required for Senior team or the member won't appear on the page.</span>
+	</p>
 	<p>
 		<label for="ecec_team_role"><strong>Role / Title</strong></label><br>
 		<input type="text" id="ecec_team_role" name="ecec_team_role"
 			value="<?php echo esc_attr( $role ); ?>"
-			placeholder="e.g. Founder | Principal"
+			placeholder="e.g. Managing Director | Director of Engineering"
 			style="width:100%;">
 	</p>
 	<p>
@@ -423,6 +487,12 @@ function ecec_team_member_meta_box_html( $post ) {
 			placeholder="e.g. Dubai | Riyadh | Amman"
 			style="width:100%;">
 		<span style="color:#666;font-size:12px;">Separate multiple offices with <code>|</code></span>
+	</p>
+	<p>
+		<label for="ecec_team_bio"><strong>Bio (Founder &amp; Director only)</strong></label><br>
+		<textarea id="ecec_team_bio" name="ecec_team_bio" rows="6" style="width:100%;"
+			placeholder="100-150 word professional narrative. Shown next to the photo on the People page leadership section."><?php echo esc_textarea( $bio ); ?></textarea>
+		<span style="color:#666;font-size:12px;">Plain text. Senior team cards don't display this.</span>
 	</p>
 	<p style="color:#666;font-size:12px;">
 		Use the <strong>Featured image</strong> box to upload the member photo.
@@ -444,8 +514,31 @@ function ecec_team_member_save_meta( $post_id ) {
 	if ( isset( $_POST['ecec_team_locations'] ) ) {
 		update_post_meta( $post_id, '_ecec_team_locations', sanitize_text_field( wp_unslash( $_POST['ecec_team_locations'] ) ) );
 	}
+	if ( isset( $_POST['ecec_team_tier'] ) ) {
+		$tier_in = sanitize_text_field( wp_unslash( $_POST['ecec_team_tier'] ) );
+		if ( ! in_array( $tier_in, array( 'founder', 'director', 'senior' ), true ) ) { $tier_in = 'senior'; }
+		update_post_meta( $post_id, '_ecec_team_tier', $tier_in );
+	}
+	if ( isset( $_POST['ecec_team_bio'] ) ) {
+		update_post_meta( $post_id, '_ecec_team_bio', sanitize_textarea_field( wp_unslash( $_POST['ecec_team_bio'] ) ) );
+	}
+	if ( isset( $_POST['ecec_team_department'] ) ) {
+		$dept_in = sanitize_text_field( wp_unslash( $_POST['ecec_team_department'] ) );
+		if ( $dept_in !== '' && ! array_key_exists( $dept_in, ecec_team_departments() ) ) { $dept_in = ''; }
+		update_post_meta( $post_id, '_ecec_team_department', $dept_in );
+	}
 }
 add_action( 'save_post_ecec_team_member', 'ecec_team_member_save_meta' );
+
+// Fixed list of departments — slug => display label.
+function ecec_team_departments() {
+	return array(
+		'business-development' => 'Business Development',
+		'design-team'          => 'Design Team',
+		'project-management'   => 'Project Management',
+		'administration'       => 'Administration',
+	);
+}
 
 // Admin list columns: photo + role + order
 function ecec_team_member_admin_columns( $cols ) {
@@ -456,8 +549,9 @@ function ecec_team_member_admin_columns( $cols ) {
 		}
 		$new[ $k ] = $v;
 		if ( $k === 'title' ) {
-			$new['ecec_role']     = 'Role';
-			$new['ecec_location'] = 'Offices';
+			$new['ecec_role']       = 'Role';
+			$new['ecec_location']   = 'Offices';
+			$new['ecec_department'] = 'Department';
 		}
 	}
 	$new['menu_order'] = 'Order';
@@ -477,6 +571,10 @@ function ecec_team_member_admin_column_content( $col, $post_id ) {
 		echo esc_html( get_post_meta( $post_id, '_ecec_team_role', true ) ?: '—' );
 	} elseif ( $col === 'ecec_location' ) {
 		echo esc_html( get_post_meta( $post_id, '_ecec_team_locations', true ) ?: '—' );
+	} elseif ( $col === 'ecec_department' ) {
+		$slug  = get_post_meta( $post_id, '_ecec_team_department', true );
+		$depts = ecec_team_departments();
+		echo esc_html( $slug && isset( $depts[ $slug ] ) ? $depts[ $slug ] : '—' );
 	} elseif ( $col === 'menu_order' ) {
 		$p = get_post( $post_id );
 		echo (int) ( $p->menu_order ?? 0 );
@@ -502,6 +600,12 @@ function ecec_team_grid_shortcode( $atts ) {
 		'posts_per_page' => -1,
 		'orderby'        => array( $atts['orderby'] => $atts['order'], 'title' => 'ASC' ),
 		'no_found_rows'  => true,
+		// Exclude founder/director — those render in [ecec_team_leadership]
+		'meta_query'     => array(
+			'relation' => 'OR',
+			array( 'key' => '_ecec_team_tier', 'value' => 'senior', 'compare' => '=' ),
+			array( 'key' => '_ecec_team_tier', 'compare' => 'NOT EXISTS' ),
+		),
 	) );
 
 	$cols = max( 1, min( 4, (int) $atts['columns'] ) );
@@ -543,11 +647,14 @@ function ecec_team_grid_shortcode( $atts ) {
 		<article class="ecec-team-card ecec-team-card--placeholder" aria-hidden="true">
 			<div class="ecec-team-photo">
 				<div class="ecec-team-photo-placeholder ecec-team-photo-placeholder--ghost">
-					<span class="ecec-team-photo-placeholder__hint">Team member</span>
+					<svg class="ecec-team-photo-placeholder__icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
+						<rect x="6" y="14" width="44" height="34" rx="3" ry="3" fill="none" stroke="currentColor" stroke-width="2"/>
+						<rect x="14" y="22" width="44" height="34" rx="3" ry="3" fill="none" stroke="currentColor" stroke-width="2"/>
+						<circle cx="24" cy="32" r="3" fill="currentColor"/>
+						<path d="M16 50 L28 38 L36 46 L44 38 L56 50 Z" fill="currentColor" opacity="0.6"/>
+					</svg>
 				</div>
 			</div>
-			<h4 class="ecec-team-name ecec-team-name--ghost">&mdash;</h4>
-			<p class="ecec-team-role ecec-team-role--ghost">Role</p>
 		</article>
 	<?php endfor; ?>
 	</div>
@@ -556,58 +663,283 @@ function ecec_team_grid_shortcode( $atts ) {
 }
 add_shortcode( 'ecec_team_grid', 'ecec_team_grid_shortcode' );
 
-// ─── [ecec_why] shortcode — sticky-left + scrolling-right "Why ECEC" page ─
-// Mirrors Emaurri's portfolio/vertical-divided-list demo's scrollytelling
-// pattern: 5 pillar titles stack in a sticky left column (only one visible
-// at a time), 5 image slides stack in the scrolling right column. JS uses
-// IntersectionObserver to swap the visible title as each right-column slide
-// crosses the viewport center.
-function ecec_why_shortcode( $atts ) {
-	$pillars = [
-		[ 'num' => '01', 'title' => 'Proven Performance' ],
-		[ 'num' => '02', 'title' => 'Data-Driven Efficiency' ],
-		[ 'num' => '03', 'title' => 'Global Standards Local Insight' ],
-		[ 'num' => '04', 'title' => 'Collaborative Engagement' ],
-		[ 'num' => '05', 'title' => 'Comprehensive Expertise' ],
-	];
-	$projects_url = esc_url( home_url( '/projects/' ) );
-	ob_start();
-	?>
-	<section class="ecec-why" aria-label="Why ECEC">
-		<div class="ecec-why-inner">
-			<div class="ecec-why-info-holder">
-				<?php foreach ( $pillars as $i => $p ) : ?>
-					<div class="ecec-why-info-item<?php echo $i === 0 ? ' is-active' : ''; ?>" data-idx="<?php echo (int) $i; ?>">
-						<div class="ecec-why-num"><?php echo esc_html( $p['num'] ); ?></div>
-						<h2 class="ecec-why-title"><?php echo esc_html( $p['title'] ); ?></h2>
-						<a class="ecec-why-cta" href="<?php echo $projects_url; ?>">Explore</a>
-					</div>
-				<?php endforeach; ?>
+// ─── [ecec_team_department] — senior-tier grid filtered by department ────
+// Renders the same card markup as ecec_team_grid (photo + name + role) but
+// filtered to a single department via the _ecec_team_department meta. Used
+// on the People page once per department section.
+//
+// Attributes:
+//   dept    — department slug (required). One of: business-development,
+//             design-team, project-management, administration.
+//   columns — 1..4, default 4.
+//   min     — minimum visible cards; placeholder cards fill the gap.
+//   orderby — WP_Query orderby, default menu_order.
+//   order   — ASC | DESC, default ASC.
+function ecec_team_department_shortcode( $atts ) {
+	$atts = shortcode_atts( array(
+		'dept'    => '',
+		'columns' => '4',
+		'min'     => '0',
+		'orderby' => 'menu_order',
+		'order'   => 'ASC',
+	), $atts, 'ecec_team_department' );
+
+	$dept = sanitize_key( str_replace( '_', '-', $atts['dept'] ) );
+	if ( ! array_key_exists( $dept, ecec_team_departments() ) ) {
+		return '<p class="ecec-team-empty">Unknown department slug: ' . esc_html( $dept ) . '</p>';
+	}
+
+	$q = new WP_Query( array(
+		'post_type'      => 'ecec_team_member',
+		'post_status'    => 'publish',
+		'posts_per_page' => -1,
+		'orderby'        => array( $atts['orderby'] => $atts['order'], 'title' => 'ASC' ),
+		'no_found_rows'  => true,
+		'meta_query'     => array(
+			'relation' => 'AND',
+			array(
+				'relation' => 'OR',
+				array( 'key' => '_ecec_team_tier', 'value' => 'senior', 'compare' => '=' ),
+				array( 'key' => '_ecec_team_tier', 'compare' => 'NOT EXISTS' ),
+			),
+			array( 'key' => '_ecec_team_department', 'value' => $dept, 'compare' => '=' ),
+		),
+	) );
+
+	$cols       = max( 1, min( 4, (int) $atts['columns'] ) );
+	$min        = max( 0, (int) $atts['min'] );
+	$real_count = is_array( $q->posts ) ? count( $q->posts ) : 0;
+	$pads       = max( 0, $min - $real_count );
+
+	if ( $real_count === 0 && $pads === 0 ) {
+		return '<div class="ecec-team-dept-empty">No team members in this department yet.</div>';
+	}
+
+	ob_start(); ?>
+	<div class="ecec-team-grid ecec-team-columns-<?php echo (int) $cols; ?>" data-dept="<?php echo esc_attr( $dept ); ?>">
+	<?php while ( $q->have_posts() ) : $q->the_post();
+		$role = get_post_meta( get_the_ID(), '_ecec_team_role', true );
+		?>
+		<article class="ecec-team-card">
+			<div class="ecec-team-photo">
+				<?php if ( has_post_thumbnail() ) {
+					the_post_thumbnail( 'medium', array( 'loading' => 'lazy' ) );
+				} else { ?>
+					<div class="ecec-team-photo-placeholder" aria-hidden="true"></div>
+				<?php } ?>
 			</div>
-			<div class="ecec-why-main">
-				<?php foreach ( $pillars as $i => $p ) : ?>
-					<article class="ecec-why-slide" data-idx="<?php echo (int) $i; ?>">
-						<div class="ecec-block-placeholder ecec-why-placeholder">
-							<p class="ecec-block-placeholder__size">600 &times; 800</p>
-							<p class="ecec-block-placeholder__hint">Image placeholder &mdash; replace via admin</p>
-						</div>
-					</article>
-				<?php endforeach; ?>
+			<h4 class="ecec-team-name"><?php the_title(); ?></h4>
+			<?php if ( $role ) : ?>
+				<p class="ecec-team-role"><?php echo esc_html( $role ); ?></p>
+			<?php endif; ?>
+		</article>
+	<?php endwhile; wp_reset_postdata(); ?>
+
+	<?php for ( $i = 0; $i < $pads; $i++ ) : ?>
+		<article class="ecec-team-card ecec-team-card--placeholder" aria-hidden="true">
+			<div class="ecec-team-photo">
+				<div class="ecec-team-photo-placeholder ecec-team-photo-placeholder--ghost">
+					<svg class="ecec-team-photo-placeholder__icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
+						<rect x="6" y="14" width="44" height="34" rx="3" ry="3" fill="none" stroke="currentColor" stroke-width="2"/>
+						<rect x="14" y="22" width="44" height="34" rx="3" ry="3" fill="none" stroke="currentColor" stroke-width="2"/>
+						<circle cx="24" cy="32" r="3" fill="currentColor"/>
+						<path d="M16 50 L28 38 L36 46 L44 38 L56 50 Z" fill="currentColor" opacity="0.6"/>
+					</svg>
+				</div>
 			</div>
-		</div>
+			<h4 class="ecec-team-name ecec-team-name--placeholder">Name of employee</h4>
+			<p class="ecec-team-role ecec-team-role--placeholder">Position</p>
+		</article>
+	<?php endfor; ?>
+	</div>
+	<?php
+	return ob_get_clean();
+}
+add_shortcode( 'ecec_team_department', 'ecec_team_department_shortcode' );
+
+// ─── [ecec_team_leadership] — image+bio rows for founder & director tiers ──
+// Renders founder records first, then director records, each as a single
+// horizontal row with photo on the left and bio narrative on the right
+// (responsive: stacks on narrow viewports).
+//
+// `min_directors` attribute pads the director group with placeholder rows
+// when fewer than N director records exist (default 2). Founder tier never
+// renders placeholders — if there's no founder, that section is skipped.
+function ecec_team_leadership_shortcode( $atts ) {
+	$atts = shortcode_atts( array(
+		'min_directors' => '0',
+	), $atts, 'ecec_team_leadership' );
+
+	$founders  = ecec_team_query_by_tier( 'founder' );
+	$directors = ecec_team_query_by_tier( 'director' );
+	$min_dir   = max( 0, (int) $atts['min_directors'] );
+	$dir_real  = count( $directors );
+	$dir_pads  = max( 0, $min_dir - $dir_real );
+
+	if ( count( $founders ) === 0 && $dir_real === 0 && $dir_pads === 0 ) {
+		return '';
+	}
+
+	ob_start(); ?>
+	<section class="ecec-team-leadership">
+		<?php foreach ( $founders as $p ) { echo ecec_team_render_leader_row( $p, 'founder' ); } ?>
+		<?php foreach ( $directors as $p ) { echo ecec_team_render_leader_row( $p, 'director' ); } ?>
+		<?php for ( $i = 0; $i < $dir_pads; $i++ ) { echo ecec_team_render_leader_placeholder(); } ?>
 	</section>
 	<?php
 	return ob_get_clean();
 }
-add_shortcode( 'ecec_why', 'ecec_why_shortcode' );
+add_shortcode( 'ecec_team_leadership', 'ecec_team_leadership_shortcode' );
 
-// Enqueue Why ECEC JS only on the Why ECEC page
-add_action( 'wp_enqueue_scripts', function () {
-	if ( ! is_page( 'why-ecec' ) ) { return; }
-	$js_path = get_stylesheet_directory() . '/assets/why-ecec.js';
-	$ver = file_exists( $js_path ) ? filemtime( $js_path ) : false;
-	wp_enqueue_script( 'ecec-why-ecec', get_stylesheet_directory_uri() . '/assets/why-ecec.js', [], $ver, true );
-}, 20 );
+function ecec_team_query_by_tier( $tier ) {
+	$q = new WP_Query( array(
+		'post_type'      => 'ecec_team_member',
+		'post_status'    => 'publish',
+		'posts_per_page' => -1,
+		'orderby'        => array( 'menu_order' => 'ASC', 'title' => 'ASC' ),
+		'no_found_rows'  => true,
+		'meta_query'     => array( array(
+			'key'     => '_ecec_team_tier',
+			'value'   => $tier,
+			'compare' => '=',
+		) ),
+	) );
+	return $q->posts;
+}
+
+function ecec_team_render_leader_row( $post, $tier ) {
+	$pid       = $post->ID;
+	$role      = get_post_meta( $pid, '_ecec_team_role', true );
+	$locations = get_post_meta( $pid, '_ecec_team_locations', true );
+	$bio       = get_post_meta( $pid, '_ecec_team_bio', true );
+	ob_start(); ?>
+	<article class="ecec-leader-row ecec-leader-row--<?php echo esc_attr( $tier ); ?>">
+		<div class="ecec-leader-photo">
+			<?php if ( has_post_thumbnail( $pid ) ) {
+				echo get_the_post_thumbnail( $pid, 'large', array( 'loading' => 'lazy', 'class' => 'ecec-leader-img' ) );
+			} else { ?>
+				<div class="ecec-leader-photo-placeholder" aria-hidden="true">
+					<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" focusable="false">
+						<rect x="6" y="14" width="44" height="34" rx="3" ry="3" fill="none" stroke="currentColor" stroke-width="2"/>
+						<rect x="14" y="22" width="44" height="34" rx="3" ry="3" fill="none" stroke="currentColor" stroke-width="2"/>
+						<circle cx="24" cy="32" r="3" fill="currentColor"/>
+						<path d="M16 50 L28 38 L36 46 L44 38 L56 50 Z" fill="currentColor" opacity="0.6"/>
+					</svg>
+				</div>
+			<?php } ?>
+		</div>
+		<div class="ecec-leader-text">
+			<h3 class="ecec-leader-name"><?php echo esc_html( get_the_title( $pid ) ); ?></h3>
+			<?php if ( $role ) : ?>
+				<p class="ecec-leader-role"><?php echo esc_html( $role ); ?></p>
+			<?php endif; ?>
+			<?php if ( $locations ) : ?>
+				<p class="ecec-leader-location"><?php echo esc_html( $locations ); ?></p>
+			<?php endif; ?>
+			<?php if ( $bio ) : ?>
+				<div class="ecec-leader-bio"><p><?php echo esc_html( $bio ); ?></p></div>
+			<?php endif; ?>
+		</div>
+	</article>
+	<?php
+	return ob_get_clean();
+}
+
+function ecec_team_render_leader_placeholder() {
+	ob_start(); ?>
+	<article class="ecec-leader-row ecec-leader-row--placeholder" aria-hidden="true">
+		<div class="ecec-leader-photo">
+			<div class="ecec-leader-photo-placeholder ecec-leader-photo-placeholder--ghost">
+				<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" focusable="false">
+					<rect x="6" y="14" width="44" height="34" rx="3" ry="3" fill="none" stroke="currentColor" stroke-width="2"/>
+					<rect x="14" y="22" width="44" height="34" rx="3" ry="3" fill="none" stroke="currentColor" stroke-width="2"/>
+					<circle cx="24" cy="32" r="3" fill="currentColor"/>
+					<path d="M16 50 L28 38 L36 46 L44 38 L56 50 Z" fill="currentColor" opacity="0.6"/>
+				</svg>
+			</div>
+		</div>
+		<div class="ecec-leader-text">
+			<h3 class="ecec-leader-name ecec-leader-name--placeholder">Director name</h3>
+			<p class="ecec-leader-role ecec-leader-role--placeholder">Role &middot; Office</p>
+			<div class="ecec-leader-bio ecec-leader-bio--placeholder">
+				<p>Bio narrative coming soon &mdash; the client adds tier=director records via WordPress admin and they replace this placeholder automatically.</p>
+			</div>
+		</div>
+	</article>
+	<?php
+	return ob_get_clean();
+}
+
+// ─── [ecec_why] shortcode — Emaurri portfolio-exhibition DOM ──────────────
+// Outputs the same DOM the theme's emaurri_core_portfolio_exhibition widget
+// emits (used by the demo's /portfolio/vertical-divided-list/ page). Inherits
+// the theme's CSS (emaurri-core.css) and JS (emaurri-core.js auto-attaches to
+// .qodef-portfolio-exhibition) — sticky info column, scrolling main column,
+// big background-text per pillar, image-bleed, and active-state swap all come
+// from the theme. Content: 5 hardcoded ECEC pillars, "Explore" → /our-services/.
+function ecec_why_shortcode( $atts ) {
+	// To set a pillar image: upload to WP Admin → Media → Add New, copy the
+	// image URL, paste into the 'image' field below. Recommended: 1300×848 JPG.
+	$pillars = [
+		[ 'num' => '01', 'title' => 'Proven Performance',              'image' => '' ],
+		[ 'num' => '02', 'title' => 'Data-Driven Efficiency',          'image' => '' ],
+		[ 'num' => '03', 'title' => 'Global Standards Local Insight',  'image' => '' ],
+		[ 'num' => '04', 'title' => 'Collaborative Engagement',        'image' => '' ],
+		[ 'num' => '05', 'title' => 'Comprehensive Expertise',         'image' => '' ],
+	];
+	$cta_url = esc_url( home_url( '/our-services/' ) );
+
+	$render_button = function () use ( $cta_url ) {
+		return '<a class="qodef-shortcode qodef-m qodef-button qodef-layout--outlined qodef-html--link" href="' . $cta_url . '" target="_self"><span class="qodef-m-text">Explore</span></a>';
+	};
+	$render_image = function ( $url, $alt ) {
+		if ( empty( $url ) ) {
+			return '<div class="ecec-block-placeholder ecec-why-placeholder"><p class="ecec-block-placeholder__size">1300 &times; 848</p><p class="ecec-block-placeholder__hint">Image placeholder &mdash; set URL in functions.php</p></div>';
+		}
+		return '<img src="' . esc_url( $url ) . '" alt="' . esc_attr( $alt ) . '" loading="lazy">';
+	};
+
+	ob_start(); ?>
+	<div class="qodef-shortcode qodef-m qodef-portfolio-exhibition ecec-why">
+		<div class="qodef-slides-info-holder">
+			<?php foreach ( $pillars as $i => $p ) : $aid = 'ecec-why-' . ( $i + 1 ); ?>
+				<article class="ecec-why-article" id="<?php echo esc_attr( $aid ); ?>">
+					<div class="qodef-e-info">
+						<div class="qodef-e-info-top">
+							<div class="qodef-e-info-category">
+								<span class="qodef-e-category"><?php echo esc_html( $p['num'] ); ?></span>
+							</div>
+						</div>
+						<h1 itemprop="name" class="qodef-e-title entry-title"><?php echo esc_html( $p['title'] ); ?></h1>
+						<div class="qodef-e-read-more"><?php echo $render_button(); ?></div>
+						<div class="qodef-e-portfolio-exhibition-bg-text"><?php echo esc_html( $p['num'] ); ?></div>
+					</div>
+				</article>
+			<?php endforeach; ?>
+		</div>
+		<div class="qodef-slides-main-holder">
+			<?php foreach ( $pillars as $i => $p ) : $aid = 'ecec-why-' . ( $i + 1 ); ?>
+				<article class="ecec-why-article" data-id="<?php echo esc_attr( $aid ); ?>">
+					<div class="qodef-e-info">
+						<div class="qodef-e-info-top">
+							<div class="qodef-e-info-category">
+								<span class="qodef-e-category"><?php echo esc_html( $p['num'] ); ?></span>
+							</div>
+						</div>
+						<h1 itemprop="name" class="qodef-e-title entry-title"><?php echo esc_html( $p['title'] ); ?></h1>
+						<div class="qodef-e-read-more"><?php echo $render_button(); ?></div>
+					</div>
+					<div class="qodef-e-image-holder">
+						<div class="qodef-e-media-image"><?php echo $render_image( $p['image'], $p['title'] ); ?></div>
+					</div>
+				</article>
+			<?php endforeach; ?>
+		</div>
+	</div>
+	<?php
+	return ob_get_clean();
+}
+add_shortcode( 'ecec_why', 'ecec_why_shortcode' );
 
 // ─── Single-Project Content Blocks: admin metabox (drag-sort repeater UI) ─
 // Stores a JSON array of block objects in `_ecec_blocks` meta on portfolio-item.
@@ -953,8 +1285,9 @@ add_shortcode( 'ecec_services_list', 'ecec_services_list_shortcode' );
 // on hover.
 function ecec_clients_marquee_shortcode( $atts ) {
 	$atts = shortcode_atts( [
-		'speed' => '50',  // seconds for one full loop
-		'height' => '45', // logo row height in px
+		'speed'  => '50',          // seconds for one full loop
+		'height' => '45',          // logo row height in px
+		'title'  => 'Our Clients', // heading above the strip; pass title="" to hide
 	], $atts, 'ecec_clients_marquee' );
 
 	$ids = get_option( 'ecec_client_logo_ids', [] );
@@ -977,7 +1310,11 @@ function ecec_clients_marquee_shortcode( $atts ) {
 	$speed  = max( 10, (int) $atts['speed'] );
 	$height = max( 20, (int) $atts['height'] );
 	?>
-	<section class="ecec-clients-marquee" aria-label="<?php esc_attr_e( 'Clients and partners', 'emaurri-child' ); ?>" style="--ecec-clients-speed: <?php echo (int) $speed; ?>s; --ecec-clients-h: <?php echo (int) $height; ?>px;">
+	<div class="ecec-clients-block">
+		<?php if ( ! empty( $atts['title'] ) ) : ?>
+			<h2 class="ecec-clients-marquee__title"><?php echo esc_html( $atts['title'] ); ?></h2>
+		<?php endif; ?>
+		<section class="ecec-clients-marquee" aria-label="<?php esc_attr_e( 'Clients and partners', 'emaurri-child' ); ?>" style="--ecec-clients-speed: <?php echo (int) $speed; ?>s; --ecec-clients-h: <?php echo (int) $height; ?>px;">
 		<div class="ecec-clients-track">
 			<?php // Render the list twice for a seamless infinite loop (CSS shifts 50%). ?>
 			<?php for ( $pass = 0; $pass < 2; $pass++ ) : ?>
@@ -991,6 +1328,7 @@ function ecec_clients_marquee_shortcode( $atts ) {
 			<?php endfor; ?>
 		</div>
 	</section>
+	</div>
 	<?php
 	return ob_get_clean();
 }

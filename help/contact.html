@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact &amp; Forms · ECEC Help</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="topbar__brand">ECEC Help</a>
+  <a href="index.html" class="topbar__back">All guides</a>
+  <div class="topbar__progress" id="bar"></div>
+</header>
+
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="hero__grid"></div>
+  <div class="hero__inner">
+    <div class="hero__crumb"><a href="index.html">Help center</a> &middot; Guide 07</div>
+    <h1 class="hero__title">Contact <span>&amp; forms.</span></h1>
+    <p class="hero__sub">Office addresses, phone numbers, email recipients on Contact Form 7 submissions, and the embedded map.</p>
+    <div class="hero__meta">
+      <span>Page ID 124</span>
+      <span>~3 min read</span>
+      <span>Mostly Elementor</span>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <aside class="toc">
+    <h4>On this page</h4>
+    <a href="#offices">Office addresses</a>
+    <a href="#form">Contact form recipients</a>
+    <a href="#map">Map embed</a>
+    <a href="#faq">FAQ</a>
+  </aside>
+
+  <main class="content">
+
+    <section class="sec reveal" id="offices">
+      <span class="sec__num">01</span>
+      <h2>Office addresses &amp; phone numbers</h2>
+      <p class="lead">The Contact Us page (page 124) has city blocks for each office. Each block has a city heading, address, phone, email.</p>
+
+      <div class="steps">
+        <div class="step"><div class="step__body"><strong>Open the page in Elementor</strong>WP Admin → Pages → Contact Us → Edit with Elementor.</div></div>
+        <div class="step"><div class="step__body"><strong>Click any city's heading or text widget</strong>Edit text in the left panel or inline.</div></div>
+        <div class="step"><div class="step__body"><strong>Update phone / email links</strong>If editing a clickable phone number (<code>tel:+971...</code>) or email (<code>mailto:</code>), edit the link target in the widget's link settings.</div></div>
+        <div class="step"><div class="step__body"><strong>Click Update</strong>Live immediately.</div></div>
+      </div>
+
+      <div class="callout callout--tip">
+        <div class="callout__icon">i</div>
+        <div>
+          <strong>Footer too:</strong>
+          <p>The site footer also lists offices &mdash; that's a separate widget under <em>Appearance → Widgets</em> (custom_html widget #12). Update both for consistency.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="form">
+      <span class="sec__num">02</span>
+      <h2>Contact form recipients</h2>
+      <p>Form submissions are emailed to the configured recipients. ECEC currently routes both forms (the main contact form #132 and the older form #6) to <code>info@ecec.co</code>.</p>
+
+      <div class="steps">
+        <div class="step"><div class="step__body"><strong>Open Contact Form 7</strong>WP Admin sidebar → <em>Contact</em>.</div></div>
+        <div class="step"><div class="step__body"><strong>Click the form to edit</strong>Pick "Contact form 1" (132) or the legacy form.</div></div>
+        <div class="step"><div class="step__body"><strong>Switch to the Mail tab</strong>Top of the form editor.</div></div>
+        <div class="step"><div class="step__body"><strong>Update the To: field</strong>Change <code>info@ecec.co</code> to the new recipient. To send to multiple addresses, comma-separate.</div></div>
+        <div class="step"><div class="step__body"><strong>Click Save</strong>Test by submitting the form on the live site.</div></div>
+      </div>
+
+      <div class="callout callout--warn">
+        <div class="callout__icon">!</div>
+        <div>
+          <strong>Always test:</strong>
+          <p>After changing the recipient, submit a test message via the live form. Check the new recipient's inbox (and spam folder). If nothing arrives within a minute, check WP's mail config &mdash; the server may need an SMTP plugin like WP Mail SMTP.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="map">
+      <span class="sec__num">03</span>
+      <h2>Map embed</h2>
+      <p>The map at the bottom of the Contact page is a Google Maps iframe. To replace it with a different location:</p>
+
+      <ol>
+        <li>Open <a href="https://maps.google.com" target="_blank" rel="noopener">Google Maps</a>, search for the new address.</li>
+        <li>Click <em>Share → Embed a map</em>.</li>
+        <li>Copy the iframe HTML.</li>
+        <li>In Elementor, click the map widget on the Contact page.</li>
+        <li>Paste the iframe code into the HTML widget content.</li>
+        <li>Click <em>Update</em>.</li>
+      </ol>
+    </section>
+
+    <section class="sec reveal" id="faq">
+      <span class="sec__num">04</span>
+      <h2>FAQ</h2>
+      <div class="faq">
+        <details>
+          <summary>Form submissions aren't arriving.</summary>
+          <div class="faq__body"><p>Check spam first. If still missing, the WP server may need an SMTP plugin to actually deliver mail. Install <em>WP Mail SMTP</em> and configure with your provider's credentials (Gmail, Mailgun, etc.).</p></div>
+        </details>
+        <details>
+          <summary>The "Send" button doesn't do anything.</summary>
+          <div class="faq__body"><p>Browser console (F12 → Console) usually shows the error. Most common cause: a JS plugin conflict. Try deactivating recent plugins one at a time.</p></div>
+        </details>
+        <details>
+          <summary>I want to add a 4th office.</summary>
+          <div class="faq__body"><p>In Elementor, right-click an existing office block → <em>Duplicate</em>. Edit the city/address/contact details on the copy. Reposition with drag.</p></div>
+        </details>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="_scripts.js"></script>
+</body>
+</html>

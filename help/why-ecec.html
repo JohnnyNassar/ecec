@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Why ECEC · ECEC Help</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="topbar__brand">ECEC Help</a>
+  <a href="index.html" class="topbar__back">All guides</a>
+  <div class="topbar__progress" id="bar"></div>
+</header>
+
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="hero__grid"></div>
+  <div class="hero__inner">
+    <div class="hero__crumb"><a href="index.html">Help center</a> &middot; Guide 04</div>
+    <h1 class="hero__title">Why <span>ECEC.</span></h1>
+    <p class="hero__sub">The scrollytelling page with five pillars on the left and images that change as you scroll. Editing it requires updating PHP code &mdash; with care.</p>
+    <div class="hero__meta">
+      <span>Page ID 422</span>
+      <span>~4 min read</span>
+      <span>Developer-touch needed</span>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <aside class="toc">
+    <h4>On this page</h4>
+    <a href="#how-it-works">How it works</a>
+    <a href="#edit-text">Edit pillar text</a>
+    <a href="#swap-images">Swap pillar images</a>
+    <a href="#cta">Change CTAs</a>
+    <a href="#faq">FAQ</a>
+  </aside>
+
+  <main class="content">
+
+    <section class="sec reveal" id="how-it-works">
+      <span class="sec__num">01</span>
+      <h2>How it works</h2>
+      <p class="lead">The Why ECEC page uses a custom shortcode <code>[ecec_why]</code> that renders five pillars as a sticky-left + scrolling-right scrollytelling layout.</p>
+
+      <p>The pillars are <strong>hardcoded in the theme's <code>functions.php</code></strong> (not in the WP page editor). To change pillar text or images, you edit the PHP file.</p>
+
+      <div class="callout callout--warn">
+        <div class="callout__icon">!</div>
+        <div>
+          <strong>Why is it in code, not the editor?</strong>
+          <p>The scrollytelling pattern needs precise HTML structure (sticky containers, IntersectionObserver targets) that Elementor can't reproduce. If you frequently change content, ask the developer to wire it to a custom CPT instead.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="edit-text">
+      <span class="sec__num">02</span>
+      <h2>Editing pillar text</h2>
+
+      <div class="steps">
+        <div class="step"><div class="step__body"><strong>Open the file</strong><code>wp-content/themes/emaurri-child/functions.php</code> via your FTP / file manager / SSH.</div></div>
+        <div class="step"><div class="step__body"><strong>Find the function</strong>Search for <code>function ecec_why_shortcode</code>.</div></div>
+        <div class="step"><div class="step__body"><strong>Locate the pillars array</strong>You'll see a PHP array of 5 entries, each with <code>title</code>, <code>body</code>, and image fields.</div></div>
+        <div class="step"><div class="step__body"><strong>Edit the text strings</strong>Change the <code>title</code> and <code>body</code> values. Keep PHP quoting intact (single or double quotes balanced).</div></div>
+        <div class="step"><div class="step__body"><strong>Save and deploy</strong>Save the file, upload to VPS via the deploy script. Hard refresh the live page.</div></div>
+      </div>
+
+      <div class="callout callout--tip">
+        <div class="callout__icon">i</div>
+        <div>
+          <strong>Tip:</strong>
+          <p>Test on local first. Edit functions.php on your local XAMPP, view <code>http://localhost/ecec/why-ecec/</code>. When happy, deploy.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="swap-images">
+      <span class="sec__num">03</span>
+      <h2>Swapping pillar images</h2>
+      <p>Each pillar has an <code>image</code> field in <code>functions.php</code>. Leave it empty to show the gray placeholder, or paste an image URL to display a real photo.</p>
+
+      <div class="steps">
+        <div class="step"><div class="step__body"><strong>Upload</strong>WP Admin → <em>Media</em> → <em>Add New</em>. Drag your image in.</div></div>
+        <div class="step"><div class="step__body"><strong>Copy the URL</strong>Click the uploaded image. The <strong>File URL</strong> field on the right shows the full URL &mdash; click <em>Copy URL to clipboard</em>.</div></div>
+        <div class="step"><div class="step__body"><strong>Open <code>functions.php</code></strong>Path: <code>wp-content/themes/emaurri-child/functions.php</code>. Search for <code>function ecec_why_shortcode</code>.</div></div>
+        <div class="step"><div class="step__body"><strong>Find the <code>$pillars</code> array</strong>Five rows, one per pillar. Each has <code>'num'</code>, <code>'title'</code>, and <code>'image' =&gt; ''</code>.</div></div>
+        <div class="step"><div class="step__body"><strong>Paste the URL</strong>Replace the empty string. Example:<br><code>'image' =&gt; 'http://localhost/ecec/wp-content/uploads/2026/04/why-01.jpg'</code></div></div>
+        <div class="step"><div class="step__body"><strong>Save &amp; deploy</strong>Save the file. On VPS, sync the theme via the deploy script and hard-refresh the live page.</div></div>
+      </div>
+
+      <div class="callout callout--ok">
+        <div class="callout__icon">✓</div>
+        <div>
+          <strong>Recommended specs:</strong>
+          <p><strong>1300 &times; 848</strong> landscape JPG, ~80% quality. The bleed-right scrolling layout is designed around this aspect ratio. Filenames lowercase with dashes (e.g. <code>why-01.jpg</code>).</p>
+        </div>
+      </div>
+
+      <div class="callout callout--tip">
+        <div class="callout__icon">i</div>
+        <div>
+          <strong>Reverting to the placeholder:</strong>
+          <p>Set <code>'image' =&gt; ''</code> (empty string) for that pillar &mdash; the gray "Image placeholder" box returns automatically.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="cta">
+      <span class="sec__num">04</span>
+      <h2>Changing the CTA buttons</h2>
+      <p>Each pillar has an "Explore" CTA that links to <code>/projects/</code> by default. To change a single pillar's CTA destination, edit the <code>cta_url</code> value for that pillar in <code>functions.php</code>.</p>
+
+      <p>To change the CTA <em>text</em> globally (e.g. "Explore" → "Read more"), find the line that outputs the link &mdash; it has a hardcoded <code>Explore</code> word. Replace and save.</p>
+    </section>
+
+    <section class="sec reveal" id="faq">
+      <span class="sec__num">05</span>
+      <h2>FAQ</h2>
+      <div class="faq">
+        <details>
+          <summary>Can I add a 6th pillar?</summary>
+          <div class="faq__body"><p>Yes. In the <code>$pillars</code> array, copy one of the existing entries and update the title/body/image. The CSS automatically lays out any number of pillars.</p></div>
+        </details>
+        <details>
+          <summary>The page is empty / blank.</summary>
+          <div class="faq__body"><p>Check that <code>_elementor_edit_mode</code> postmeta on page 422 is set to <code>builder</code>. Without it, Elementor doesn't render the wrapper section.</p></div>
+        </details>
+        <details>
+          <summary>Sticky columns don't stick on my browser.</summary>
+          <div class="faq__body"><p>Make sure <code>position: sticky</code> isn't broken by a parent <code>overflow: hidden</code>. The CSS already has overrides for the page wrapper &mdash; if you've added new wrappers, they may need <code>overflow: visible</code>.</p></div>
+        </details>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="_scripts.js"></script>
+</body>
+</html>

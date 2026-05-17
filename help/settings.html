@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Logos &amp; Settings · ECEC Help</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="topbar__brand">ECEC Help</a>
+  <a href="index.html" class="topbar__back">All guides</a>
+  <div class="topbar__progress" id="bar"></div>
+</header>
+
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="hero__grid"></div>
+  <div class="hero__inner">
+    <div class="hero__crumb"><a href="index.html">Help center</a> &middot; Guide 08</div>
+    <h1 class="hero__title">Logos &amp; <span>settings.</span></h1>
+    <p class="hero__sub">Site-wide elements: the header logo, favicon, footer, navigation menu, SEO basics. Quick fixes that affect every page at once.</p>
+    <div class="hero__meta">
+      <span>Site-wide</span>
+      <span>~5 min read</span>
+      <span>Be careful</span>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <aside class="toc">
+    <h4>On this page</h4>
+    <a href="#header-logo">Header logo (ECEC mark)</a>
+    <a href="#favicon">Favicon</a>
+    <a href="#menu">Main navigation menu</a>
+    <a href="#footer">Footer content</a>
+    <a href="#seo">SEO &amp; meta titles</a>
+    <a href="#cache">Clearing caches</a>
+  </aside>
+
+  <main class="content">
+
+    <section class="sec reveal" id="header-logo">
+      <span class="sec__num">01</span>
+      <h2>Header logo (the ECEC mark)</h2>
+      <p class="lead">The logo at the top-left of every page. Currently shows the Emaurri demo's wordmark &mdash; needs to be replaced with the official ECEC logo.</p>
+
+      <div class="steps">
+        <div class="step"><div class="step__body"><strong>Open the customizer</strong>WP Admin → Appearance → Customize.</div></div>
+        <div class="step"><div class="step__body"><strong>Click "Site Identity"</strong>Or sometimes labelled "General" → "Logo".</div></div>
+        <div class="step"><div class="step__body"><strong>Click "Change logo"</strong>WP media modal opens.</div></div>
+        <div class="step"><div class="step__body"><strong>Upload the official ECEC logo</strong>Use a PNG with transparency. Recommended height: <strong>80&ndash;120px</strong>. Width auto-scales.</div></div>
+        <div class="step"><div class="step__body"><strong>Click Publish</strong>Changes appear on every page after a hard refresh.</div></div>
+      </div>
+
+      <div class="callout callout--ok">
+        <div class="callout__icon">✓</div>
+        <div>
+          <strong>Recommended logo formats:</strong>
+          <p>Header (light bg): black or dark-gray PNG with transparency, 320 &times; 80px, &lt; 50KB. Footer (dark bg): white PNG (the theme inverts automatically).</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="favicon">
+      <span class="sec__num">02</span>
+      <h2>Favicon</h2>
+      <p>The little icon in the browser tab. Set in the same Customizer panel as the header logo.</p>
+
+      <ol>
+        <li>WP Admin → Appearance → Customize → Site Identity.</li>
+        <li>Scroll to "Site Icon".</li>
+        <li>Upload a square PNG, <strong>512 &times; 512</strong>.</li>
+        <li>Click <em>Publish</em>.</li>
+      </ol>
+    </section>
+
+    <section class="sec reveal" id="menu">
+      <span class="sec__num">03</span>
+      <h2>Main navigation menu</h2>
+      <p>The horizontal menu at the top of every page (Home, About Us, Why ECEC, Projects, etc.).</p>
+
+      <div class="steps">
+        <div class="step"><div class="step__body"><strong>Open the menu editor</strong>WP Admin → Appearance → Menus.</div></div>
+        <div class="step"><div class="step__body"><strong>Pick the menu</strong>The site has one menu (term_id 2) used in all 4 nav locations (main, fullscreen, vertical, mobile).</div></div>
+        <div class="step"><div class="step__body"><strong>Drag to reorder</strong>Items at the top of the list appear left in the menu.</div></div>
+        <div class="step"><div class="step__body"><strong>Add or remove items</strong>Use the left-side panel to add Pages, Custom Links or Categories.</div></div>
+        <div class="step"><div class="step__body"><strong>Click Save Menu</strong>Live immediately on every page.</div></div>
+      </div>
+
+      <div class="callout callout--warn">
+        <div class="callout__icon">!</div>
+        <div>
+          <strong>Beware of broken links:</strong>
+          <p>If you delete a Page that's still in the menu, the menu item becomes a dead link. Always remove menu items first, then delete the page (or repoint the menu item).</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="footer">
+      <span class="sec__num">04</span>
+      <h2>Footer content</h2>
+      <p>The footer is rendered by 3 column widgets (top area) + 1 widget (bottom copyright bar). Edit at:</p>
+
+      <p><strong>WP Admin → Appearance → Widgets</strong></p>
+      <p>You'll see widget areas labelled <em>Footer Top Column 1/2/3</em> and <em>Footer Bottom</em>. Each contains a Custom HTML widget. Edit the HTML to update copy, links, or contact details.</p>
+
+      <div class="callout callout--tip">
+        <div class="callout__icon">i</div>
+        <div>
+          <strong>Footer styling is locked:</strong>
+          <p>The footer uses dark Raisin Black background with brand colors. Don't add inline color styles to footer content &mdash; they may clash with the theme. The CSS already handles all text in the footer area.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="seo">
+      <span class="sec__num">05</span>
+      <h2>SEO &amp; meta titles</h2>
+      <p>Yoast SEO is installed. Each page and project has its own SEO panel below the editor.</p>
+
+      <h3>To update a page's title or description</h3>
+      <ol>
+        <li>Open the page in WP Admin.</li>
+        <li>Scroll below the main editor to find the <em>Yoast SEO</em> panel.</li>
+        <li>Edit <em>SEO title</em> and <em>Meta description</em>. Yoast shows a live preview of how it'll appear in Google.</li>
+        <li>Click <em>Update</em>.</li>
+      </ol>
+
+      <h3>Sitemap</h3>
+      <p>Yoast auto-generates a sitemap at <code>/sitemap_index.xml</code>. Submit this to Google Search Console (still pending verification at time of writing).</p>
+    </section>
+
+    <section class="sec reveal" id="cache">
+      <span class="sec__num">06</span>
+      <h2>Clearing caches</h2>
+      <p>If a change isn't showing on the live site, the cause is almost always a stale cache. Clear in this order:</p>
+
+      <ol>
+        <li><strong>Browser cache:</strong> hard refresh with <kbd>Ctrl</kbd> + <kbd>F5</kbd>.</li>
+        <li><strong>Elementor cache:</strong> WP Admin → Elementor → Tools → <em>Regenerate CSS &amp; Data</em>.</li>
+        <li><strong>If you have a caching plugin (WP Rocket, W3 Total Cache):</strong> click its "Purge All" button.</li>
+      </ol>
+
+      <p>If the change still doesn't show after all three: it might be a stale CDN. Most ECEC pages don't go through a CDN, but if there's one, purge it. Otherwise try Incognito mode &mdash; that bypasses every form of browser cache.</p>
+    </section>
+
+  </main>
+</div>
+
+<script src="_scripts.js"></script>
+</body>
+</html>

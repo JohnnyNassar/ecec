@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Our Services · ECEC Help</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="topbar__brand">ECEC Help</a>
+  <a href="index.html" class="topbar__back">All guides</a>
+  <div class="topbar__progress" id="bar"></div>
+</header>
+
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="hero__grid"></div>
+  <div class="hero__inner">
+    <div class="hero__crumb"><a href="index.html">Help center</a> &middot; Guide 05</div>
+    <h1 class="hero__title">Our <span>services.</span></h1>
+    <p class="hero__sub">Service categories, descriptions, the strategic-advantages grid and the sectors-served bar &mdash; all editable in Elementor.</p>
+    <div class="hero__meta">
+      <span>Page ID 328</span>
+      <span>~4 min read</span>
+      <span>Elementor</span>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <aside class="toc">
+    <h4>On this page</h4>
+    <a href="#overview">Page overview</a>
+    <a href="#service-blocks">Service category blocks</a>
+    <a href="#advantages">Strategic advantages grid</a>
+    <a href="#sectors">Sectors served bar</a>
+    <a href="#typography">Typography &amp; alignment</a>
+  </aside>
+
+  <main class="content">
+
+    <section class="sec reveal" id="overview">
+      <span class="sec__num">01</span>
+      <h2>Page overview</h2>
+      <p class="lead">The Our Services page is built in Elementor on the <em>our-services</em> page. It promotes the Emaurri demo's service-list pattern and was tuned to match ECEC's brand.</p>
+
+      <p>To edit anything: <code>WP Admin → Pages → Our Services → Edit with Elementor</code>.</p>
+
+      <div class="callout callout--ok">
+        <div class="callout__icon">✓</div>
+        <div>
+          <strong>Recent cleanup (2026-05-17):</strong>
+          <p>The faint <em>"cozy"</em> background watermark inherited from the Emaurri demo theme has been removed. If you ever see a giant grey word appear behind a section after a theme update, open that section in Elementor → Style tab → Background and clear the <em>"qodef_row_background_text"</em> field.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="service-blocks">
+      <span class="sec__num">02</span>
+      <h2>Service category blocks</h2>
+      <p>Each major ECEC service (MEP, ICT, Sustainability, etc.) has its own block on the page. Each block contains:</p>
+      <ul>
+        <li>An icon or image</li>
+        <li>A heading (the service name)</li>
+        <li>A short paragraph describing the service</li>
+      </ul>
+
+      <h3>To edit a service description</h3>
+      <ol>
+        <li>Open the page in Elementor.</li>
+        <li>Click on the heading or text widget for the service.</li>
+        <li>Edit text in the left panel or inline.</li>
+        <li>Click <em>Update</em>.</li>
+      </ol>
+
+      <h3>To swap a service icon</h3>
+      <p>Click the icon widget. The left panel shows the icon picker (or image widget &mdash; depends on which type was used). Swap and save.</p>
+    </section>
+
+    <section class="sec reveal" id="advantages">
+      <span class="sec__num">03</span>
+      <h2>Strategic Advantages grid</h2>
+      <p>The grid section showing ECEC's competitive edge: precision, sustainability, technology, etc. Each card is an Elementor inner-section column with an icon + heading + body.</p>
+
+      <p>Edit the same way as service blocks: click the widget, edit in left panel, save.</p>
+
+      <div class="callout callout--tip">
+        <div class="callout__icon">i</div>
+        <div>
+          <strong>To add a new advantage card:</strong>
+          <p>Right-click an existing card in Elementor, choose <em>Duplicate</em>. The copy appears next to the original. Edit its content. The grid auto-wraps to a new row when there are too many for one row.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="sectors">
+      <span class="sec__num">04</span>
+      <h2>Sectors served bar</h2>
+      <p>The horizontal strip listing the sectors ECEC has worked in (Hospitality, Healthcare, Aviation, etc.). Currently styled with rounded "pill" buttons.</p>
+
+      <p>Each pill is an Elementor button widget inside a flex inner-section. Edit text by clicking the button, change the label in the left panel.</p>
+    </section>
+
+    <section class="sec reveal" id="typography">
+      <span class="sec__num">05</span>
+      <h2>Typography &amp; alignment</h2>
+
+      <div class="callout callout--ok">
+        <div class="callout__icon">✓</div>
+        <div>
+          <strong>Body text is justified.</strong>
+          <p>The Our Services page uses justified text alignment for narratives, scoped via CSS to <code>body.page-id-328</code>. If you find a paragraph reads awkwardly, the answer is usually to <strong>shorten it</strong> rather than disable justification &mdash; consistency with the page is more important than one paragraph's micro-rivers.</p>
+        </div>
+      </div>
+
+      <p>Section headings (h2) use the brand bold uppercase style. Don't override font-weight or transform on individual widgets &mdash; it'll create inconsistency with About Us and other branded pages.</p>
+    </section>
+
+  </main>
+</div>
+
+<script src="_scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About Us · ECEC Help</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="topbar__brand">ECEC Help</a>
+  <a href="index.html" class="topbar__back">All guides</a>
+  <div class="topbar__progress" id="bar"></div>
+</header>
+
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="hero__grid"></div>
+  <div class="hero__inner">
+    <div class="hero__crumb"><a href="index.html">Help center</a> &middot; Guide 03</div>
+    <h1 class="hero__title">About Us <span>page.</span></h1>
+    <p class="hero__sub">The chairs hero, ABOUT ECEC narrative, four key-highlight cards, the WHO WE ARE block and the clients marquee. All editable through Elementor.</p>
+    <div class="hero__meta">
+      <span>5 sections</span>
+      <span>~5 min read</span>
+      <span>Page ID 382</span>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <aside class="toc">
+    <h4>On this page</h4>
+    <a href="#layout">Layout overview</a>
+    <a href="#hero">Section 1 &middot; Chairs hero</a>
+    <a href="#intro">Section 2 &middot; ABOUT ECEC intro</a>
+    <a href="#marquee">Section 3 &middot; Clients marquee</a>
+    <a href="#who">Section 4 &middot; WHO WE ARE</a>
+    <a href="#cards">Section 5 &middot; Key Highlights</a>
+    <a href="#faq">FAQ</a>
+  </aside>
+
+  <main class="content">
+
+    <section class="sec reveal" id="layout">
+      <span class="sec__num">01</span>
+      <h2>Layout overview</h2>
+      <p class="lead">The About Us page mirrors the Emaurri demo's about layout but with ECEC content. Five sections, all in Elementor.</p>
+
+      <div class="steps">
+        <div class="step"><div class="step__body"><strong>Section 1 &mdash; Chairs hero</strong>Theme page-title bar with "About Us" centered over a wide chairs background image.</div></div>
+        <div class="step"><div class="step__body"><strong>Section 2 &mdash; ABOUT ECEC</strong>2-column intro: heading on the left, narrative paragraph on the right.</div></div>
+        <div class="step"><div class="step__body"><strong>Section 3 &mdash; Clients marquee</strong>Auto-scrolling client logos with "Our Clients" heading.</div></div>
+        <div class="step"><div class="step__body"><strong>Section 4 &mdash; WHO WE ARE</strong>2-column heading + narrative.</div></div>
+        <div class="step"><div class="step__body"><strong>Section 5 &mdash; Key Highlights</strong>4-column cards with PNG numbers, titles and short paragraphs.</div></div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="hero">
+      <span class="sec__num">02</span>
+      <h2>Section 1 &mdash; Chairs hero</h2>
+      <p>The wide image at the top of the About Us page. As of 2026-05-17 the page title text is hidden on this page &mdash; only the chairs photo and the breadcrumbs are shown over the band. The hero is configured via the page's Qode title settings, not Elementor.</p>
+
+      <h3>To change the WP page title (used in tabs / search / nav)</h3>
+      <p>Open <code>WP Admin → Pages → About Us → Edit</code> (the WP editor, not Elementor). The title at the top of the screen is the WordPress page title; it won't show in the hero band but it's still used for the browser tab and SEO. Change it and click <em>Update</em>.</p>
+
+      <h3>To swap the chairs image</h3>
+      <ol>
+        <li>Upload your new image to <code>WP Admin → Media</code>. Use a wide landscape JPG, ideally <strong>2000 &times; 800</strong>.</li>
+        <li>Note the new attachment URL (right-click image, copy URL).</li>
+        <li>Replace the file at <code>/wp-content/uploads/about-hero/about-chairs.jpg</code> via FTP / file manager &mdash; OR update the Qode "page title image" field for this page in <em>Edit page → Sidebar → Title area</em>.</li>
+      </ol>
+    </section>
+
+    <section class="sec reveal" id="intro">
+      <span class="sec__num">03</span>
+      <h2>Section 2 &mdash; ABOUT ECEC intro</h2>
+      <p>The 2-column section: "ABOUT ECEC" heading on the left, narrative paragraph on the right.</p>
+
+      <div class="steps">
+        <div class="step"><div class="step__body"><strong>Open the page in Elementor</strong>From WP Admin → Pages → About Us → Edit with Elementor.</div></div>
+        <div class="step"><div class="step__body"><strong>Click the heading widget</strong>Left column &mdash; the text "ABOUT ECEC". Edit in the left panel.</div></div>
+        <div class="step"><div class="step__body"><strong>Click the text-editor widget</strong>Right column &mdash; the narrative paragraph. Edit inline or in the left panel.</div></div>
+        <div class="step"><div class="step__body"><strong>Click Update</strong>Live immediately.</div></div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="marquee">
+      <span class="sec__num">04</span>
+      <h2>Section 3 &mdash; Clients marquee</h2>
+      <p>This is the same shortcode used on the home page: <code>[ecec_clients_marquee]</code>. Add or remove client logos and both pages update at once. See <a href="home.html#block4">Home guide &middot; Block 4</a> for the full logo-management workflow.</p>
+    </section>
+
+    <section class="sec reveal" id="who">
+      <span class="sec__num">05</span>
+      <h2>Section 4 &mdash; WHO WE ARE</h2>
+      <p>Same 2-column pattern as Section 2: heading on left, narrative on right. Edit by clicking each widget in Elementor.</p>
+    </section>
+
+    <section class="sec reveal" id="cards">
+      <span class="sec__num">06</span>
+      <h2>Section 5 &mdash; Key Highlights cards</h2>
+      <p>The 4-card grid at the bottom of the page. Each card has a PNG number (No1, No2, No3, No4), a heading and a body paragraph.</p>
+
+      <h3>To edit a card's text</h3>
+      <p>In Elementor, click any card's heading or body and edit inline. The PNG number is an image widget &mdash; click it to swap.</p>
+
+      <h3>To swap the number PNGs</h3>
+      <p>The numbers live at <code>/wp-content/uploads/about-numbers/No1.png</code> through <code>No4.png</code>. To restyle, replace those files (same dimensions) and refresh.</p>
+
+      <div class="callout callout--tip">
+        <div class="callout__icon">i</div>
+        <div>
+          <strong>Card body alignment:</strong>
+          <p>Body text is centered (changed 2026-05-17) under each numbered card. Previously it was justified; the columns were too narrow for justified text to look clean. If you ever switch back, also enable hyphenation or paragraphs get unsightly gaps.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="faq">
+      <span class="sec__num">07</span>
+      <h2>FAQ</h2>
+      <div class="faq">
+        <details>
+          <summary>The page renders but the chairs image is missing.</summary>
+          <div class="faq__body"><p>The image must exist at <code>/wp-content/uploads/about-hero/about-chairs.jpg</code>. Check via FTP / file manager. If it's there but still missing, hard refresh and clear Elementor cache.</p></div>
+        </details>
+        <details>
+          <summary>I want to add a 5th highlight card.</summary>
+          <div class="faq__body"><p>The CSS uses a 4-column grid. Adding a 5th card would put one alone on a second row. Either replace one of the existing four, or have a developer change the grid to 5 columns and add a No5.png.</p></div>
+        </details>
+        <details>
+          <summary>Old "About Us" content is showing.</summary>
+          <div class="faq__body"><p>Make sure your menu's About Us link points to <strong>page 382</strong>, not page 120 (the archived version). Check via WP Admin → Appearance → Menus → About Us → URL.</p></div>
+        </details>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="_scripts.js"></script>
+</body>
+</html>
